@@ -1,11 +1,52 @@
+<div *ngIf="isListView">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h6 class="m-0 font-weight-bold text-primary">Asignaciones Activas</h6>
+    <button class="submit" (click)="toggleView()"><i class="fas fa-search mr-2"></i>Finalizar por ID</button>
+  </div>
 
-  
+  <div class="table-responsive">
+    <table class="table table-bordered" width="100%" cellspacing="0">
+      <thead>
+        <tr>
+          <th>ID Asignación</th>
+          <th>Activo ID</th>
+          <th>Fecha Asignacion</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let a of asignaciones">
+          <td>{{ a.id }}</td>
+          <td>{{ a.activoId }}</td>
+          <td>{{ a.fechaAsignacion | date:'mediumDate' }}</td>
+          <td>
+            <button class="btn btn-sm" style="background:#f6c23e; color:#fff; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;" (click)="toggleView(a.id)">Finalizar</button>
+          </td>
+        </tr>
+        <tr *ngIf="asignaciones.length === 0">
+          <td colspan="4" class="text-center">No hay asignaciones pendientes.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="!isListView">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h6 class="m-0 font-weight-bold text-primary">Finalizar Registro</h6>
+    <button class="btn btn-secondary" (click)="toggleView()" style="border: 1px solid #858796; background: white; color: #858796; padding: 0.375rem 0.75rem; border-radius: 0.35rem; cursor:pointer;"><i class="fas fa-arrow-left mr-2"></i>Volver a la Lista</button>
+  </div>
+
   <div *ngIf="statusMessage">
     <p [ngClass]="statusError ? 'error' : 'success'">{{ statusMessage }}</p>
   </div>
 
-  <label>Asignación Id<input [(ngModel)]="finalizarForm.id" /></label>
-  <label>Estado Recibido<input [(ngModel)]="finalizarForm.estadoRecibido" /></label>
-  <label>Observaciones<textarea rows="2" [(ngModel)]="finalizarForm.observaciones"></textarea></label>
-  <button class="submit" (click)="finalizeAsignacion()">Finalizar Asignación</button>
-
+  <div class="row">
+    <div class="col-md-6">
+      <label>Id Asignación<input [(ngModel)]="asignacionId" /></label>
+      <label>Estado Recibido<input [(ngModel)]="finalizarForm.estadoRecibido" placeholder="Ej. Bueno, Roto..." /></label>
+      <label>Observaciones<textarea rows="2" [(ngModel)]="finalizarForm.observaciones"></textarea></label>
+    </div>
+  </div>
+  <button class="submit mt-3" (click)="finalizeAsignacion()">Ejecutar Cierre</button>
+</div>

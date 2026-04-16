@@ -1,33 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { InventarioRepository, SubCategoriaEntity, UbicacionEntity } from '../../../domain/repositories/inventario.repository.interface';
 import { CreateActivoCommand } from '../../../domain/models/activo/create-activo.command';
+import { ActivoDto } from '../../../infrastructure/dtos/activo.dto';
 
 @Component({
   selector: 'app-activo',
   templateUrl: './activo.component.html',
   styleUrls: ['./activo.component.css']
 })
-export class ActivoComponent {
+export class ActivoComponent implements OnInit {
+  isListView = true;
+  activos: ActivoDto[] = [];
+  
   statusMessage = '';
   statusError = false;
   subCategoriaValidation = { isValid: false };
   ubicacionValidation = { isValid: false };
 
   activoForm: CreateActivoCommand = {
-    nombreEquipo: '',
-    subCategoriaId: '',
-    costoUnitario: 0,
-    cantidad: 1,
-    marca: '',
-    modelo: '',
-    serie: '',
-    etiquetado: '',
-    ubicacionId: null,
-    fechaAdquisicion: null,
-    usuarioId: null
+    nombreEquipo: '', subCategoriaId: '', costoUnitario: 0, cantidad: 1, 
+    marca: '', modelo: '', serie: '', etiquetado: '', ubicacionId: null, 
+    fechaAdquisicion: null, usuarioId: null
   };
 
   constructor(private inventarioRepo: InventarioRepository) {}
+
+  ngOnInit() {
+    this.loadData();
+  }
+
+  loadData() {
+    this.inventarioRepo.getAllActivos().subscribe({
+      next: (data) => this.activos = data,
+      error: (err) => console.error('Error loading activos', err)
+    });
+  }
+
+  toggleView() {
+    this.isListView = !this.isListView;
+    this.statusMessage = '';
+  }
 
   showSuccess(message: string) {
     this.statusMessage = message;
@@ -40,30 +52,17 @@ export class ActivoComponent {
   }
 
   searchSubCategorias = async (termino: string): Promise<SubCategoriaEntity[]> => {
-    try {
-      return await this.inventarioRepo.searchSubCategorias(termino).toPromise() || [];
-    } catch (error) {
-      console.error('Error searching subcategorias:', error);
-      return [];
-    }
+    try { return await this.inventarioRepo.searchSubCategorias(termino).toPromise() || []; } 
+    catch (error) { return []; }
   };
 
   searchUbicaciones = async (termino: string): Promise<UbicacionEntity[]> => {
-    try {
-      return await this.inventarioRepo.searchUbicaciones(termino).toPromise() || [];
-    } catch (error) {
-      console.error('Error searching ubicaciones:', error);
-      return [];
-    }
+    try { return await this.inventarioRepo.searchUbicaciones(termino).toPromise() || []; } 
+    catch (error) { return []; }
   };
 
-  onSubCategoriaValidation(validation: { isValid: boolean; error?: string }) {
-    this.subCategoriaValidation = validation;
-  }
-
-  onUbicacionValidation(validation: { isValid: boolean; error?: string }) {
-    this.ubicacionValidation = validation;
-  }
+  onSubCategoriaValidation(v: { isValid: boolean; error?: string }) { this.subCategoriaValidation = v; }
+  onUbicacionValidation(v: { isValid: boolean; error?: string }) { this.ubicacionValidation = v; }
 
   createActivo() {
     if (!this.subCategoriaValidation.isValid) {
@@ -71,10 +70,13 @@ export class ActivoComponent {
       return;
     }
 
-    this.inventarioRepo.createActivo(this.activoForm)
-      .subscribe({
-        next: result => this.showSuccess(`Activo creado con ID: ${result}`),
-        error: err => this.showError(`Error: ${err?.message || 'No se pudo crear el activo'}`)
-      });
+    this.inventarioRepo.createActivo(this.activoForm).subscribe({
+      next: result => {
+        this.showSuccess(`Activo creado con ID: ${result}`);
+        this.loadData();
+        setTimeout(() => this.toggleView(), 1500); // Volver a la lista después de éxito
+      },
+      error: err => this.showError(`Error: ${err?.message || 'No se pudo crear el activo'}`)
+    });
   }
 }

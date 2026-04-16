@@ -291,3 +291,13 @@ input:focus, select:focus, textarea:focus {
 /* Alerts */
 p.success { color: var(--success); font-weight: bold; }
 p.error { color: var(--danger); font-weight: bold; }
+
+/* Tables */
+.table-responsive { display: block; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table { width: 100%; margin-bottom: 1rem; color: #858796; border-collapse: collapse; }
+.table th, .table td { padding: 0.75rem; vertical-align: top; border-top: 1px solid #e3e6f0; }
+.table thead th { vertical-align: bottom; border-bottom: 2px solid #e3e6f0; color: #5a5c69; background-color: #f8f9fc; text-align: left; }
+.table-bordered { border: 1px solid #e3e6f0; }
+.table-bordered th, .table-bordered td { border: 1px solid #e3e6f0; }
+.table tbody tr:hover { background-color: #eaecf4; }
+

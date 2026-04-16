@@ -1,39 +1,66 @@
+<div *ngIf="isListView">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h6 class="m-0 font-weight-bold text-primary">Registros de Activos</h6>
+    <button class="submit" (click)="toggleView()"><i class="fas fa-plus mr-2"></i>Registrar Nuevo Activo</button>
+  </div>
 
-  
+  <div class="table-responsive">
+    <table class="table table-bordered" width="100%" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Equipo</th>
+          <th>Etiquetado</th>
+          <th>Marca / Modelo</th>
+          <th>Cant.</th>
+          <th>Costo Unit.</th>
+          <th>Estado</th>
+          <th>Subcategoría</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let a of activos">
+          <td>{{ a.nombreEquipo }}</td>
+          <td>{{ a.etiquetado }}</td>
+          <td>{{ a.marca }} {{ a.modelo }}</td>
+          <td>{{ a.cantidad }}</td>
+          <td>${{ a.costoUnitario }}</td>
+          <td>{{ a.estado || 'Activo' }}</td>
+          <td>{{ a.subCategoria }}</td>
+        </tr>
+        <tr *ngIf="activos.length === 0">
+          <td colspan="7" class="text-center">No hay activos registrados.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="!isListView">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h6 class="m-0 font-weight-bold text-primary">Detalle de Registro</h6>
+    <button class="btn btn-secondary" (click)="toggleView()" style="border: 1px solid #858796; background: white; color: #858796; padding: 0.375rem 0.75rem; border-radius: 0.35rem; cursor:pointer;"><i class="fas fa-arrow-left mr-2"></i>Volver a la Lista</button>
+  </div>
+
   <div *ngIf="statusMessage">
     <p [ngClass]="statusError ? 'error' : 'success'">{{ statusMessage }}</p>
   </div>
 
-  <label>Nombre Equipo<input [(ngModel)]="activoForm.nombreEquipo" /></label>
-  
-  <app-autocomplete-select
-    label="Subcategoría"
-    placeholder="Escriba para buscar subcategoría..."
-    [required]="true"
-    [searchFn]="searchSubCategorias"
-    [selectedId]="activoForm.subCategoriaId"
-    (selectedIdChange)="activoForm.subCategoriaId = $event || ''"
-    (validationChange)="onSubCategoriaValidation($event)"
-  ></app-autocomplete-select>
-  
-  <label>Costo Unitario<input type="number" [(ngModel)]="activoForm.costoUnitario" /></label>
-  <label>Cantidad<input type="number" [(ngModel)]="activoForm.cantidad" /></label>
-  <label>Marca<input [(ngModel)]="activoForm.marca" /></label>
-  <label>Modelo<input [(ngModel)]="activoForm.modelo" /></label>
-  <label>Serie<input [(ngModel)]="activoForm.serie" /></label>
-  <label>Etiquetado<input [(ngModel)]="activoForm.etiquetado" /></label>
-  
-  <app-autocomplete-select
-    label="Ubicación"
-    placeholder="Escriba para buscar ubicación..."
-    [required]="false"
-    [searchFn]="searchUbicaciones"
-    [selectedId]="activoForm.ubicacionId"
-    (selectedIdChange)="activoForm.ubicacionId = $event"
-    (validationChange)="onUbicacionValidation($event)"
-  ></app-autocomplete-select>
-  
-  <label>Fecha Adquisición<input type="date" [(ngModel)]="activoForm.fechaAdquisicion" /></label>
-  <label>Usuario Id<input [(ngModel)]="activoForm.usuarioId" /></label>
-  <button class="submit" (click)="createActivo()">Crear Activo</button>
-
+  <div class="row">
+    <div class="col-md-6">
+      <label>Nombre Equipo<input [(ngModel)]="activoForm.nombreEquipo" /></label>
+      <app-autocomplete-select label="Subcategoría" placeholder="Buscar subcategoría..." [required]="true" [searchFn]="searchSubCategorias" (selectedIdChange)="activoForm.subCategoriaId = $event || ''" (validationChange)="onSubCategoriaValidation($event)"></app-autocomplete-select>
+      <label>Costo Unitario<input type="number" [(ngModel)]="activoForm.costoUnitario" /></label>
+      <label>Cantidad<input type="number" [(ngModel)]="activoForm.cantidad" /></label>
+      <label>Marca<input [(ngModel)]="activoForm.marca" /></label>
+    </div>
+    <div class="col-md-6">
+      <label>Modelo<input [(ngModel)]="activoForm.modelo" /></label>
+      <label>Serie<input [(ngModel)]="activoForm.serie" /></label>
+      <label>Etiquetado<input [(ngModel)]="activoForm.etiquetado" /></label>
+      <app-autocomplete-select label="Ubicación" placeholder="Buscar ubicación..." [searchFn]="searchUbicaciones" (selectedIdChange)="activoForm.ubicacionId = $event" (validationChange)="onUbicacionValidation($event)"></app-autocomplete-select>
+      <label>Fecha Adquisición<input type="date" [(ngModel)]="activoForm.fechaAdquisicion" /></label>
+      <label>Usuario Id<input [(ngModel)]="activoForm.usuarioId" /></label>
+    </div>
+  </div>
+  <button class="submit mt-3" (click)="createActivo()">Crear Activo</button>
+</div>

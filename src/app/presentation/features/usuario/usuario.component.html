@@ -1,15 +1,55 @@
+<div *ngIf="isListView">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h6 class="m-0 font-weight-bold text-primary">Registros de Usuarios</h6>
+    <button class="submit" (click)="toggleView()"><i class="fas fa-plus mr-2"></i>Registrar Nuevo Usuario</button>
+  </div>
 
-  
+  <div class="table-responsive">
+    <table class="table table-bordered" width="100%" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Nombre Completo</th>
+          <th>Email</th>
+          <th>Área</th>
+          <th>Cargo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of usuarios">
+          <td>{{ u.nombreCompleto }}</td>
+          <td>{{ u.email }}</td>
+          <td>{{ u.area }}</td>
+          <td>{{ u.cargo }}</td>
+        </tr>
+        <tr *ngIf="usuarios.length === 0">
+          <td colspan="4" class="text-center">No hay usuarios registrados.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="!isListView">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h6 class="m-0 font-weight-bold text-primary">Detalle de Registro</h6>
+    <button class="btn btn-secondary" (click)="toggleView()" style="border: 1px solid #858796; background: white; color: #858796; padding: 0.375rem 0.75rem; border-radius: 0.35rem; cursor:pointer;"><i class="fas fa-arrow-left mr-2"></i>Volver a la Lista</button>
+  </div>
+
   <div *ngIf="statusMessage">
     <p [ngClass]="statusError ? 'error' : 'success'">{{ statusMessage }}</p>
   </div>
 
-  <label>Nombre Completo<input [(ngModel)]="usuarioForm.nombreCompleto" /></label>
-  <label>Documento Identidad<input [(ngModel)]="usuarioForm.documentoIdentidad" /></label>
-  <label>Email<input type="email" [(ngModel)]="usuarioForm.email" /></label>
-  <label>Área<input [(ngModel)]="usuarioForm.area" /></label>
-  <label>Cargo<input [(ngModel)]="usuarioForm.cargo" /></label>
-  <label>Sede<input [(ngModel)]="usuarioForm.sede" /></label>
-  <label>Creado Por<input [(ngModel)]="usuarioForm.creadoPor" /></label>
-  <button class="submit" (click)="createUsuario()">Crear Usuario</button>
-
+  <div class="row">
+    <div class="col-md-6">
+      <label>Nombre Completo<input [(ngModel)]="usuarioForm.nombreCompleto" /></label>
+      <label>Documento Identidad<input [(ngModel)]="usuarioForm.documentoIdentidad" /></label>
+      <label>Email<input type="email" [(ngModel)]="usuarioForm.email" /></label>
+    </div>
+    <div class="col-md-6">
+      <label>Área<input [(ngModel)]="usuarioForm.area" /></label>
+      <label>Cargo<input [(ngModel)]="usuarioForm.cargo" /></label>
+      <label>Sede<input [(ngModel)]="usuarioForm.sede" /></label>
+    </div>
+  </div>
+  <button class="submit mt-3" (click)="createUsuario()">Crear Usuario</button>
+</div>

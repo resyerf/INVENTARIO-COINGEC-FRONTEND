@@ -12,8 +12,12 @@ import { CreateUsuarioCommand } from '../../domain/models/usuario/create-usuario
 import { AsignacionActivoCommand } from '../../domain/models/asignacion/asignacion-activo.command';
 import { FinalizarAsignacionRequest } from '../../domain/models/asignacion/finalizar-asignacion.request';
 
+import { ActivoDto } from '../dtos/activo.dto';
+import { CategoriaDto } from '../dtos/categoria.dto';
 import { SubCategoriaDto } from '../dtos/subcategoria.dto';
 import { UbicacionDto } from '../dtos/ubicacion.dto';
+import { UsuarioDto } from '../dtos/usuario.dto';
+import { AsignacionDto } from '../dtos/asignacion.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -25,49 +29,21 @@ export class InventarioHttpRepository extends InventarioRepository {
     super();
   }
 
-  createActivo(command: CreateActivoCommand): Observable<string> {
-    return this.http.post<string>(`${this.baseUrl}/api/Activo`, command);
-  }
+  createActivo(command: CreateActivoCommand): Observable<string> { return this.http.post<string>(`${this.baseUrl}/api/Activo`, command); }
+  createCategoria(command: CreateCategoriaCommand): Observable<string> { return this.http.post<string>(`${this.baseUrl}/api/Categoria`, command); }
+  createSubCategoria(command: CreateSubCategoriaCommand): Observable<string> { return this.http.post<string>(`${this.baseUrl}/api/Subcategoria`, command); }
+  createUbicacion(command: CreateUbicacionCommand): Observable<string> { return this.http.post<string>(`${this.baseUrl}/api/Ubicacion`, command); }
+  createUsuario(command: CreateUsuarioCommand): Observable<string> { return this.http.post<string>(`${this.baseUrl}/api/Usuario`, command); }
+  assignActivo(command: AsignacionActivoCommand): Observable<string> { return this.http.post<string>(`${this.baseUrl}/api/Asignacion`, command); }
+  finalizeAsignacion(id: string, request: FinalizarAsignacionRequest): Observable<void> { return this.http.patch<void>(`${this.baseUrl}/api/Asignacion/${id}/finalizar`, request); }
 
-  createCategoria(command: CreateCategoriaCommand): Observable<string> {
-    return this.http.post<string>(`${this.baseUrl}/api/Categoria`, command);
-  }
+  searchSubCategorias(termino: string): Observable<SubCategoriaEntity[]> { return this.http.get<SubCategoriaDto[]>(`${this.baseUrl}/api/Subcategoria/search`, { params: { termino } }); }
+  searchUbicaciones(termino: string): Observable<UbicacionEntity[]> { return this.http.get<UbicacionDto[]>(`${this.baseUrl}/api/Ubicacion/search`, { params: { termino } }); }
 
-  createSubCategoria(command: CreateSubCategoriaCommand): Observable<string> {
-    return this.http.post<string>(`${this.baseUrl}/api/Subcategoria`, command);
-  }
-
-  createUbicacion(command: CreateUbicacionCommand): Observable<string> {
-    return this.http.post<string>(`${this.baseUrl}/api/Ubicacion`, command);
-  }
-
-  createUsuario(command: CreateUsuarioCommand): Observable<string> {
-    return this.http.post<string>(`${this.baseUrl}/api/Usuario`, command);
-  }
-
-  assignActivo(command: AsignacionActivoCommand): Observable<string> {
-    return this.http.post<string>(`${this.baseUrl}/api/Asignacion`, command);
-  }
-
-  finalizeAsignacion(id: string, request: FinalizarAsignacionRequest): Observable<void> {
-    return this.http.patch<void>(`${this.baseUrl}/api/Asignacion/${id}/finalizar`, request);
-  }
-
-  searchSubCategorias(termino: string): Observable<SubCategoriaEntity[]> {
-    // In a real strict clean architecture, we might map DTO to Entity here. 
-    // Since properties match exactly, we can just cast or let TS infer.
-    return this.http.get<SubCategoriaDto[]>(`${this.baseUrl}/api/Subcategoria/search`, {
-      params: { termino }
-    });
-  }
-
-  searchUbicaciones(termino: string): Observable<UbicacionEntity[]> {
-    return this.http.get<UbicacionDto[]>(`${this.baseUrl}/api/Ubicacion/search`, {
-      params: { termino }
-    });
-  }
-
-  getAllUbicaciones(): Observable<UbicacionEntity[]> {
-    return this.http.get<UbicacionDto[]>(`${this.baseUrl}/api/Ubicacion`);
-  }
+  getAllActivos(): Observable<ActivoDto[]> { return this.http.get<ActivoDto[]>(`${this.baseUrl}/api/Activo`); }
+  getAllCategorias(): Observable<CategoriaDto[]> { return this.http.get<CategoriaDto[]>(`${this.baseUrl}/api/Categoria`); }
+  getAllSubCategorias(): Observable<SubCategoriaDto[]> { return this.http.get<SubCategoriaDto[]>(`${this.baseUrl}/api/Subcategoria`); }
+  getAllUbicaciones(): Observable<UbicacionDto[]> { return this.http.get<UbicacionDto[]>(`${this.baseUrl}/api/Ubicacion`); }
+  getAllUsuarios(): Observable<UsuarioDto[]> { return this.http.get<UsuarioDto[]>(`${this.baseUrl}/api/Usuario`); }
+  getAllAsignaciones(): Observable<AsignacionDto[]> { return this.http.get<AsignacionDto[]>(`${this.baseUrl}/api/Asignacion`); }
 }

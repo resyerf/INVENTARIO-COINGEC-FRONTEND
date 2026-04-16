@@ -1,13 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { InventarioRepository } from '../../../domain/repositories/inventario.repository.interface';
 import { CreateSubCategoriaCommand } from '../../../domain/models/subcategoria/create-subcategoria.command';
+import { SubCategoriaDto } from '../../../infrastructure/dtos/subcategoria.dto';
 
 @Component({
   selector: 'app-subcategoria',
   templateUrl: './subcategoria.component.html',
   styleUrls: ['./subcategoria.component.css']
 })
-export class SubcategoriaComponent {
+export class SubcategoriaComponent implements OnInit {
+  isListView = true;
+  subcategorias: SubCategoriaDto[] = [];
+  
   statusMessage = '';
   statusError = false;
 
@@ -17,6 +21,22 @@ export class SubcategoriaComponent {
   };
 
   constructor(private inventarioRepo: InventarioRepository) {}
+
+  ngOnInit() {
+    this.loadData();
+  }
+
+  loadData() {
+    this.inventarioRepo.getAllSubCategorias().subscribe({
+      next: (data) => this.subcategorias = data,
+      error: (err) => console.error('Error loading data', err)
+    });
+  }
+
+  toggleView() {
+    this.isListView = !this.isListView;
+    this.statusMessage = '';
+  }
 
   showSuccess(message: string) {
     this.statusMessage = message;
@@ -34,10 +54,13 @@ export class SubcategoriaComponent {
        return;
     }
 
-    this.inventarioRepo.createSubCategoria(this.subCategoriaForm)
-      .subscribe({
-        next: result => this.showSuccess(`Subcategoría creada con ID: ${result}`),
-        error: err => this.showError(`Error: ${err?.message || 'No se pudo crear la subcategoría'}`)
-      });
+    this.inventarioRepo.createSubCategoria(this.subCategoriaForm).subscribe({
+      next: result => {
+        this.showSuccess(`Subcategoría creada con ID: ${result}`);
+        this.loadData();
+        setTimeout(() => this.toggleView(), 1500);
+      },
+      error: err => this.showError(`Error: ${err?.message || 'No se pudo crear la subcategoría'}`)
+    });
   }
 }

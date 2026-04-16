@@ -1,19 +1,51 @@
+<div *ngIf="isListView">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h6 class="m-0 font-weight-bold text-primary">Registros de Categorías</h6>
+    <button class="submit" (click)="toggleView()"><i class="fas fa-plus mr-2"></i>Registrar Nueva Categoría</button>
+  </div>
 
-  
+  <div class="table-responsive">
+    <table class="table table-bordered" width="100%" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Descripción</th>
+          <th>Ubicación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of categorias">
+          <td>{{ c.codigo }}</td>
+          <td>{{ c.descripcion }}</td>
+          <td>{{ c.ubicacionDescripcion || c.ubicacion }}</td>
+        </tr>
+        <tr *ngIf="categorias.length === 0">
+          <td colspan="3" class="text-center">No hay categorías registradas.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="!isListView">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h6 class="m-0 font-weight-bold text-primary">Detalle de Registro</h6>
+    <button class="btn btn-secondary" (click)="toggleView()" style="border: 1px solid #858796; background: white; color: #858796; padding: 0.375rem 0.75rem; border-radius: 0.35rem; cursor:pointer;"><i class="fas fa-arrow-left mr-2"></i>Volver a la Lista</button>
+  </div>
+
   <div *ngIf="statusMessage">
     <p [ngClass]="statusError ? 'error' : 'success'">{{ statusMessage }}</p>
   </div>
 
-  <label>Código<input [(ngModel)]="categoriaForm.codigo" /></label>
-  <label>Descripción<textarea rows="2" [(ngModel)]="categoriaForm.descripcion"></textarea></label>
+  <div class="row">
+    <div class="col-md-6">
+      <label>Código<input [(ngModel)]="categoriaForm.codigo" /></label>
+      <label>Descripción<textarea rows="2" [(ngModel)]="categoriaForm.descripcion"></textarea></label>
+    </div>
+    <div class="col-md-6">
+      <app-autocomplete-select label="Ubicación" placeholder="Buscar ubicación..." [required]="true" [searchFn]="searchUbicaciones" (selectedIdChange)="categoriaForm.ubicacionId = $event || ''"></app-autocomplete-select>
+    </div>
+  </div>
   
-  <app-autocomplete-select
-    label="Ubicación"
-    placeholder="Escriba para buscar ubicación..."
-    [required]="true"
-    [searchFn]="searchUbicaciones"
-    (selectedIdChange)="categoriaForm.ubicacionId = $event || ''"
-  ></app-autocomplete-select>
-  
-  <button class="submit" (click)="createCategoria()">Crear Categoría</button>
-
+  <button class="submit mt-3" (click)="createCategoria()">Crear Categoría</button>
+</div>

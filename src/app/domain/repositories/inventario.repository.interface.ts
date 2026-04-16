@@ -7,32 +7,35 @@ import { CreateUsuarioCommand } from '../models/usuario/create-usuario.command';
 import { AsignacionActivoCommand } from '../models/asignacion/asignacion-activo.command';
 import { FinalizarAsignacionRequest } from '../models/asignacion/finalizar-asignacion.request';
 
-// We import DTO structures needed for reading. Even though DTOs are in infrastructure, 
-// Domain can define the expected read structures (Entities). To keep it simple, we use the DTO interfaces directly 
-// or redefine them in domain. Let's redefine read models in domain to maintain strict separation.
-export interface UbicacionEntity {
-  id: string;
-  nombre: string;
-}
+import { ActivoDto } from '../../infrastructure/dtos/activo.dto';
+import { CategoriaDto } from '../../infrastructure/dtos/categoria.dto';
+import { SubCategoriaDto } from '../../infrastructure/dtos/subcategoria.dto';
+import { UbicacionDto } from '../../infrastructure/dtos/ubicacion.dto';
+import { UsuarioDto } from '../../infrastructure/dtos/usuario.dto';
+import { AsignacionDto } from '../../infrastructure/dtos/asignacion.dto';
 
-export interface SubCategoriaEntity {
-  id: string;
-  nombre: string;
-  categoriaCodigo: string;
-  categoriaDescripcion: string;
-}
+// For pragmatism in this angular project, we will use DTOs as the read model entity.
+export type UbicacionEntity = UbicacionDto;
+export type SubCategoriaEntity = SubCategoriaDto;
 
 export abstract class InventarioRepository {
+  // Commands
   abstract createActivo(command: CreateActivoCommand): Observable<string>;
   abstract createCategoria(command: CreateCategoriaCommand): Observable<string>;
   abstract createSubCategoria(command: CreateSubCategoriaCommand): Observable<string>;
   abstract createUbicacion(command: CreateUbicacionCommand): Observable<string>;
   abstract createUsuario(command: CreateUsuarioCommand): Observable<string>;
-  
   abstract assignActivo(command: AsignacionActivoCommand): Observable<string>;
   abstract finalizeAsignacion(id: string, request: FinalizarAsignacionRequest): Observable<void>;
   
+  // Queries
   abstract searchSubCategorias(termino: string): Observable<SubCategoriaEntity[]>;
   abstract searchUbicaciones(termino: string): Observable<UbicacionEntity[]>;
-  abstract getAllUbicaciones(): Observable<UbicacionEntity[]>;
+  
+  abstract getAllActivos(): Observable<ActivoDto[]>;
+  abstract getAllCategorias(): Observable<CategoriaDto[]>;
+  abstract getAllSubCategorias(): Observable<SubCategoriaDto[]>;
+  abstract getAllUbicaciones(): Observable<UbicacionDto[]>;
+  abstract getAllUsuarios(): Observable<UsuarioDto[]>;
+  abstract getAllAsignaciones(): Observable<AsignacionDto[]>;
 }
