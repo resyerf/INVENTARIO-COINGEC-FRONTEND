@@ -1,0 +1,139 @@
+.autocomplete-container {
+  position: relative;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.autocomplete-container label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.autocomplete-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.autocomplete-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.autocomplete-input.error {
+  border-color: #dc3545;
+}
+
+.autocomplete-input.error:focus {
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.clear-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #999;
+  padding: 4px 8px;
+  transition: color 0.2s;
+}
+
+.clear-btn:hover {
+  color: #333;
+}
+
+.loading-spinner {
+  position: absolute;
+  right: 12px;
+  animation: spin 1s linear infinite;
+  color: #007bff;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-top: none;
+  background: white;
+  z-index: 10;
+  margin-top: -1px;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.options-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.option-item {
+  padding: 0.75rem;
+  text-align: left;
+  border: none;
+  background: white;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.95rem;
+}
+
+.option-item:hover {
+  background-color: #f0f0f0;
+}
+
+.option-item:active {
+  background-color: #e8e8e8;
+}
+
+.option-item strong {
+  display: block;
+  color: #333;
+}
+
+.option-detail {
+  display: block;
+  font-size: 0.85rem;
+  color: #999;
+  margin-top: 0.25rem;
+}
+
+.no-options {
+  padding: 1rem;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+
+.error-message {
+  display: block;
+  margin-top: 0.5rem;
+  color: #dc3545;
+  font-size: 0.875rem;
+}

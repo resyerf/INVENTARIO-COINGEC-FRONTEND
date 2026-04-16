@@ -7,7 +7,9 @@ import {
   CreateUbicacionCommand,
   CreateUsuarioCommand,
   AsignacionActivoCommand,
-  FinalizarAsignacionRequest
+  FinalizarAsignacionRequest,
+  SubCategoriaDto,
+  UbicacionDto
 } from './models/inventario.models';
 
 @Component({
@@ -19,6 +21,8 @@ export class AppComponent {
   selectedPanel = 'activo';
   statusMessage = '';
   statusError = false;
+  subCategoriaValidation = { isValid: false };
+  ubicacionValidation = { isValid: false };
 
   activoForm: CreateActivoCommand = {
     nombreEquipo: '',
@@ -95,7 +99,54 @@ export class AppComponent {
     this.statusError = true;
   }
 
+  // Autocomplete search functions
+  searchSubCategorias = async (termino: string): Promise<SubCategoriaDto[]> => {
+    try {
+      const results = await this.api.searchSubCategorias(termino).toPromise();
+      return results || [];
+    } catch (error) {
+      console.error('Error searching subcategorias:', error);
+      return [];
+    }
+  };
+
+  searchUbicaciones = async (termino: string): Promise<UbicacionDto[]> => {
+    try {
+      const results = await this.api.searchUbicaciones(termino).toPromise();
+      return results || [];
+    } catch (error) {
+      console.error('Error searching ubicaciones:', error);
+      return [];
+    }
+  };
+
+  onSubCategoriaChange(item: SubCategoriaDto | null) {
+    if (item) {
+      this.activoForm.subCategoriaId = item.id;
+    }
+  }
+
+  onUbicacionChange(item: UbicacionDto | null) {
+    if (item) {
+      this.activoForm.ubicacionId = item.id;
+    }
+  }
+
+  onSubCategoriaValidation(validation: { isValid: boolean; error?: string }) {
+    this.subCategoriaValidation = validation;
+  }
+
+  onUbicacionValidation(validation: { isValid: boolean; error?: string }) {
+    this.ubicacionValidation = validation;
+  }
+
   createActivo() {
+    // Validate that autocomplete fields have valid selections
+    if (!this.subCategoriaValidation.isValid) {
+      this.showError('Por favor, seleccione una Subcategoría válida.');
+      return;
+    }
+
     this.api.createActivo(this.activoForm)
       .subscribe({
         next: result => this.showSuccess(`Activo creado con ID: ${result}`),

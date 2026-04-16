@@ -49,3 +49,15 @@ export interface FinalizarAsignacionRequest {
   estadoRecibido: string;
   observaciones?: string;
 }
+
+export interface SubCategoriaDto {
+  id: string;
+  nombre: string;
+  categoriaCodigo: string;
+  categoriaDescripcion: string;
+}
+
+export interface UbicacionDto {
+  id: string;
+  nombre: string;
+}

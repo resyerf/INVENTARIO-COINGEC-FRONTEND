@@ -21,14 +21,34 @@
   <section *ngIf="selectedPanel === 'activo'">
     <h2>Crear Activo</h2>
     <label>Nombre Equipo<input [(ngModel)]="activoForm.nombreEquipo" /></label>
-    <label>Subcategoría Id<input [(ngModel)]="activoForm.subCategoriaId" /></label>
+    
+    <app-autocomplete-select
+      label="Subcategoría"
+      placeholder="Escriba para buscar subcategoría..."
+      [required]="true"
+      [searchFn]="searchSubCategorias"
+      [selectedId]="activoForm.subCategoriaId"
+      (selectedIdChange)="activoForm.subCategoriaId = $event || ''"
+      (validationChange)="onSubCategoriaValidation($event)"
+    ></app-autocomplete-select>
+    
     <label>Costo Unitario<input type="number" [(ngModel)]="activoForm.costoUnitario" /></label>
     <label>Cantidad<input type="number" [(ngModel)]="activoForm.cantidad" /></label>
     <label>Marca<input [(ngModel)]="activoForm.marca" /></label>
     <label>Modelo<input [(ngModel)]="activoForm.modelo" /></label>
     <label>Serie<input [(ngModel)]="activoForm.serie" /></label>
     <label>Etiquetado<input [(ngModel)]="activoForm.etiquetado" /></label>
-    <label>Ubicación Id<input [(ngModel)]="activoForm.ubicacionId" /></label>
+    
+    <app-autocomplete-select
+      label="Ubicación"
+      placeholder="Escriba para buscar ubicación..."
+      [required]="false"
+      [searchFn]="searchUbicaciones"
+      [selectedId]="activoForm.ubicacionId"
+      (selectedIdChange)="activoForm.ubicacionId = $event"
+      (validationChange)="onUbicacionValidation($event)"
+    ></app-autocomplete-select>
+    
     <label>Fecha Adquisición<input type="date" [(ngModel)]="activoForm.fechaAdquisicion" /></label>
     <label>Usuario Id<input [(ngModel)]="activoForm.usuarioId" /></label>
     <button class="submit" (click)="createActivo()">Crear Activo</button>
@@ -38,7 +58,15 @@
     <h2>Crear Categoría</h2>
     <label>Código<input [(ngModel)]="categoriaForm.codigo" /></label>
     <label>Descripción<textarea rows="2" [(ngModel)]="categoriaForm.descripcion"></textarea></label>
-    <label>Ubicación Id<input [(ngModel)]="categoriaForm.ubicacionId" /></label>
+    
+    <app-autocomplete-select
+      label="Ubicación"
+      placeholder="Escriba para buscar ubicación..."
+      [required]="true"
+      [searchFn]="searchUbicaciones"
+      (selectedIdChange)="categoriaForm.ubicacionId = $event || ''"
+    ></app-autocomplete-select>
+    
     <button class="submit" (click)="createCategoria()">Crear Categoría</button>
   </section>
 

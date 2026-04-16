@@ -1,0 +1,44 @@
+<div class="autocomplete-container">
+  <label>{{ label }}</label>
+  <div class="input-wrapper">
+    <input
+      type="text"
+      [placeholder]="placeholder"
+      [(ngModel)]="value"
+      (ngModelChange)="onSearchInput($event)"
+      (blur)="onBlur()"
+      (focus)="isOpen = true"
+      class="autocomplete-input"
+      [class.error]="errorMessage"
+    />
+    <button
+      *ngIf="selectedItem"
+      type="button"
+      class="clear-btn"
+      (click)="clearSelection()"
+      title="Limpiar selección"
+    >
+      ✕
+    </button>
+    <span *ngIf="isLoading" class="loading-spinner">⟳</span>
+  </div>
+
+  <div *ngIf="isOpen && filteredOptions.length > 0" class="dropdown-list">
+    <div class="options-wrapper">
+      <button
+        type="button"
+        *ngFor="let option of filteredOptions"
+        class="option-item"
+        (mousedown)="onOptionMouseDown($event, option)"
+      >
+        <strong>{{ option.nombre }}</strong>
+        <span *ngIf="option.display" class="option-detail">{{ option.display }}</span>
+      </button>
+      <div *ngIf="filteredOptions.length === 0 && !isLoading" class="no-options">
+        No se encontraron resultados
+      </div>
+    </div>
+  </div>
+
+  <span *ngIf="errorMessage" class="error-message">{{ errorMessage }}</span>
+</div>

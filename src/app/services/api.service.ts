@@ -9,7 +9,9 @@ import {
   CreateUbicacionCommand,
   CreateUsuarioCommand,
   AsignacionActivoCommand,
-  FinalizarAsignacionRequest
+  FinalizarAsignacionRequest,
+  SubCategoriaDto,
+  UbicacionDto
 } from '../models/inventario.models';
 
 @Injectable({
@@ -46,5 +48,21 @@ export class ApiService {
 
   finalizeAsignacion(id: string, request: FinalizarAsignacionRequest): Observable<void> {
     return this.http.patch<void>(`${this.baseUrl}/api/Asignacion/${id}/finalizar`, request);
+  }
+
+  searchSubCategorias(termino: string): Observable<SubCategoriaDto[]> {
+    return this.http.get<SubCategoriaDto[]>(`${this.baseUrl}/api/Subcategoria/search`, {
+      params: { termino }
+    });
+  }
+
+  searchUbicaciones(termino: string): Observable<UbicacionDto[]> {
+    return this.http.get<UbicacionDto[]>(`${this.baseUrl}/api/Ubicacion/search`, {
+      params: { termino }
+    });
+  }
+
+  getAllUbicaciones(): Observable<UbicacionDto[]> {
+    return this.http.get<UbicacionDto[]>(`${this.baseUrl}/api/Ubicacion`);
   }
 }
