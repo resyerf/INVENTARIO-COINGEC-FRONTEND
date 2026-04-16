@@ -58,8 +58,8 @@
       <label>Serie<input [(ngModel)]="activoForm.serie" /></label>
       <label>Etiquetado<input [(ngModel)]="activoForm.etiquetado" /></label>
       <app-autocomplete-select label="Ubicación" placeholder="Buscar ubicación..." [searchFn]="searchUbicaciones" (selectedIdChange)="activoForm.ubicacionId = $event" (validationChange)="onUbicacionValidation($event)"></app-autocomplete-select>
+      <app-autocomplete-select label="Usuario" placeholder="Buscar usuario..." [searchFn]="searchUsuarios" (selectedIdChange)="activoForm.usuarioId = $event || null"></app-autocomplete-select>
       <label>Fecha Adquisición<input type="date" [(ngModel)]="activoForm.fechaAdquisicion" /></label>
-      <label>Usuario Id<input [(ngModel)]="activoForm.usuarioId" /></label>
     </div>
   </div>
   <button class="submit mt-3" (click)="createActivo()">Crear Activo</button>

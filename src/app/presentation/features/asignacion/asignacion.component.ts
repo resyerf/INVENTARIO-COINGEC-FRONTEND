@@ -35,6 +35,32 @@ export class AsignacionComponent implements OnInit {
     });
   }
 
+  searchActivos = async (termino: string) => {
+    try {
+      const activos = await this.inventarioRepo.searchActivos(termino).toPromise();
+      return activos?.map(a => ({
+        id: a.id,
+        nombre: a.nombreEquipo,
+        display: a.serie ? `${a.nombreEquipo} · ${a.serie}` : a.nombreEquipo
+      })) || [];
+    } catch (error) {
+      return [];
+    }
+  };
+
+  searchUsuarios = async (termino: string) => {
+    try {
+      const usuarios = await this.inventarioRepo.searchUsuarios(termino).toPromise();
+      return usuarios?.map(u => ({
+        id: u.id,
+        nombre: u.nombreCompleto,
+        display: `${u.nombreCompleto} · ${u.email}`
+      })) || [];
+    } catch (error) {
+      return [];
+    }
+  };
+
   toggleView() {
     this.isListView = !this.isListView;
     this.statusMessage = '';

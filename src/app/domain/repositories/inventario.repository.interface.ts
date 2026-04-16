@@ -14,6 +14,9 @@ import { UbicacionDto } from '../../infrastructure/dtos/ubicacion.dto';
 import { UsuarioDto } from '../../infrastructure/dtos/usuario.dto';
 import { AsignacionDto } from '../../infrastructure/dtos/asignacion.dto';
 
+export type ActivoEntity = ActivoDto;
+export type UsuarioEntity = UsuarioDto;
+
 // For pragmatism in this angular project, we will use DTOs as the read model entity.
 export type UbicacionEntity = UbicacionDto;
 export type SubCategoriaEntity = SubCategoriaDto;
@@ -31,6 +34,8 @@ export abstract class InventarioRepository {
   // Queries
   abstract searchSubCategorias(termino: string): Observable<SubCategoriaEntity[]>;
   abstract searchUbicaciones(termino: string): Observable<UbicacionEntity[]>;
+  abstract searchActivos(termino: string): Observable<ActivoEntity[]>;
+  abstract searchUsuarios(termino: string): Observable<UsuarioEntity[]>;
   
   abstract getAllActivos(): Observable<ActivoDto[]>;
   abstract getAllCategorias(): Observable<CategoriaDto[]>;

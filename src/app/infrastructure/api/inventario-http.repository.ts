@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
-import { InventarioRepository, UbicacionEntity, SubCategoriaEntity } from '../../domain/repositories/inventario.repository.interface';
+import { InventarioRepository, UbicacionEntity, SubCategoriaEntity, ActivoEntity, UsuarioEntity } from '../../domain/repositories/inventario.repository.interface';
 import { CreateActivoCommand } from '../../domain/models/activo/create-activo.command';
 import { CreateCategoriaCommand } from '../../domain/models/categoria/create-categoria.command';
 import { CreateSubCategoriaCommand } from '../../domain/models/subcategoria/create-subcategoria.command';
@@ -39,6 +39,8 @@ export class InventarioHttpRepository extends InventarioRepository {
 
   searchSubCategorias(termino: string): Observable<SubCategoriaEntity[]> { return this.http.get<SubCategoriaDto[]>(`${this.baseUrl}/api/Subcategoria/search`, { params: { termino } }); }
   searchUbicaciones(termino: string): Observable<UbicacionEntity[]> { return this.http.get<UbicacionDto[]>(`${this.baseUrl}/api/Ubicacion/search`, { params: { termino } }); }
+  searchActivos(termino: string): Observable<ActivoEntity[]> { return this.http.get<ActivoDto[]>(`${this.baseUrl}/api/Activo/search`, { params: { termino } }); }
+  searchUsuarios(termino: string): Observable<UsuarioEntity[]> { return this.http.get<UsuarioDto[]>(`${this.baseUrl}/api/Usuario/search`, { params: { termino } }); }
 
   getAllActivos(): Observable<ActivoDto[]> { return this.http.get<ActivoDto[]>(`${this.baseUrl}/api/Activo`); }
   getAllCategorias(): Observable<CategoriaDto[]> { return this.http.get<CategoriaDto[]>(`${this.baseUrl}/api/Categoria`); }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InventarioRepository, SubCategoriaEntity, UbicacionEntity } from '../../../domain/repositories/inventario.repository.interface';
+import { InventarioRepository, SubCategoriaEntity, UbicacionEntity, UsuarioEntity } from '../../../domain/repositories/inventario.repository.interface';
 import { CreateActivoCommand } from '../../../domain/models/activo/create-activo.command';
 import { ActivoDto } from '../../../infrastructure/dtos/activo.dto';
 
@@ -59,6 +59,19 @@ export class ActivoComponent implements OnInit {
   searchUbicaciones = async (termino: string): Promise<UbicacionEntity[]> => {
     try { return await this.inventarioRepo.searchUbicaciones(termino).toPromise() || []; } 
     catch (error) { return []; }
+  };
+
+  searchUsuarios = async (termino: string): Promise<{ id: string; nombre: string; display?: string }[]> => {
+    try {
+      const usuarios = await this.inventarioRepo.searchUsuarios(termino).toPromise() || [];
+      return usuarios.map(u => ({
+        id: u.id,
+        nombre: u.nombreCompleto,
+        display: `${u.nombreCompleto} · ${u.email}`
+      }));
+    } catch (error) {
+      return [];
+    }
   };
 
   onSubCategoriaValidation(v: { isValid: boolean; error?: string }) { this.subCategoriaValidation = v; }
