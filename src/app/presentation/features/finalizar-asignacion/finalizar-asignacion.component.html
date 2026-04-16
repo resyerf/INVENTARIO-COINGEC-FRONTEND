@@ -1,5 +1,4 @@
-<section class="feature-panel">
-  <h2>Finalizar Asignación</h2>
+
   
   <div *ngIf="statusMessage">
     <p [ngClass]="statusError ? 'error' : 'success'">{{ statusMessage }}</p>
@@ -9,4 +8,4 @@
   <label>Estado Recibido<input [(ngModel)]="finalizarForm.estadoRecibido" /></label>
   <label>Observaciones<textarea rows="2" [(ngModel)]="finalizarForm.observaciones"></textarea></label>
   <button class="submit" (click)="finalizeAsignacion()">Finalizar Asignación</button>
-</section>
+

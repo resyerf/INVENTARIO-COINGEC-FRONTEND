@@ -1,5 +1,4 @@
-<section class="feature-panel">
-  <h2>Crear Categoría</h2>
+
   
   <div *ngIf="statusMessage">
     <p [ngClass]="statusError ? 'error' : 'success'">{{ statusMessage }}</p>
@@ -17,4 +16,4 @@
   ></app-autocomplete-select>
   
   <button class="submit" (click)="createCategoria()">Crear Categoría</button>
-</section>
+

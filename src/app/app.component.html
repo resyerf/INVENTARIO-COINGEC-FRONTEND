@@ -1,24 +1,121 @@
-<header>
-  <h1>Inventario COINGEC</h1>
-  <p>Front-end para el microservicio Inventario.</p>
-</header>
+<div id="wrapper">
+  <!-- Sidebar -->
+  <ul class="sidebar">
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand" href="#">
+      <div class="sidebar-brand-icon">
+        <i class="fas fa-laugh-wink"></i>
+      </div>
+      <div class="sidebar-brand-text" style="font-size: 1rem; margin-left: 0.5rem;">COINGEC</div>
+    </a>
 
-<main>
-  <nav>
-    <button [class.active]="selectedPanel === 'activo'" (click)="selectPanel('activo')">Activo</button>
-    <button [class.active]="selectedPanel === 'categoria'" (click)="selectPanel('categoria')">Categoría</button>
-    <button [class.active]="selectedPanel === 'subcategoria'" (click)="selectPanel('subcategoria')">Subcategoría</button>
-    <button [class.active]="selectedPanel === 'ubicacion'" (click)="selectPanel('ubicacion')">Ubicación</button>
-    <button [class.active]="selectedPanel === 'usuario'" (click)="selectPanel('usuario')">Usuario</button>
-    <button [class.active]="selectedPanel === 'asignacion'" (click)="selectPanel('asignacion')">Asignación</button>
-    <button [class.active]="selectedPanel === 'finalizar'" (click)="selectPanel('finalizar')">Finalizar asignación</button>
-  </nav>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
 
-  <app-activo *ngIf="selectedPanel === 'activo'"></app-activo>
-  <app-categoria *ngIf="selectedPanel === 'categoria'"></app-categoria>
-  <app-subcategoria *ngIf="selectedPanel === 'subcategoria'"></app-subcategoria>
-  <app-ubicacion *ngIf="selectedPanel === 'ubicacion'"></app-ubicacion>
-  <app-usuario *ngIf="selectedPanel === 'usuario'"></app-usuario>
-  <app-asignacion *ngIf="selectedPanel === 'asignacion'"></app-asignacion>
-  <app-finalizar-asignacion *ngIf="selectedPanel === 'finalizar'"></app-finalizar-asignacion>
-</main>
+    <!-- Nav Items -->
+    <li class="nav-item" [class.active]="selectedPanel === 'activo'">
+      <button class="nav-link" (click)="selectPanel('activo')">
+        <i class="fas fa-fw fa-box"></i>
+        <span>Activo</span>
+      </button>
+    </li>
+    
+    <li class="nav-item" [class.active]="selectedPanel === 'categoria'">
+      <button class="nav-link" (click)="selectPanel('categoria')">
+        <i class="fas fa-fw fa-tags"></i>
+        <span>Categoría</span>
+      </button>
+    </li>
+    
+    <li class="nav-item" [class.active]="selectedPanel === 'subcategoria'">
+      <button class="nav-link" (click)="selectPanel('subcategoria')">
+        <i class="fas fa-fw fa-tag"></i>
+        <span>Subcategoría</span>
+      </button>
+    </li>
+    
+    <li class="nav-item" [class.active]="selectedPanel === 'ubicacion'">
+      <button class="nav-link" (click)="selectPanel('ubicacion')">
+        <i class="fas fa-fw fa-map-marker-alt"></i>
+        <span>Ubicación</span>
+      </button>
+    </li>
+    
+    <li class="nav-item" [class.active]="selectedPanel === 'usuario'">
+      <button class="nav-link" (click)="selectPanel('usuario')">
+        <i class="fas fa-fw fa-user"></i>
+        <span>Usuario</span>
+      </button>
+    </li>
+    
+    <li class="nav-item" [class.active]="selectedPanel === 'asignacion'">
+      <button class="nav-link" (click)="selectPanel('asignacion')">
+        <i class="fas fa-fw fa-exchange-alt"></i>
+        <span>Asignación</span>
+      </button>
+    </li>
+    
+    <li class="nav-item" [class.active]="selectedPanel === 'finalizar'">
+      <button class="nav-link" (click)="selectPanel('finalizar')">
+        <i class="fas fa-fw fa-check-circle"></i>
+        <span>Finalizar Asignación</span>
+      </button>
+    </li>
+  </ul>
+  <!-- End of Sidebar -->
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper">
+    <!-- Main Content -->
+    <div id="content">
+      <!-- Topbar -->
+      <nav class="topbar">
+        <!-- Topbar Search -->
+        <div class="topbar-search">
+          <input type="text" class="form-control" placeholder="Search for..." style="margin-bottom: 0;">
+          <button class="btn" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+
+        <!-- Topbar Navbar / User Information -->
+        <div class="profile-dropdown">
+          <span class="mr-2 text-gray-800">Admin COINGEC</span>
+          <i class="fas fa-user-circle fa-2x text-gray-400"></i>
+        </div>
+      </nav>
+      <!-- End of Topbar -->
+
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800" style="margin: 0;">Panel de Gestión</h1>
+        </div>
+
+        <div class="row">
+          <div class="col w-100">
+            <!-- Dynamic Card -->
+            <div class="card shadow border-bottom-primary">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary text-uppercase">Formulario: {{ selectedPanel }}</h6>
+              </div>
+              <div class="card-body">
+                <app-activo *ngIf="selectedPanel === 'activo'"></app-activo>
+                <app-categoria *ngIf="selectedPanel === 'categoria'"></app-categoria>
+                <app-subcategoria *ngIf="selectedPanel === 'subcategoria'"></app-subcategoria>
+                <app-ubicacion *ngIf="selectedPanel === 'ubicacion'"></app-ubicacion>
+                <app-usuario *ngIf="selectedPanel === 'usuario'"></app-usuario>
+                <app-asignacion *ngIf="selectedPanel === 'asignacion'"></app-asignacion>
+                <app-finalizar-asignacion *ngIf="selectedPanel === 'finalizar'"></app-finalizar-asignacion>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- End of Main Content -->
+  </div>
+  <!-- End of Content Wrapper -->
+</div>

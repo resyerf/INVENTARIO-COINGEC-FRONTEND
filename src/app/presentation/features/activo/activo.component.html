@@ -1,5 +1,4 @@
-<section class="feature-panel">
-  <h2>Crear Activo</h2>
+
   
   <div *ngIf="statusMessage">
     <p [ngClass]="statusError ? 'error' : 'success'">{{ statusMessage }}</p>
@@ -37,4 +36,4 @@
   <label>Fecha Adquisición<input type="date" [(ngModel)]="activoForm.fechaAdquisicion" /></label>
   <label>Usuario Id<input [(ngModel)]="activoForm.usuarioId" /></label>
   <button class="submit" (click)="createActivo()">Crear Activo</button>
-</section>
+

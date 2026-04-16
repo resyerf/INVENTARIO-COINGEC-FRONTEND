@@ -1,5 +1,4 @@
-<section class="feature-panel">
-  <h2>Crear Usuario</h2>
+
   
   <div *ngIf="statusMessage">
     <p [ngClass]="statusError ? 'error' : 'success'">{{ statusMessage }}</p>
@@ -13,4 +12,4 @@
   <label>Sede<input [(ngModel)]="usuarioForm.sede" /></label>
   <label>Creado Por<input [(ngModel)]="usuarioForm.creadoPor" /></label>
   <button class="submit" (click)="createUsuario()">Crear Usuario</button>
-</section>
+
