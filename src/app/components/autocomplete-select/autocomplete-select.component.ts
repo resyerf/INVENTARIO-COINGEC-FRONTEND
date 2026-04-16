@@ -46,7 +46,7 @@ export class AutocompleteSelectComponent implements OnInit, OnDestroy, OnChanges
         await this.filterOptions(termino);
       });
 
-    this.loadAllOptions();
+    // this.loadAllOptions(); // Removido para evitar carga masiva en init
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -91,13 +91,21 @@ export class AutocompleteSelectComponent implements OnInit, OnDestroy, OnChanges
 
   private async filterOptions(termino: string): Promise<void> {
     if (!termino.trim()) {
-      this.filteredOptions = this.allOptions;
+      this.filteredOptions = [];
       return;
     }
 
     this.isLoading = true;
     try {
-      this.filteredOptions = await this.searchFn(termino);
+      const results = await this.searchFn(termino);
+      this.filteredOptions = results;
+      
+      // Cache results for blur validation
+      results.forEach(res => {
+        if (!this.allOptions.find(o => o.id === res.id)) {
+          this.allOptions.push(res);
+        }
+      });
     } catch (error) {
       console.error('Error searching:', error);
       this.filteredOptions = [];

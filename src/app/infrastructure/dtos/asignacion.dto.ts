@@ -1,9 +1,11 @@
 export interface AsignacionDto {
   id: string;
-  activoId: string;
-  usuarioId: string;
+  activoNombre: string;
+  activoSerie: string;
+  custodio: string;
   fechaAsignacion: string;
-  estado: string;
-  nombreActivo?: string;
-  nombreUsuario?: string;
+  fechaDevolucion: string;
+  estadoEntrega: string;
+  estadoRecibido:string;
+  observaciones: string;
 }

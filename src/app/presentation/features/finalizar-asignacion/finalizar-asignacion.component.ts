@@ -29,7 +29,7 @@ export class FinalizarAsignacionComponent implements OnInit {
 
   loadData() {
     this.inventarioRepo.getAllAsignaciones().subscribe({
-      next: (data) => this.asignaciones = data.filter(a => a.estado !== 'Finalizado'),
+      next: (data) => this.asignaciones = data.filter(a => a.fechaDevolucion !== null),
       error: (err) => console.error('Error loading data', err)
     });
   }

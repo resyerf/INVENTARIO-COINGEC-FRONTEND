@@ -8,20 +8,26 @@
     <table class="table table-bordered" width="100%" cellspacing="0">
       <thead>
         <tr>
-          <th>ID Asignación</th>
-          <th>Activo ID</th>
-          <th>Usuario ID</th>
+          <th>Activo Nombre</th>
+          <th>Activo Serie</th>
+          <th>Usuario</th>
           <th>Fecha Asignacion</th>
           <th>Estado</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let a of asignaciones">
-          <td>{{ a.id }}</td>
-          <td>{{ a.activoId }}</td>
-          <td>{{ a.usuarioId }}</td>
+          <td>{{ a.activoNombre }}</td>
+          <td>{{ a.activoSerie }}</td>
+          <td>{{ a.custodio }}</td>
           <td>{{ a.fechaAsignacion | date:'mediumDate' }}</td>
-          <td>{{ a.estado }}</td>
+          <td>
+            {{
+              a.fechaDevolucion
+                ? 'Finalizado'
+                : (a.fechaAsignacion ? 'Asignado' : 'Pendiente')
+            }}
+          </td>
         </tr>
         <tr *ngIf="asignaciones.length === 0">
           <td colspan="5" class="text-center">No hay asignaciones registradas.</td>

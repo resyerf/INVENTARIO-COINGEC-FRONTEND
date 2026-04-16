@@ -8,16 +8,16 @@
     <table class="table table-bordered" width="100%" cellspacing="0">
       <thead>
         <tr>
-          <th>ID Asignación</th>
-          <th>Activo ID</th>
+          <th>Activo Nombre</th>
+          <th>Activo Serie</th>
           <th>Fecha Asignacion</th>
           <th>Acción</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let a of asignaciones">
-          <td>{{ a.id }}</td>
-          <td>{{ a.activoId }}</td>
+          <td>{{ a.activoNombre }}</td>
+          <td>{{ a.activoSerie }}</td>
           <td>{{ a.fechaAsignacion | date:'mediumDate' }}</td>
           <td>
             <button class="btn btn-sm" style="background:#f6c23e; color:#fff; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;" (click)="toggleView(a.id)">Finalizar</button>
