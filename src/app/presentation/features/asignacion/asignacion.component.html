@@ -1,0 +1,13 @@
+<section class="feature-panel">
+  <h2>Asignar Activo</h2>
+  
+  <div *ngIf="statusMessage">
+    <p [ngClass]="statusError ? 'error' : 'success'">{{ statusMessage }}</p>
+  </div>
+
+  <label>Activo Id<input [(ngModel)]="asignacionForm.activoId" /></label>
+  <label>Usuario Id<input [(ngModel)]="asignacionForm.usuarioId" /></label>
+  <label>Fecha Asignación<input type="date" [(ngModel)]="asignacionForm.fechaAsignacion" /></label>
+  <label>Observaciones<textarea rows="2" [(ngModel)]="asignacionForm.observaciones"></textarea></label>
+  <button class="submit" (click)="assignActivo()">Asignar Activo</button>
+</section>

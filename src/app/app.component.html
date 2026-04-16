@@ -14,102 +14,11 @@
     <button [class.active]="selectedPanel === 'finalizar'" (click)="selectPanel('finalizar')">Finalizar asignación</button>
   </nav>
 
-  <section *ngIf="statusMessage">
-    <p [ngClass]="statusError ? 'error' : 'success'">{{ statusMessage }}</p>
-  </section>
-
-  <section *ngIf="selectedPanel === 'activo'">
-    <h2>Crear Activo</h2>
-    <label>Nombre Equipo<input [(ngModel)]="activoForm.nombreEquipo" /></label>
-    
-    <app-autocomplete-select
-      label="Subcategoría"
-      placeholder="Escriba para buscar subcategoría..."
-      [required]="true"
-      [searchFn]="searchSubCategorias"
-      [selectedId]="activoForm.subCategoriaId"
-      (selectedIdChange)="activoForm.subCategoriaId = $event || ''"
-      (validationChange)="onSubCategoriaValidation($event)"
-    ></app-autocomplete-select>
-    
-    <label>Costo Unitario<input type="number" [(ngModel)]="activoForm.costoUnitario" /></label>
-    <label>Cantidad<input type="number" [(ngModel)]="activoForm.cantidad" /></label>
-    <label>Marca<input [(ngModel)]="activoForm.marca" /></label>
-    <label>Modelo<input [(ngModel)]="activoForm.modelo" /></label>
-    <label>Serie<input [(ngModel)]="activoForm.serie" /></label>
-    <label>Etiquetado<input [(ngModel)]="activoForm.etiquetado" /></label>
-    
-    <app-autocomplete-select
-      label="Ubicación"
-      placeholder="Escriba para buscar ubicación..."
-      [required]="false"
-      [searchFn]="searchUbicaciones"
-      [selectedId]="activoForm.ubicacionId"
-      (selectedIdChange)="activoForm.ubicacionId = $event"
-      (validationChange)="onUbicacionValidation($event)"
-    ></app-autocomplete-select>
-    
-    <label>Fecha Adquisición<input type="date" [(ngModel)]="activoForm.fechaAdquisicion" /></label>
-    <label>Usuario Id<input [(ngModel)]="activoForm.usuarioId" /></label>
-    <button class="submit" (click)="createActivo()">Crear Activo</button>
-  </section>
-
-  <section *ngIf="selectedPanel === 'categoria'">
-    <h2>Crear Categoría</h2>
-    <label>Código<input [(ngModel)]="categoriaForm.codigo" /></label>
-    <label>Descripción<textarea rows="2" [(ngModel)]="categoriaForm.descripcion"></textarea></label>
-    
-    <app-autocomplete-select
-      label="Ubicación"
-      placeholder="Escriba para buscar ubicación..."
-      [required]="true"
-      [searchFn]="searchUbicaciones"
-      (selectedIdChange)="categoriaForm.ubicacionId = $event || ''"
-    ></app-autocomplete-select>
-    
-    <button class="submit" (click)="createCategoria()">Crear Categoría</button>
-  </section>
-
-  <section *ngIf="selectedPanel === 'subcategoria'">
-    <h2>Crear Subcategoría</h2>
-    <label>Nombre<input [(ngModel)]="subCategoriaForm.nombre" /></label>
-    <label>Categoría Id<input [(ngModel)]="subCategoriaForm.categoriaId" /></label>
-    <button class="submit" (click)="createSubCategoria()">Crear Subcategoría</button>
-  </section>
-
-  <section *ngIf="selectedPanel === 'ubicacion'">
-    <h2>Crear Ubicación</h2>
-    <label>Nombre<input [(ngModel)]="ubicacionForm.nombre" /></label>
-    <label>Descripción<textarea rows="2" [(ngModel)]="ubicacionForm.descripcion"></textarea></label>
-    <button class="submit" (click)="createUbicacion()">Crear Ubicación</button>
-  </section>
-
-  <section *ngIf="selectedPanel === 'usuario'">
-    <h2>Crear Usuario</h2>
-    <label>Nombre Completo<input [(ngModel)]="usuarioForm.nombreCompleto" /></label>
-    <label>Documento Identidad<input [(ngModel)]="usuarioForm.documentoIdentidad" /></label>
-    <label>Email<input type="email" [(ngModel)]="usuarioForm.email" /></label>
-    <label>Área<input [(ngModel)]="usuarioForm.area" /></label>
-    <label>Cargo<input [(ngModel)]="usuarioForm.cargo" /></label>
-    <label>Sede<input [(ngModel)]="usuarioForm.sede" /></label>
-    <label>Creado Por<input [(ngModel)]="usuarioForm.creadoPor" /></label>
-    <button class="submit" (click)="createUsuario()">Crear Usuario</button>
-  </section>
-
-  <section *ngIf="selectedPanel === 'asignacion'">
-    <h2>Asignar Activo</h2>
-    <label>Activo Id<input [(ngModel)]="asignacionForm.activoId" /></label>
-    <label>Usuario Id<input [(ngModel)]="asignacionForm.usuarioId" /></label>
-    <label>Fecha Asignación<input type="date" [(ngModel)]="asignacionForm.fechaAsignacion" /></label>
-    <label>Observaciones<textarea rows="2" [(ngModel)]="asignacionForm.observaciones"></textarea></label>
-    <button class="submit" (click)="assignActivo()">Asignar Activo</button>
-  </section>
-
-  <section *ngIf="selectedPanel === 'finalizar'">
-    <h2>Finalizar Asignación</h2>
-    <label>Asignación Id<input [(ngModel)]="finalizarForm.id" /></label>
-    <label>Estado Recibido<input [(ngModel)]="finalizarForm.estadoRecibido" /></label>
-    <label>Observaciones<textarea rows="2" [(ngModel)]="finalizarForm.observaciones"></textarea></label>
-    <button class="submit" (click)="finalizeAsignacion()">Finalizar Asignación</button>
-  </section>
+  <app-activo *ngIf="selectedPanel === 'activo'"></app-activo>
+  <app-categoria *ngIf="selectedPanel === 'categoria'"></app-categoria>
+  <app-subcategoria *ngIf="selectedPanel === 'subcategoria'"></app-subcategoria>
+  <app-ubicacion *ngIf="selectedPanel === 'ubicacion'"></app-ubicacion>
+  <app-usuario *ngIf="selectedPanel === 'usuario'"></app-usuario>
+  <app-asignacion *ngIf="selectedPanel === 'asignacion'"></app-asignacion>
+  <app-finalizar-asignacion *ngIf="selectedPanel === 'finalizar'"></app-finalizar-asignacion>
 </main>

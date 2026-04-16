@@ -1,0 +1,11 @@
+<section class="feature-panel">
+  <h2>Crear Subcategoría</h2>
+  
+  <div *ngIf="statusMessage">
+    <p [ngClass]="statusError ? 'error' : 'success'">{{ statusMessage }}</p>
+  </div>
+
+  <label>Nombre<input [(ngModel)]="subCategoriaForm.nombre" /></label>
+  <label>Categoría Id<input [(ngModel)]="subCategoriaForm.categoriaId" /></label>
+  <button class="submit" (click)="createSubCategoria()">Crear Subcategoría</button>
+</section>

@@ -1,0 +1,16 @@
+<section class="feature-panel">
+  <h2>Crear Usuario</h2>
+  
+  <div *ngIf="statusMessage">
+    <p [ngClass]="statusError ? 'error' : 'success'">{{ statusMessage }}</p>
+  </div>
+
+  <label>Nombre Completo<input [(ngModel)]="usuarioForm.nombreCompleto" /></label>
+  <label>Documento Identidad<input [(ngModel)]="usuarioForm.documentoIdentidad" /></label>
+  <label>Email<input type="email" [(ngModel)]="usuarioForm.email" /></label>
+  <label>Área<input [(ngModel)]="usuarioForm.area" /></label>
+  <label>Cargo<input [(ngModel)]="usuarioForm.cargo" /></label>
+  <label>Sede<input [(ngModel)]="usuarioForm.sede" /></label>
+  <label>Creado Por<input [(ngModel)]="usuarioForm.creadoPor" /></label>
+  <button class="submit" (click)="createUsuario()">Crear Usuario</button>
+</section>

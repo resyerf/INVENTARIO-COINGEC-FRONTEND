@@ -121,39 +121,51 @@ export class AutocompleteSelectComponent implements OnInit, OnDestroy, OnChanges
   }
 
   onBlur(): void {
-    this.isOpen = false;
+    const currentValue = this.value.trim();
 
-    // Validar si el valor existe en las opciones
-    if (this.value.trim()) {
-      const found = this.allOptions.find(
-        opt => opt.nombre.toLowerCase() === this.value.trim().toLowerCase()
-      );
+    setTimeout(() => {
+      if (!this.isOpen) {
+        return;
+      }
 
-      if (found) {
-        if (this.selectedItem?.id !== found.id) {
-          this.selectedItem = found;
-          this.selectedIdChange.emit(found.id);
-          this.selectedItemChange.emit(found);
+      this.isOpen = false;
+
+      // Validar si el valor existe en las opciones
+      if (currentValue) {
+        const found = this.allOptions.find(
+          opt => opt.nombre.toLowerCase() === currentValue.toLowerCase()
+        );
+
+        if (found) {
+          if (this.selectedItem?.id !== found.id) {
+            this.selectedItem = found;
+            this.selectedIdChange.emit(found.id);
+            this.selectedItemChange.emit(found);
+          }
+          this.errorMessage = '';
+        } else {
+          // Value doesn't exist in options
+          this.errorMessage = `"${this.value}" no existe. Primero debe agregarlo en el menú de ${this.label.toLowerCase()}.`;
+          this.selectedItem = null;
+          this.selectedIdChange.emit(null);
+          this.selectedItemChange.emit(null);
+          this.validationChange.emit({ isValid: false, error: this.errorMessage });
         }
-        this.errorMessage = '';
       } else {
-        // Value doesn't exist in options
-        this.errorMessage = `"${this.value}" no existe. Primero debe agregarlo en el menú de ${this.label.toLowerCase()}.`;
-        this.selectedItem = null;
-        this.selectedIdChange.emit(null);
-        this.selectedItemChange.emit(null);
-        this.validationChange.emit({ isValid: false, error: this.errorMessage });
+        if (this.required) {
+          this.errorMessage = `${this.label} es requerido`;
+          this.validationChange.emit({ isValid: false, error: this.errorMessage });
+        } else {
+          this.selectedItem = null;
+          this.selectedIdChange.emit(null);
+          this.validationChange.emit({ isValid: true });
+        }
       }
-    } else {
-      if (this.required) {
-        this.errorMessage = `${this.label} es requerido`;
-        this.validationChange.emit({ isValid: false, error: this.errorMessage });
-      } else {
-        this.selectedItem = null;
-        this.selectedIdChange.emit(null);
-        this.validationChange.emit({ isValid: true });
-      }
-    }
+    }, 150);
+  }
+
+  onOptionClick(option: AutocompleteOption): void {
+    this.onSelectOption(option);
   }
 
   validateSelection(): void {

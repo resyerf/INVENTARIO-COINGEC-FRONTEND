@@ -1,0 +1,20 @@
+<section class="feature-panel">
+  <h2>Crear Categoría</h2>
+  
+  <div *ngIf="statusMessage">
+    <p [ngClass]="statusError ? 'error' : 'success'">{{ statusMessage }}</p>
+  </div>
+
+  <label>Código<input [(ngModel)]="categoriaForm.codigo" /></label>
+  <label>Descripción<textarea rows="2" [(ngModel)]="categoriaForm.descripcion"></textarea></label>
+  
+  <app-autocomplete-select
+    label="Ubicación"
+    placeholder="Escriba para buscar ubicación..."
+    [required]="true"
+    [searchFn]="searchUbicaciones"
+    (selectedIdChange)="categoriaForm.ubicacionId = $event || ''"
+  ></app-autocomplete-select>
+  
+  <button class="submit" (click)="createCategoria()">Crear Categoría</button>
+</section>

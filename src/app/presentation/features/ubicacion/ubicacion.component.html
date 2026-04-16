@@ -1,0 +1,11 @@
+<section class="feature-panel">
+  <h2>Crear Ubicación</h2>
+  
+  <div *ngIf="statusMessage">
+    <p [ngClass]="statusError ? 'error' : 'success'">{{ statusMessage }}</p>
+  </div>
+
+  <label>Nombre<input [(ngModel)]="ubicacionForm.nombre" /></label>
+  <label>Descripción<textarea rows="2" [(ngModel)]="ubicacionForm.descripcion"></textarea></label>
+  <button class="submit" (click)="createUbicacion()">Crear Ubicación</button>
+</section>
