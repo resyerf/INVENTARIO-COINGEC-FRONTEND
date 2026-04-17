@@ -23,6 +23,10 @@
       <div class="stat-content">
         <p class="stat-label">Usuarios</p>
         <p class="stat-value">{{ stats.totalUsuarios }}</p>
+        <div class="stat-detail">
+          <span class="active-badge">✓ {{ stats.usuariosActivos }}</span>
+          <span class="inactive-badge">✗ {{ stats.usuariosInactivos }}</span>
+        </div>
       </div>
     </div>
 
@@ -32,8 +36,12 @@
         <i class="icon-activos">📦</i>
       </div>
       <div class="stat-content">
-        <p class="stat-label">Total de Activos</p>
+        <p class="stat-label">Total Activos</p>
         <p class="stat-value">{{ stats.totalActivos }}</p>
+        <div class="stat-detail">
+          <span class="active-badge">✓ {{ stats.activosActivos }}</span>
+          <span class="inactive-badge">✗ {{ stats.activosInactivos }}</span>
+        </div>
       </div>
     </div>
 
@@ -45,6 +53,9 @@
       <div class="stat-content">
         <p class="stat-label">Activos Asignados</p>
         <p class="stat-value">{{ stats.activosAsignados }}</p>
+        <div class="stat-detail">
+          <span class="info-text">de {{ stats.activosActivos }} disponibles</span>
+        </div>
       </div>
     </div>
 
@@ -54,8 +65,11 @@
         <i class="icon-no-asignados">⚠️</i>
       </div>
       <div class="stat-content">
-        <p class="stat-label">Activos No Asignados</p>
+        <p class="stat-label">Activos Libres</p>
         <p class="stat-value">{{ stats.activosNoAsignados }}</p>
+        <div class="stat-detail">
+          <span class="info-text">sin asignar</span>
+        </div>
       </div>
     </div>
 
@@ -67,6 +81,10 @@
       <div class="stat-content">
         <p class="stat-label">Ubicaciones</p>
         <p class="stat-value">{{ stats.totalUbicaciones }}</p>
+        <div class="stat-detail">
+          <span class="active-badge">✓ {{ stats.ubicacionesActivas }}</span>
+          <span class="inactive-badge">✗ {{ stats.ubicacionesInactivas }}</span>
+        </div>
       </div>
     </div>
 
@@ -78,6 +96,10 @@
       <div class="stat-content">
         <p class="stat-label">Categorías</p>
         <p class="stat-value">{{ stats.totalCategorias }}</p>
+        <div class="stat-detail">
+          <span class="active-badge">✓ {{ stats.categoriasActivas }}</span>
+          <span class="inactive-badge">✗ {{ stats.categoriasInactivas }}</span>
+        </div>
       </div>
     </div>
 
@@ -89,6 +111,10 @@
       <div class="stat-content">
         <p class="stat-label">Subcategorías</p>
         <p class="stat-value">{{ stats.totalSubcategorias }}</p>
+        <div class="stat-detail">
+          <span class="active-badge">✓ {{ stats.subcategoriasActivas }}</span>
+          <span class="inactive-badge">✗ {{ stats.subcategoriasInactivas }}</span>
+        </div>
       </div>
     </div>
   </div>

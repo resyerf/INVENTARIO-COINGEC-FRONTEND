@@ -1,3 +1,30 @@
+/* ========================================
+   COINGEC BRAND COLORS
+   ======================================== */
+:root {
+  --coingec-primary: #5C1E33;      /* Rojo Maroon oscuro */
+  --coingec-secondary: #4A4A4A;    /* Gris oscuro */
+  --coingec-light: #C0C0C0;        /* Gris claro */
+  --coingec-white: #FFFFFF;        /* Blanco */
+  --coingec-dark: #1A1A1A;         /* Negro */
+  --sidebar-width: 250px;
+  --sidebar-collapsed-width: 80px;
+}
+
+/* ========================================
+   GENERAL STYLES
+   ======================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
 h1 {
   margin: 0;
 }
@@ -14,5 +41,349 @@ section h2 {
 }
 
 input:focus, textarea:focus, select:focus {
-  outline: 2px solid #1a237e;
+  outline: 2px solid var(--coingec-primary);
+}
+
+/* ========================================
+   WRAPPER & LAYOUT
+   ======================================== */
+#wrapper {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background: #f5f7fa;
+  flex-direction: row;
+}
+
+/* ========================================
+   SIDEBAR STYLES
+   ======================================== */
+.sidebar {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  flex-shrink: 0;
+  background: linear-gradient(180deg, #3A3A3A 0%, #1F1F1F 100%);
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: width 0.3s ease, min-width 0.3s ease;
+  z-index: 1000;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+  display: block;
+  position: relative;
+}
+
+.sidebar.collapsed {
+  width: var(--sidebar-collapsed-width);
+  min-width: var(--sidebar-collapsed-width);
+}
+
+/* Sidebar Brand */
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 1rem;
+  text-decoration: none;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 1.2rem;
+  border-bottom: 3px solid #5C1E33;
+  transition: all 0.3s ease;
+  background: rgba(92, 30, 51, 0.3);
+}
+
+.sidebar.collapsed .sidebar-brand {
+  justify-content: center;
+  gap: 0;
+  padding: 1rem;
+  border-bottom-width: 2px;
+}
+
+.sidebar-brand:hover {
+  background: rgba(92, 30, 51, 0.2);
+}
+
+.sidebar-brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  height: 50px;
+}
+
+.logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.sidebar-brand-text {
+  font-size: 1rem;
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+}
+
+.sidebar.collapsed .sidebar-brand-text {
+  display: none;
+}
+
+/* Sidebar Divider */
+.sidebar-divider {
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 1rem 0;
+}
+
+/* Navigation Items */
+.nav-item {
+  list-style: none;
+  transition: all 0.3s ease;
+  margin: 0.5rem 0.75rem;
+  padding: 0;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #FFFFFF;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.nav-link:hover {
+  background: rgba(92, 30, 51, 0.4);
+  border-color: rgba(92, 30, 51, 0.6);
+  color: #FFFFFF;
+  transform: translateX(4px);
+}
+
+.sidebar.collapsed .nav-link {
+  justify-content: center;
+  gap: 0;
+  padding: 1rem 0.75rem;
+}
+
+.sidebar.collapsed .nav-link:hover {
+  transform: scale(1.05);
+}
+
+.nav-link i {
+  font-size: 1.1rem;
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+.nav-link span {
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar.collapsed .nav-link span {
+  display: none;
+}
+
+.nav-item.active .nav-link {
+  background: linear-gradient(135deg, rgba(92, 30, 51, 0.8), rgba(92, 30, 51, 0.6));
+  border-color: #5C1E33;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(92, 30, 51, 0.3);
+}
+
+.sidebar.collapsed .nav-item.active .nav-link {
+  border-color: #5C1E33;
+}
+
+/* ========================================
+   CONTENT WRAPPER
+   ======================================== */
+#content-wrapper {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background: #ffffff;
+}
+
+#content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: #f8f9fa;
+}
+
+/* ========================================
+   TOPBAR STYLES
+   ======================================== */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: var(--coingec-white);
+  border-bottom: 1px solid var(--coingec-light);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  z-index: 100;
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--coingec-secondary);
+  color: var(--coingec-white);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.sidebar-toggle-btn:hover {
+  background: var(--coingec-primary);
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(92, 30, 51, 0.2);
+}
+
+.sidebar-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+.topbar-search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.profile-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--coingec-secondary);
+  font-weight: 500;
+}
+
+/* ========================================
+   CONTAINER
+   ======================================== */
+.container-fluid {
+  flex: 1;
+  padding: 3rem 3.5rem;
+  overflow-y: auto;
+  max-width: 100%;
+}
+
+/* ========================================
+   FORM CONTAINER STYLES (Dashboard-like)
+   ======================================== */
+.page-container {
+  display: block;
+  width: 100%;
+}
+
+.form-container {
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8eaed 100%);
+  min-height: calc(100vh - 4.375rem - 3rem);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-header {
+  text-align: left;
+  color: #1a1a1a;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid rgba(92, 30, 51, 0.1);
+}
+
+.form-header .form-title {
+  font-size: 2rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+  color: #5C1E33;
+}
+
+.form-header .form-subtitle {
+  font-size: 1rem;
+  opacity: 0.7;
+  margin: 0;
+  font-weight: 300;
+  color: #4A4A4A;
+}
+
+.form-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border-top: 1px solid #e2e8f0;
+  border-left: 5px solid #5C1E33;
+  max-width: 1000px;
+}
+
+.form-card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.form-card-body {
+  padding: 3rem;
+}
+
+.form-card-body > app-activo,
+.form-card-body > app-categoria,
+.form-card-body > app-subcategoria,
+.form-card-body > app-ubicacion,
+.form-card-body > app-usuario,
+.form-card-body > app-asignacion,
+.form-card-body > app-finalizar-asignacion {
+  display: block;
+  width: 100%;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 100%;
+    --sidebar-collapsed-width: 100%;
+  }
+
+  .sidebar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: 999;
+  }
+
+  .sidebar.collapsed {
+    display: none;
+  }
+
+  #content-wrapper {
+    width: 100%;
+  }
 }

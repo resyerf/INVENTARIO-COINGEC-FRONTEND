@@ -205,14 +205,14 @@ body {
   background-color: #fff;
   background-clip: border-box;
   border: 1px solid #e3e6f0;
-  border-radius: 0.35rem;
-  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
 }
 
 .shadow { box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important; }
 
 .card-header {
-  padding: 1rem 1.25rem;
+  padding: 1.5rem 1.75rem;
   margin-bottom: 0;
   background-color: #f8f9fc;
   border-bottom: 1px solid #e3e6f0;
@@ -220,12 +220,79 @@ body {
 
 .card-body {
   flex: 1 1 auto;
-  padding: 1.25rem;
+  padding: 2rem;
+}
+
+/* Form Elements Spacing */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-control,
+.form-select,
+textarea {
+  border-radius: 0.5rem;
+  border: 1px solid #ddd;
+  padding: 0.75rem 1rem;
+  width: 100%;
+}
+
+.form-control:focus,
+.form-select:focus,
+textarea:focus {
+  border-color: #5C1E33;
+  box-shadow: 0 0 0 0.2rem rgba(92, 30, 51, 0.25);
+  outline: none;
+}
+
+/* Button Styling */
+.btn {
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  margin-right: 0.5rem;
+  margin-top: 1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #5C1E33;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #7a2d45;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(92, 30, 51, 0.3);
 }
 
 /* Specific Card Layout for forms */
 .border-left-primary { border-left: 0.25rem solid var(--primary) !important; }
 .border-bottom-primary { border-bottom: 0.25rem solid var(--primary) !important; }
+
+/* Background Utilities */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #5C1E33 0%, #7a2d45 100%) !important;
+  color: white;
+}
+
+.bg-gradient-primary .card-header {
+  background: linear-gradient(135deg, #5C1E33 0%, #7a2d45 100%) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.py-3 {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
 
 /* Form Controls */
 label {

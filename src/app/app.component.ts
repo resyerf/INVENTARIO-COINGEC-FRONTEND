@@ -7,8 +7,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   selectedPanel = 'dashboard';
+  sidebarCollapsed = false;
 
   selectPanel(panel: string) {
     this.selectedPanel = panel;
+  }
+
+  toggleSidebar() {
+    this.sidebarCollapsed = !this.sidebarCollapsed;
   }
 }
