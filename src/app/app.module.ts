@@ -11,6 +11,7 @@ import { UbicacionComponent } from './presentation/features/ubicacion/ubicacion.
 import { UsuarioComponent } from './presentation/features/usuario/usuario.component';
 import { AsignacionComponent } from './presentation/features/asignacion/asignacion.component';
 import { FinalizarAsignacionComponent } from './presentation/features/finalizar-asignacion/finalizar-asignacion.component';
+import { DashboardComponent } from './presentation/features/dashboard/dashboard.component';
 
 import { InventarioRepository } from './domain/repositories/inventario.repository.interface';
 import { InventarioHttpRepository } from './infrastructure/api/inventario-http.repository';
@@ -25,7 +26,8 @@ import { InventarioHttpRepository } from './infrastructure/api/inventario-http.r
     UbicacionComponent, 
     UsuarioComponent, 
     AsignacionComponent, 
-    FinalizarAsignacionComponent
+    FinalizarAsignacionComponent,
+    DashboardComponent
   ],
   imports: [BrowserModule, FormsModule, HttpClientModule],
   providers: [

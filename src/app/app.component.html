@@ -13,6 +13,15 @@
     <hr class="sidebar-divider">
 
     <!-- Nav Items -->
+    <li class="nav-item" [class.active]="selectedPanel === 'dashboard'">
+      <button class="nav-link" (click)="selectPanel('dashboard')">
+        <i class="fas fa-fw fa-chart-line"></i>
+        <span>Dashboard</span>
+      </button>
+    </li>
+
+    <hr class="sidebar-divider">
+
     <li class="nav-item" [class.active]="selectedPanel === 'activo'">
       <button class="nav-link" (click)="selectPanel('activo')">
         <i class="fas fa-fw fa-box"></i>
@@ -89,14 +98,14 @@
       <!-- Begin Page Content -->
       <div class="container-fluid">
         <!-- Page Heading -->
-        <div class="d-flex align-items-center justify-content-between mb-4">
+        <div *ngIf="selectedPanel !== 'dashboard'" class="d-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800" style="margin: 0;">Panel de Gestión</h1>
         </div>
 
         <div class="row">
           <div class="col w-100">
             <!-- Dynamic Card -->
-            <div class="card shadow border-bottom-primary">
+            <div *ngIf="selectedPanel !== 'dashboard'" class="card shadow border-bottom-primary">
               <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary text-uppercase">Formulario: {{ selectedPanel }}</h6>
               </div>
@@ -110,6 +119,8 @@
                 <app-finalizar-asignacion *ngIf="selectedPanel === 'finalizar'"></app-finalizar-asignacion>
               </div>
             </div>
+            <!-- Dashboard Component -->
+            <app-dashboard *ngIf="selectedPanel === 'dashboard'"></app-dashboard>
           </div>
         </div>
       </div>

@@ -13,6 +13,7 @@ import { SubCategoriaDto } from '../../infrastructure/dtos/subcategoria.dto';
 import { UbicacionDto } from '../../infrastructure/dtos/ubicacion.dto';
 import { UsuarioDto } from '../../infrastructure/dtos/usuario.dto';
 import { AsignacionDto } from '../../infrastructure/dtos/asignacion.dto';
+import { DashboardStatsDto } from '../../infrastructure/dtos/dashboard-stats.dto';
 
 export type ActivoEntity = ActivoDto;
 export type UsuarioEntity = UsuarioDto;
@@ -43,4 +44,6 @@ export abstract class InventarioRepository {
   abstract getAllUbicaciones(): Observable<UbicacionDto[]>;
   abstract getAllUsuarios(): Observable<UsuarioDto[]>;
   abstract getAllAsignaciones(): Observable<AsignacionDto[]>;
+
+  abstract getDashboardStats(): Observable<DashboardStatsDto>;
 }

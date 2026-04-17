@@ -18,6 +18,7 @@ import { SubCategoriaDto } from '../dtos/subcategoria.dto';
 import { UbicacionDto } from '../dtos/ubicacion.dto';
 import { UsuarioDto } from '../dtos/usuario.dto';
 import { AsignacionDto } from '../dtos/asignacion.dto';
+import { DashboardStatsDto } from '../dtos/dashboard-stats.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -48,4 +49,6 @@ export class InventarioHttpRepository extends InventarioRepository {
   getAllUbicaciones(): Observable<UbicacionDto[]> { return this.http.get<UbicacionDto[]>(`${this.baseUrl}/api/Ubicacion`); }
   getAllUsuarios(): Observable<UsuarioDto[]> { return this.http.get<UsuarioDto[]>(`${this.baseUrl}/api/Usuario`); }
   getAllAsignaciones(): Observable<AsignacionDto[]> { return this.http.get<AsignacionDto[]>(`${this.baseUrl}/api/Asignacion`); }
+
+  getDashboardStats(): Observable<DashboardStatsDto> { return this.http.get<DashboardStatsDto>(`${this.baseUrl}/api/Dashboard/stats`); }
 }

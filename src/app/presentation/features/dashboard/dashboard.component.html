@@ -1,0 +1,95 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Panel de Control - Inventario</h1>
+    <p class="subtitle">Resumen General del Sistema</p>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Cargando estadísticas...</p>
+  </div>
+
+  <div *ngIf="error" class="error-container">
+    <p class="error-message">{{ error }}</p>
+    <button class="retry-btn" (click)="loadDashboardStats()">Reintentar</button>
+  </div>
+
+  <div *ngIf="stats && !isLoading" class="stats-grid">
+    <!-- Tarjeta: Usuarios -->
+    <div class="stat-card users-card">
+      <div class="stat-icon">
+        <i class="icon-users">👥</i>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Usuarios</p>
+        <p class="stat-value">{{ stats.totalUsuarios }}</p>
+      </div>
+    </div>
+
+    <!-- Tarjeta: Total de Activos -->
+    <div class="stat-card activos-card">
+      <div class="stat-icon">
+        <i class="icon-activos">📦</i>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Total de Activos</p>
+        <p class="stat-value">{{ stats.totalActivos }}</p>
+      </div>
+    </div>
+
+    <!-- Tarjeta: Activos Asignados -->
+    <div class="stat-card asignados-card">
+      <div class="stat-icon">
+        <i class="icon-asignados">✅</i>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Activos Asignados</p>
+        <p class="stat-value">{{ stats.activosAsignados }}</p>
+      </div>
+    </div>
+
+    <!-- Tarjeta: Activos No Asignados -->
+    <div class="stat-card no-asignados-card">
+      <div class="stat-icon">
+        <i class="icon-no-asignados">⚠️</i>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Activos No Asignados</p>
+        <p class="stat-value">{{ stats.activosNoAsignados }}</p>
+      </div>
+    </div>
+
+    <!-- Tarjeta: Ubicaciones -->
+    <div class="stat-card ubicaciones-card">
+      <div class="stat-icon">
+        <i class="icon-ubicaciones">📍</i>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Ubicaciones</p>
+        <p class="stat-value">{{ stats.totalUbicaciones }}</p>
+      </div>
+    </div>
+
+    <!-- Tarjeta: Categorías -->
+    <div class="stat-card categorias-card">
+      <div class="stat-icon">
+        <i class="icon-categorias">🏷️</i>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Categorías</p>
+        <p class="stat-value">{{ stats.totalCategorias }}</p>
+      </div>
+    </div>
+
+    <!-- Tarjeta: Subcategorías -->
+    <div class="stat-card subcategorias-card">
+      <div class="stat-icon">
+        <i class="icon-subcategorias">📋</i>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Subcategorías</p>
+        <p class="stat-value">{{ stats.totalSubcategorias }}</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  selectedPanel = 'activo';
+  selectedPanel = 'dashboard';
 
   selectPanel(panel: string) {
     this.selectedPanel = panel;
