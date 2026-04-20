@@ -1,14 +1,14 @@
 <div *ngIf="isListView" class="finalizar-container">
-  <div class="finalizar-header">
-    <h1>Finalizar Asignación</h1>
+  <div class="finalizar-header mb-5">
+    <h1 class="display-4 fw-bold">Finalizar Asignación</h1>
   </div>
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="m-0 font-weight-bold text-primary">Asignaciones Activas</h3>
-    <button class="submit" (click)="toggleView()"><i class="fas fa-search mr-2"></i>Finalizar por ID</button>
+    <h3 class="m-0 fw-bold text-primary">Asignaciones Activas</h3>
+    <button class="btn btn-primary" (click)="toggleView()"><i class="fas fa-check me-2"></i>Finalizar por ID</button>
   </div>
 
   <div class="table-responsive">
-    <table class="table table-bordered" width="100%" cellspacing="0">
+    <table class="table table-hover table-striped">
       <thead>
         <tr>
           <th>Activo Nombre</th>
@@ -23,11 +23,11 @@
           <td>{{ a.activoSerie }}</td>
           <td>{{ a.fechaAsignacion | date:'mediumDate' }}</td>
           <td>
-            <button class="btn btn-sm" style="background:#f6c23e; color:#fff; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;" (click)="toggleView(a.id)">Finalizar</button>
+            <button class="btn btn-sm btn-warning" (click)="toggleView(a.id)"><i class="fas fa-check me-1"></i>Finalizar</button>
           </td>
         </tr>
         <tr *ngIf="asignaciones.length === 0">
-          <td colspan="4" class="text-center">No hay asignaciones pendientes.</td>
+          <td colspan="4" class="text-center text-muted py-4">No hay asignaciones pendientes.</td>
         </tr>
       </tbody>
     </table>
@@ -35,21 +35,34 @@
 </div>
 
 <div *ngIf="!isListView">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h6 class="m-0 font-weight-bold text-primary">Finalizar Registro</h6>
-    <button class="btn btn-secondary" (click)="toggleView()" style="border: 1px solid #858796; background: white; color: #858796; padding: 0.375rem 0.75rem; border-radius: 0.35rem; cursor:pointer;"><i class="fas fa-arrow-left mr-2"></i>Volver a la Lista</button>
-  </div>
+  <div class="card shadow-sm">
+    <div class="card-header bg-gradient-primary d-flex justify-content-between align-items-center">
+      <h6 class="m-0 fw-bold text-white">Finalizar Asignación</h6>
+      <button class="btn btn-sm btn-light" (click)="toggleView()"><i class="fas fa-arrow-left me-2"></i>Volver a la Lista</button>
+    </div>
 
-  <div *ngIf="statusMessage">
-    <p [ngClass]="statusError ? 'error' : 'success'">{{ statusMessage }}</p>
-  </div>
+    <div class="card-body">
+      <div *ngIf="statusMessage" class="alert" [ngClass]="statusError ? 'alert-danger' : 'alert-success'">
+        {{ statusMessage }}
+      </div>
 
-  <div class="row">
-    <div class="col-md-6">
-      <label>Id Asignación<input [(ngModel)]="asignacionId" /></label>
-      <label>Estado Recibido<input [(ngModel)]="finalizarForm.estadoRecibido" placeholder="Ej. Bueno, Roto..." /></label>
-      <label>Observaciones<textarea rows="2" [(ngModel)]="finalizarForm.observaciones"></textarea></label>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="asignacionId">ID Asignación</label>
+            <input class="form-control" id="asignacionId" [(ngModel)]="asignacionId" />
+          </div>
+          <div class="form-group">
+            <label for="estadoRecibido">Estado Recibido</label>
+            <input class="form-control" id="estadoRecibido" [(ngModel)]="finalizarForm.estadoRecibido" placeholder="Ej. Bueno, Roto..." />
+          </div>
+          <div class="form-group">
+            <label for="observaciones">Observaciones</label>
+            <textarea class="form-control" id="observaciones" rows="3" [(ngModel)]="finalizarForm.observaciones"></textarea>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary mt-3" (click)="finalizeAsignacion()"><i class="fas fa-save me-2"></i>Ejecutar Cierre</button>
     </div>
   </div>
-  <button class="submit mt-3" (click)="finalizeAsignacion()">Ejecutar Cierre</button>
 </div>

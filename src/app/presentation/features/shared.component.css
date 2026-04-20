@@ -1,11 +1,13 @@
-.activo-container {
+/* Shared Styles for Feature Components */
+
+.component-container {
   padding: 2rem;
   background: linear-gradient(135deg, #f5f7fa 0%, #e8eaed 100%);
   min-height: 100vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.activo-header h1 {
+.component-header h1 {
   color: #5C1E33;
   font-weight: 700;
   margin-bottom: 0;
@@ -34,7 +36,7 @@
   padding: 2rem;
 }
 
-/* Form Elements */
+/* Form Group Styles */
 .form-group {
   margin-bottom: 1.5rem;
 }
@@ -51,6 +53,7 @@
   border-radius: 0.5rem;
   padding: 0.75rem 1rem;
   transition: all 0.2s ease;
+  width: 100%;
 }
 
 .form-control:focus {
@@ -61,6 +64,7 @@
 
 textarea.form-control {
   resize: vertical;
+  min-height: 80px;
 }
 
 /* Alert Styles */
@@ -91,6 +95,8 @@ textarea.form-control {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-decoration: none;
+  font-size: 0.95rem;
 }
 
 .btn-primary {
@@ -119,11 +125,23 @@ textarea.form-control {
   font-size: 0.85rem;
 }
 
+.btn-warning {
+  background-color: #f6c23e;
+  color: #333;
+}
+
+.btn-warning:hover {
+  background-color: #dda520;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(246, 194, 62, 0.3);
+}
+
 /* Badge Styles */
 .badge {
   padding: 0.5rem 0.75rem;
   border-radius: 0.35rem;
   font-weight: 600;
+  display: inline-block;
 }
 
 .badge-success {
@@ -139,4 +157,37 @@ textarea.form-control {
 .badge-info {
   background-color: #36b9cc;
   color: white;
+}
+
+.badge-warning {
+  background-color: #f6c23e;
+  color: #333;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .component-container {
+    padding: 1rem;
+  }
+
+  .d-flex {
+    flex-direction: column !important;
+  }
+
+  .justify-content-between {
+    justify-content: flex-start !important;
+  }
+
+  .align-items-center {
+    align-items: flex-start !important;
+  }
+
+  .table {
+    font-size: 0.9rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.75rem !important;
+  }
 }

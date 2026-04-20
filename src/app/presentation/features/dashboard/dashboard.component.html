@@ -1,119 +1,172 @@
 <div class="dashboard-container">
-  <div class="dashboard-header">
-    <h1>Panel de Control - Inventario</h1>
-    <p class="subtitle">Resumen General del Sistema</p>
-  </div>
-
-  <div *ngIf="isLoading" class="loading-container">
-    <div class="spinner"></div>
-    <p>Cargando estadísticas...</p>
-  </div>
-
-  <div *ngIf="error" class="error-container">
-    <p class="error-message">{{ error }}</p>
-    <button class="retry-btn" (click)="loadDashboardStats()">Reintentar</button>
-  </div>
-
-  <div *ngIf="stats && !isLoading" class="stats-grid">
-    <!-- Tarjeta: Usuarios -->
-    <div class="stat-card users-card">
-      <div class="stat-icon">
-        <i class="icon-users">👥</i>
-      </div>
-      <div class="stat-content">
-        <p class="stat-label">Usuarios</p>
-        <p class="stat-value">{{ stats.totalUsuarios }}</p>
-        <div class="stat-detail">
-          <span class="active-badge">✓ {{ stats.usuariosActivos }}</span>
-          <span class="inactive-badge">✗ {{ stats.usuariosInactivos }}</span>
-        </div>
-      </div>
+  <div class="container-fluid">
+    <!-- Header -->
+    <div class="dashboard-header mb-5">
+      <h1 class="display-4 fw-bold">Panel de Control - Inventario</h1>
+      <p class="lead text-muted">Resumen General del Sistema</p>
     </div>
 
-    <!-- Tarjeta: Total de Activos -->
-    <div class="stat-card activos-card">
-      <div class="stat-icon">
-        <i class="icon-activos">📦</i>
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="d-flex flex-column align-items-center justify-content-center py-5">
+      <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Cargando...</span>
       </div>
-      <div class="stat-content">
-        <p class="stat-label">Total Activos</p>
-        <p class="stat-value">{{ stats.totalActivos }}</p>
-        <div class="stat-detail">
-          <span class="active-badge">✓ {{ stats.activosActivos }}</span>
-          <span class="inactive-badge">✗ {{ stats.activosInactivos }}</span>
-        </div>
-      </div>
+      <p class="text-muted">Cargando estadísticas...</p>
     </div>
 
-    <!-- Tarjeta: Activos Asignados -->
-    <div class="stat-card asignados-card">
-      <div class="stat-icon">
-        <i class="icon-asignados">✅</i>
-      </div>
-      <div class="stat-content">
-        <p class="stat-label">Activos Asignados</p>
-        <p class="stat-value">{{ stats.activosAsignados }}</p>
-        <div class="stat-detail">
-          <span class="info-text">de {{ stats.activosActivos }} disponibles</span>
-        </div>
-      </div>
+    <!-- Error State -->
+    <div *ngIf="error" class="alert alert-danger alert-dismissible fade show mx-auto" role="alert" style="max-width: 500px;">
+      <p class="mb-2">{{ error }}</p>
+      <button type="button" class="btn btn-danger btn-sm" (click)="loadDashboardStats()">
+        <i class="fas fa-redo me-2"></i>Reintentar
+      </button>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
-    <!-- Tarjeta: Activos No Asignados -->
-    <div class="stat-card no-asignados-card">
-      <div class="stat-icon">
-        <i class="icon-no-asignados">⚠️</i>
-      </div>
-      <div class="stat-content">
-        <p class="stat-label">Activos Libres</p>
-        <p class="stat-value">{{ stats.activosNoAsignados }}</p>
-        <div class="stat-detail">
-          <span class="info-text">sin asignar</span>
+    <!-- Stats Grid -->
+    <div *ngIf="stats && !isLoading" class="row g-4">
+      <!-- Tarjeta: Usuarios -->
+      <div class="col-lg-3 col-md-6">
+        <div class="card stat-card users-card h-100 border-start border-5 shadow-sm">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="flex-shrink-0 me-3">
+                <span class="stat-icon">👥</span>
+              </div>
+              <div class="flex-grow-1">
+                <p class="card-text text-muted small text-uppercase fw-bold">Usuarios</p>
+                <p class="stat-value">{{ stats.totalUsuarios }}</p>
+                <div class="stat-detail">
+                  <span class="badge bg-success me-2">✓ {{ stats.usuariosActivos }}</span>
+                  <span class="badge bg-danger">✗ {{ stats.usuariosInactivos }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Tarjeta: Ubicaciones -->
-    <div class="stat-card ubicaciones-card">
-      <div class="stat-icon">
-        <i class="icon-ubicaciones">📍</i>
-      </div>
-      <div class="stat-content">
-        <p class="stat-label">Ubicaciones</p>
-        <p class="stat-value">{{ stats.totalUbicaciones }}</p>
-        <div class="stat-detail">
-          <span class="active-badge">✓ {{ stats.ubicacionesActivas }}</span>
-          <span class="inactive-badge">✗ {{ stats.ubicacionesInactivas }}</span>
+      <!-- Tarjeta: Total de Activos -->
+      <div class="col-lg-3 col-md-6">
+        <div class="card stat-card activos-card h-100 border-start border-5 shadow-sm">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="flex-shrink-0 me-3">
+                <span class="stat-icon">📦</span>
+              </div>
+              <div class="flex-grow-1">
+                <p class="card-text text-muted small text-uppercase fw-bold">Total Activos</p>
+                <p class="stat-value">{{ stats.totalActivos }}</p>
+                <div class="stat-detail">
+                  <span class="badge bg-success me-2">✓ {{ stats.activosActivos }}</span>
+                  <span class="badge bg-danger">✗ {{ stats.activosInactivos }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Tarjeta: Categorías -->
-    <div class="stat-card categorias-card">
-      <div class="stat-icon">
-        <i class="icon-categorias">🏷️</i>
-      </div>
-      <div class="stat-content">
-        <p class="stat-label">Categorías</p>
-        <p class="stat-value">{{ stats.totalCategorias }}</p>
-        <div class="stat-detail">
-          <span class="active-badge">✓ {{ stats.categoriasActivas }}</span>
-          <span class="inactive-badge">✗ {{ stats.categoriasInactivas }}</span>
+      <!-- Tarjeta: Activos Asignados -->
+      <div class="col-lg-3 col-md-6">
+        <div class="card stat-card asignados-card h-100 border-start border-5 shadow-sm">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="flex-shrink-0 me-3">
+                <span class="stat-icon">✅</span>
+              </div>
+              <div class="flex-grow-1">
+                <p class="card-text text-muted small text-uppercase fw-bold">Activos Asignados</p>
+                <p class="stat-value">{{ stats.activosAsignados }}</p>
+                <div class="stat-detail">
+                  <small class="text-muted">de {{ stats.activosActivos }} disponibles</small>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Tarjeta: Subcategorías -->
-    <div class="stat-card subcategorias-card">
-      <div class="stat-icon">
-        <i class="icon-subcategorias">📋</i>
+      <!-- Tarjeta: Activos No Asignados -->
+      <div class="col-lg-3 col-md-6">
+        <div class="card stat-card no-asignados-card h-100 border-start border-5 shadow-sm">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="flex-shrink-0 me-3">
+                <span class="stat-icon">⚠️</span>
+              </div>
+              <div class="flex-grow-1">
+                <p class="card-text text-muted small text-uppercase fw-bold">Activos Libres</p>
+                <p class="stat-value">{{ stats.activosNoAsignados }}</p>
+                <div class="stat-detail">
+                  <small class="text-muted">sin asignar</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="stat-content">
-        <p class="stat-label">Subcategorías</p>
-        <p class="stat-value">{{ stats.totalSubcategorias }}</p>
-        <div class="stat-detail">
-          <span class="active-badge">✓ {{ stats.subcategoriasActivas }}</span>
-          <span class="inactive-badge">✗ {{ stats.subcategoriasInactivas }}</span>
+
+      <!-- Tarjeta: Ubicaciones -->
+      <div class="col-lg-3 col-md-6">
+        <div class="card stat-card ubicaciones-card h-100 border-start border-5 shadow-sm">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="flex-shrink-0 me-3">
+                <span class="stat-icon">📍</span>
+              </div>
+              <div class="flex-grow-1">
+                <p class="card-text text-muted small text-uppercase fw-bold">Ubicaciones</p>
+                <p class="stat-value">{{ stats.totalUbicaciones }}</p>
+                <div class="stat-detail">
+                  <span class="badge bg-success me-2">✓ {{ stats.ubicacionesActivas }}</span>
+                  <span class="badge bg-danger">✗ {{ stats.ubicacionesInactivas }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta: Categorías -->
+      <div class="col-lg-3 col-md-6">
+        <div class="card stat-card categorias-card h-100 border-start border-5 shadow-sm">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="flex-shrink-0 me-3">
+                <span class="stat-icon">🏷️</span>
+              </div>
+              <div class="flex-grow-1">
+                <p class="card-text text-muted small text-uppercase fw-bold">Categorías</p>
+                <p class="stat-value">{{ stats.totalCategorias }}</p>
+                <div class="stat-detail">
+                  <span class="badge bg-success me-2">✓ {{ stats.categoriasActivas }}</span>
+                  <span class="badge bg-danger">✗ {{ stats.categoriasInactivas }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta: Subcategorías -->
+      <div class="col-lg-3 col-md-6">
+        <div class="card stat-card subcategorias-card h-100 border-start border-5 shadow-sm">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="flex-shrink-0 me-3">
+                <span class="stat-icon">📋</span>
+              </div>
+              <div class="flex-grow-1">
+                <p class="card-text text-muted small text-uppercase fw-bold">Subcategorías</p>
+                <p class="stat-value">{{ stats.totalSubcategorias }}</p>
+                <div class="stat-detail">
+                  <span class="badge bg-success me-2">✓ {{ stats.subcategoriasActivas }}</span>
+                  <span class="badge bg-danger">✗ {{ stats.subcategoriasInactivas }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
