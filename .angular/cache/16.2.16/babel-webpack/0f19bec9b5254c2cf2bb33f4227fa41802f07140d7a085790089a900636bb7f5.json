@@ -1,1 +1,0 @@
-{"ast":null,"code":"export const environment = {\n  production: true,\n  apiBaseUrl: 'https://inventario-api.resyerf.com'\n};","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}
