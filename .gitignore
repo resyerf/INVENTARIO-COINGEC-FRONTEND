@@ -1,45 +1,71 @@
 # Node modules
+node_modules/
 /node_modules/
 
 # Angular build output
-/dist/
-/out-tsc/
-/.angular/
+dist/
+out-tsc/
+.angular/
+.angular/**
 
 # Environment files
 .env
 .env.*
+!.env.example
 
 # Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
 
-# Dependency lock files (if you do not want to commit them)
+# Lock files
 package-lock.json
-/yarn.lock
-/pnpm-lock.yaml
+yarn.lock
+pnpm-lock.yaml
 
 # IDE / editor folders
-/.idea/
-/.vscode/
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
 
 # System files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
 # Temporary files
 *.log
 *.tmp
 *.temp
+*.bak
 
 # Coverage reports
-/coverage/
+coverage/
+.nyc_output/
 
 # TypeScript build cache
 *.tsbuildinfo
+tsconfig.tsbuildinfo
 
 # Misc
 .eslintcache
-npm-debug.log*
+.sass-cache
+.angulardoc.json
+karma.conf.js.bak
+
+# OS X
+.AppleDouble
+.LSOverride

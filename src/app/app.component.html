@@ -105,16 +105,21 @@
       <div class="container-fluid">
         <!-- Dashboard Component -->
         <app-dashboard *ngIf="selectedPanel === 'dashboard'" class="page-container"></app-dashboard>
-
+        <app-activo *ngIf="selectedPanel === 'activo'"></app-activo>
+        <app-categoria *ngIf="selectedPanel === 'categoria'"></app-categoria>
+        <app-subcategoria *ngIf="selectedPanel === 'subcategoria'"></app-subcategoria>
+        <app-ubicacion *ngIf="selectedPanel === 'ubicacion'"></app-ubicacion>
+        <app-usuario *ngIf="selectedPanel === 'usuario'"></app-usuario>
+        <app-asignacion *ngIf="selectedPanel === 'asignacion'"></app-asignacion>
+        <app-finalizar-asignacion *ngIf="selectedPanel === 'finalizar'"></app-finalizar-asignacion>
         <!-- Form Panels Container -->
-        <div *ngIf="selectedPanel !== 'dashboard'" class="form-container">
+        <!-- <div *ngIf="selectedPanel !== 'dashboard'" class="form-container">
           <div class="form-header">
             <h1 class="form-title">{{ selectedPanel | titlecase }}</h1>
             <p class="form-subtitle">Gestión de {{ selectedPanel | titlecase }}</p>
           </div>
 
-          <div class="form-card shadow">
-            <div class="form-card-body">
+          <div class="">
               <app-activo *ngIf="selectedPanel === 'activo'"></app-activo>
               <app-categoria *ngIf="selectedPanel === 'categoria'"></app-categoria>
               <app-subcategoria *ngIf="selectedPanel === 'subcategoria'"></app-subcategoria>
@@ -123,8 +128,7 @@
               <app-asignacion *ngIf="selectedPanel === 'asignacion'"></app-asignacion>
               <app-finalizar-asignacion *ngIf="selectedPanel === 'finalizar'"></app-finalizar-asignacion>
             </div>
-          </div>
-        </div>
+        </div> -->
       </div>
       <!-- /.container-fluid -->
     </div>

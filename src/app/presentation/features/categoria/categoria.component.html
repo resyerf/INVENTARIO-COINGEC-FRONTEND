@@ -1,6 +1,9 @@
-<div *ngIf="isListView">
+<div *ngIf="isListView" class="categoria-container">
+  <div class="categoria-header">
+    <h1>Categorías</h1>
+  </div>
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h6 class="m-0 font-weight-bold text-primary">Registros de Categorías</h6>
+    <h3 class="m-0 font-weight-bold text-primary">Registros de Categorías</h3>
     <button class="submit" (click)="toggleView()"><i class="fas fa-plus mr-2"></i>Registrar Nueva Categoría</button>
   </div>
 
