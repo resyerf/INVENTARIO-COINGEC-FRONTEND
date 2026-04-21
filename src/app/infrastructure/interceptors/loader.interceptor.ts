@@ -11,6 +11,12 @@ export class LoaderInterceptor implements HttpInterceptor {
   constructor(private loaderService: LoaderService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const isSearchEndpoint = request.url.includes('/search');
+
+    if (isSearchEndpoint) {
+      return next.handle(request);
+    }
+
     this.totalRequests++;
     this.loaderService.isLoading.next(true);
 
