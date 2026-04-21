@@ -16,27 +16,40 @@
     <table class="table table-hover table-striped">
       <thead>
         <tr>
+          <th>Estado</th>
           <th>Equipo</th>
           <th>Etiquetado</th>
           <th>Marca / Modelo</th>
           <th>Cant.</th>
           <th>Costo Unit.</th>
-          <th>Estado</th>
+          <th>Condición</th>
           <th>Subcategoría</th>
+          <th class="text-end">Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let a of activos">
+          <td><span class="badge" [ngClass]="a.isActive ? 'bg-success' : 'bg-secondary'">
+              {{ a.isActive ? 'Activo' : 'Inactivo' }}
+            </span></td>
           <td>{{ a.nombreEquipo }}</td>
           <td>{{ a.etiquetado }}</td>
           <td>{{ a.marca }} {{ a.modelo }}</td>
           <td>{{ a.cantidad }}</td>
           <td>${{ a.costoUnitario }}</td>
-          <td><span class="badge badge-success">{{ a.estado || 'Activo' }}</span></td>
+          <td><span class="badge" [ngClass]="a.estado === 'Malo' ? 'bg-danger' : 'bg-primary'">
+              {{ a.estado || 'Bien' }}
+            </span></td>
           <td>{{ a.subCategoria }}</td>
+          <td class="text-end">
+            <button *ngIf="a.isActive" class="btn btn-sm btn-outline-danger" (click)="confirmDelete(a.id)"
+              title="Eliminar">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
         </tr>
         <tr *ngIf="activos.length === 0">
-          <td colspan="7" class="text-center text-muted py-4">No hay activos registrados.</td>
+          <td colspan="8" class="text-center text-muted py-4">No hay activos registrados.</td>
         </tr>
       </tbody>
     </table>
@@ -127,3 +140,6 @@
     </div>
   </div>
 </div>
+
+<app-confirm-modal [isOpen]="!!itemToDelete" (confirm)="executeDelete()" (cancel)="cancelDelete()">
+</app-confirm-modal>

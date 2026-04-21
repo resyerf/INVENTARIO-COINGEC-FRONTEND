@@ -17,6 +17,7 @@ export class ActivoComponent implements OnInit {
   statusError = false;
 
   form!: FormGroup;
+  itemToDelete: string | null = null;
 
   constructor(private inventarioRepo: InventarioRepository, private fb: FormBuilder) {}
 
@@ -117,6 +118,30 @@ export class ActivoComponent implements OnInit {
       },
       error: err => this.showError(`Error: ${err?.message || 'No se pudo crear el activo'}`)
     });
+  }
+
+  confirmDelete(id: string) {
+    this.itemToDelete = id;
+  }
+
+  cancelDelete() {
+    this.itemToDelete = null;
+  }
+
+  executeDelete() {
+    if (this.itemToDelete) {
+      this.inventarioRepo.deleteActivo(this.itemToDelete).subscribe({
+        next: () => {
+          this.showSuccess('Registro eliminado correctamente');
+          this.loadData();
+          this.itemToDelete = null;
+        },
+        error: (err) => {
+          this.showError('Error al eliminar el registro');
+          this.itemToDelete = null;
+        }
+      });
+    }
   }
 }
 

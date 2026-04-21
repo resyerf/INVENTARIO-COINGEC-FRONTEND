@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AutocompleteSelectComponent } from './components/autocomplete-select/autocomplete-select.component';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { ActivoComponent } from './presentation/features/activo/activo.component';
 import { CategoriaComponent } from './presentation/features/categoria/categoria.component';
 import { SubcategoriaComponent } from './presentation/features/subcategoria/subcategoria.component';
@@ -23,6 +24,7 @@ import { ErrorInterceptor } from './infrastructure/interceptors/error.intercepto
   declarations: [
     AppComponent, 
     AutocompleteSelectComponent, 
+    ConfirmModalComponent,
     ActivoComponent, 
     CategoriaComponent, 
     SubcategoriaComponent, 

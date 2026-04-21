@@ -8,4 +8,5 @@ export interface AsignacionDto {
   estadoEntrega: string;
   estadoRecibido:string;
   observaciones: string;
+  isActive: boolean;
 }

@@ -54,4 +54,11 @@ export class InventarioHttpRepository extends InventarioRepository {
   getAllAsignaciones(): Observable<AsignacionDto[]> { return this.http.get<AsignacionDto[]>(`${this.baseUrl}/api/Asignacion`); }
 
   getDashboardStats(): Observable<DashboardStatsDto> { return this.http.get<DashboardStatsDto>(`${this.baseUrl}/api/Dashboard/stats`); }
+
+  deleteActivo(id: string): Observable<void> { return this.http.delete<void>(`${this.baseUrl}/api/Activo/${id}`); }
+  deleteCategoria(id: string): Observable<void> { return this.http.delete<void>(`${this.baseUrl}/api/Categoria/${id}`); }
+  deleteSubCategoria(id: string): Observable<void> { return this.http.delete<void>(`${this.baseUrl}/api/Subcategoria/${id}`); }
+  deleteUbicacion(id: string): Observable<void> { return this.http.delete<void>(`${this.baseUrl}/api/Ubicacion/${id}`); }
+  deleteUsuario(id: string): Observable<void> { return this.http.delete<void>(`${this.baseUrl}/api/Usuario/${id}`); }
+  deleteAsignacion(id: string): Observable<void> { return this.http.delete<void>(`${this.baseUrl}/api/Asignacion/${id}`); }
 }

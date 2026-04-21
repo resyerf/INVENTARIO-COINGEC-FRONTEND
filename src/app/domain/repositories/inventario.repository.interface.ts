@@ -47,4 +47,12 @@ export abstract class InventarioRepository {
   abstract getAllAsignaciones(): Observable<AsignacionDto[]>;
 
   abstract getDashboardStats(): Observable<DashboardStatsDto>;
+
+  // Deletes
+  abstract deleteActivo(id: string): Observable<void>;
+  abstract deleteCategoria(id: string): Observable<void>;
+  abstract deleteSubCategoria(id: string): Observable<void>;
+  abstract deleteUbicacion(id: string): Observable<void>;
+  abstract deleteUsuario(id: string): Observable<void>;
+  abstract deleteAsignacion(id: string): Observable<void>;
 }

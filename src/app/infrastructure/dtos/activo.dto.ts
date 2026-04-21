@@ -13,4 +13,5 @@ export interface ActivoDto {
   custodio?: string;
   ubicacion?: string;
   fechaAdquisicion?: string;
+  isActive: boolean;
 }

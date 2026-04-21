@@ -4,4 +4,5 @@ export interface CategoriaDto {
   descripcion: string;
   ubicacion: string;
   ubicacionDescripcion: string;
+  isActive: boolean;
 }

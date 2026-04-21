@@ -17,6 +17,7 @@ export class UsuarioComponent implements OnInit {
   statusError = false;
 
   form!: FormGroup;
+  itemToDelete: string | null = null;
 
   constructor(private inventarioRepo: InventarioRepository, private fb: FormBuilder) {}
 
@@ -73,6 +74,30 @@ export class UsuarioComponent implements OnInit {
       },
       error: err => this.showError(`Error: ${err?.message || 'No se pudo crear el usuario'}`)
     });
+  }
+
+  confirmDelete(id: string) {
+    this.itemToDelete = id;
+  }
+
+  cancelDelete() {
+    this.itemToDelete = null;
+  }
+
+  executeDelete() {
+    if (this.itemToDelete) {
+      this.inventarioRepo.deleteUsuario(this.itemToDelete).subscribe({
+        next: () => {
+          this.showSuccess('Registro eliminado correctamente');
+          this.loadData();
+          this.itemToDelete = null;
+        },
+        error: (err) => {
+          this.showError('Error al eliminar el registro');
+          this.itemToDelete = null;
+        }
+      });
+    }
   }
 }
 

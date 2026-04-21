@@ -4,4 +4,5 @@ export interface UsuarioDto {
   email: string;
   area: string;
   cargo: string;
+  isActive: boolean;
 }

@@ -3,4 +3,5 @@ export interface SubCategoriaDto {
   nombre: string;
   categoriaCodigo: string;
   categoriaDescripcion: string;
+  isActive: boolean;
 }

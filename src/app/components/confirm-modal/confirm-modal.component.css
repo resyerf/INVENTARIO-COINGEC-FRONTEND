@@ -1,0 +1,11 @@
+.confirm-modal {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.header-close-btn {
+  filter: invert(1);
+}
+
+.modal-message {
+  font-size: 1.1rem;
+}
