@@ -136,3 +136,8 @@
   </div>
   <!-- End of Content Wrapper -->
 </div>
+
+<!-- Global Loader Overlay -->
+<div class="loader-overlay" *ngIf="loaderService.isLoading | async">
+  <div class="coingec-spinner"></div>
+</div>

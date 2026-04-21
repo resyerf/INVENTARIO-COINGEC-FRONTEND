@@ -1,12 +1,14 @@
-<div *ngIf="isListView" class="activo-container">
+<div class="activo-container">
   <div class="activo-header mb-5">
     <h1 class="display-4 fw-bold">Activos</h1>
   </div>
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="m-0 fw-bold text-primary">Registros de Activos</h3>
     <div class="d-flex gap-2">
-      <button class="btn btn-success" (click)="exportarExcel()"><i class="fas fa-file-excel me-2"></i>Exportar a Excel</button>
-      <button class="btn btn-primary" (click)="toggleView()"><i class="fas fa-plus me-2"></i>Registrar Nuevo Activo</button>
+      <button class="btn btn-success" (click)="exportarExcel()"><i class="fas fa-file-excel me-2"></i>Exportar a
+        Excel</button>
+      <button class="btn btn-primary" (click)="toggleView()"><i class="fas fa-plus me-2"></i>Registrar Nuevo
+        Activo</button>
     </div>
   </div>
 
@@ -41,66 +43,74 @@
   </div>
 </div>
 
-<div *ngIf="!isListView">
-  <div class="card shadow-sm">
-    <div class="card-header bg-gradient-primary d-flex justify-content-between align-items-center">
-      <h6 class="m-0 fw-bold text-white">Registrar Nuevo Activo</h6>
-      <button class="btn btn-sm btn-light" (click)="toggleView()"><i class="fas fa-arrow-left me-2"></i>Volver a la Lista</button>
-    </div>
-
-    <div class="card-body">
-      <div *ngIf="statusMessage" class="alert" [ngClass]="statusError ? 'alert-danger' : 'alert-success'">
-        {{ statusMessage }}
+<div class="modal d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);" *ngIf="!isListView">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header bg-gradient-primary text-white border-0">
+        <h5 class="modal-title m-0 fw-bold"><i class="fas fa-plus-circle me-2"></i>Registrar Nuevo Activo</h5>
+        <button type="button" class="btn-close btn-close-white" style="filter: invert(1);"
+          (click)="toggleView()"></button>
       </div>
 
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="nombreEquipo">Nombre Equipo<span class="text-danger">*</span></label>
-            <input class="form-control" id="nombreEquipo" [(ngModel)]="activoForm.nombreEquipo" />
+      <div class="modal-body p-4">
+        <div *ngIf="statusMessage" class="alert" [ngClass]="statusError ? 'alert-danger' : 'alert-success'">
+          {{ statusMessage }}
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="nombreEquipo">Nombre Equipo<span class="text-danger">*</span></label>
+              <input class="form-control" id="nombreEquipo" [(ngModel)]="activoForm.nombreEquipo" />
+            </div>
+            <div class="form-group">
+              <app-autocomplete-select label="Subcategoría" placeholder="Buscar subcategoría..." [required]="true"
+                [searchFn]="searchSubCategorias" (selectedIdChange)="activoForm.subCategoriaId = $event || ''"
+                (validationChange)="onSubCategoriaValidation($event)"></app-autocomplete-select>
+            </div>
+            <div class="form-group">
+              <label for="costoUnitario">Costo Unitario</label>
+              <input class="form-control" type="number" id="costoUnitario" [(ngModel)]="activoForm.costoUnitario" />
+            </div>
+            <div class="form-group">
+              <label for="cantidad">Cantidad</label>
+              <input class="form-control" type="number" id="cantidad" [(ngModel)]="activoForm.cantidad" />
+            </div>
+            <div class="form-group">
+              <label for="marca">Marca</label>
+              <input class="form-control" id="marca" [(ngModel)]="activoForm.marca" />
+            </div>
           </div>
-          <div class="form-group">
-            <app-autocomplete-select label="Subcategoría" placeholder="Buscar subcategoría..." [required]="true" [searchFn]="searchSubCategorias" (selectedIdChange)="activoForm.subCategoriaId = $event || ''" (validationChange)="onSubCategoriaValidation($event)"></app-autocomplete-select>
-          </div>
-          <div class="form-group">
-            <label for="costoUnitario">Costo Unitario</label>
-            <input class="form-control" type="number" id="costoUnitario" [(ngModel)]="activoForm.costoUnitario" />
-          </div>
-          <div class="form-group">
-            <label for="cantidad">Cantidad</label>
-            <input class="form-control" type="number" id="cantidad" [(ngModel)]="activoForm.cantidad" />
-          </div>
-          <div class="form-group">
-            <label for="marca">Marca</label>
-            <input class="form-control" id="marca" [(ngModel)]="activoForm.marca" />
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="modelo">Modelo</label>
+              <input class="form-control" id="modelo" [(ngModel)]="activoForm.modelo" />
+            </div>
+            <div class="form-group">
+              <label for="serie">Serie</label>
+              <input class="form-control" id="serie" [(ngModel)]="activoForm.serie" />
+            </div>
+            <div class="form-group">
+              <label for="etiquetado">Etiquetado</label>
+              <input class="form-control" id="etiquetado" [(ngModel)]="activoForm.etiquetado" />
+            </div>
+            <div class="form-group">
+              <app-autocomplete-select label="Ubicación" placeholder="Buscar ubicación..."
+                [searchFn]="searchUbicaciones" (selectedIdChange)="activoForm.ubicacionId = $event"
+                (validationChange)="onUbicacionValidation($event)"></app-autocomplete-select>
+            </div>
+            <div class="form-group">
+              <app-autocomplete-select label="Usuario" placeholder="Buscar usuario..." [searchFn]="searchUsuarios"
+                (selectedIdChange)="activoForm.usuarioId = $event || null"></app-autocomplete-select>
+            </div>
+            <div class="form-group">
+              <label for="fechaAdquisicion">Fecha Adquisición</label>
+              <input class="form-control" type="date" id="fechaAdquisicion" [(ngModel)]="activoForm.fechaAdquisicion" />
+            </div>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="modelo">Modelo</label>
-            <input class="form-control" id="modelo" [(ngModel)]="activoForm.modelo" />
-          </div>
-          <div class="form-group">
-            <label for="serie">Serie</label>
-            <input class="form-control" id="serie" [(ngModel)]="activoForm.serie" />
-          </div>
-          <div class="form-group">
-            <label for="etiquetado">Etiquetado</label>
-            <input class="form-control" id="etiquetado" [(ngModel)]="activoForm.etiquetado" />
-          </div>
-          <div class="form-group">
-            <app-autocomplete-select label="Ubicación<span class='text-danger'>*</span>" placeholder="Buscar ubicación..." [searchFn]="searchUbicaciones" (selectedIdChange)="activoForm.ubicacionId = $event" (validationChange)="onUbicacionValidation($event)"></app-autocomplete-select>
-          </div>
-          <div class="form-group">
-            <app-autocomplete-select label="Usuario" placeholder="Buscar usuario..." [searchFn]="searchUsuarios" (selectedIdChange)="activoForm.usuarioId = $event || null"></app-autocomplete-select>
-          </div>
-          <div class="form-group">
-            <label for="fechaAdquisicion">Fecha Adquisición</label>
-            <input class="form-control" type="date" id="fechaAdquisicion" [(ngModel)]="activoForm.fechaAdquisicion" />
-          </div>
-        </div>
+        <button class="btn btn-primary mt-3 w-100" (click)="createActivo()">Crear Activo</button>
       </div>
-      <button class="btn btn-primary mt-3" (click)="createActivo()">Crear Activo</button>
     </div>
   </div>
 </div>

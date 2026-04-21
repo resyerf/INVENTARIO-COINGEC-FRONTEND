@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LoaderService } from './infrastructure/services/loader.service';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,8 @@ import { Component } from '@angular/core';
 export class AppComponent {
   selectedPanel = 'dashboard';
   sidebarCollapsed = false;
+
+  constructor(public loaderService: LoaderService) {}
 
   selectPanel(panel: string) {
     this.selectedPanel = panel;

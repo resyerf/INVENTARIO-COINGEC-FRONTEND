@@ -15,6 +15,9 @@ import { DashboardComponent } from './presentation/features/dashboard/dashboard.
 
 import { InventarioRepository } from './domain/repositories/inventario.repository.interface';
 import { InventarioHttpRepository } from './infrastructure/api/inventario-http.repository';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoaderInterceptor } from './infrastructure/interceptors/loader.interceptor';
+import { ErrorInterceptor } from './infrastructure/interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,9 @@ import { InventarioHttpRepository } from './infrastructure/api/inventario-http.r
   ],
   imports: [BrowserModule, FormsModule, HttpClientModule],
   providers: [
-    { provide: InventarioRepository, useClass: InventarioHttpRepository }
+    { provide: InventarioRepository, useClass: InventarioHttpRepository },
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

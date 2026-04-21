@@ -1,10 +1,11 @@
-<div *ngIf="isListView" class="asignacion-container">
+<div class="asignacion-container">
   <div class="asignacion-header mb-5">
     <h1 class="display-4 fw-bold">Asignaciones</h1>
   </div>
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="m-0 fw-bold text-primary">Registros de Asignaciones</h3>
-    <button class="btn btn-primary" (click)="toggleView()"><i class="fas fa-plus me-2"></i>Registrar Nueva Asignación</button>
+    <button class="btn btn-primary" (click)="toggleView()"><i class="fas fa-plus me-2"></i>Registrar Nueva
+      Asignación</button>
   </div>
 
   <div class="table-responsive">
@@ -25,11 +26,12 @@
           <td>{{ a.custodio }}</td>
           <td>{{ a.fechaAsignacion | date:'mediumDate' }}</td>
           <td>
-            <span [ngClass]="a.fechaDevolucion ? 'badge badge-info' : (a.fechaAsignacion ? 'badge badge-success' : 'badge badge-warning')">
+            <span
+              [ngClass]="a.fechaDevolucion ? 'badge badge-info' : (a.fechaAsignacion ? 'badge badge-success' : 'badge badge-warning')">
               {{
-                a.fechaDevolucion
-                  ? 'Finalizado'
-                  : (a.fechaAsignacion ? 'Asignado' : 'Pendiente')
+              a.fechaDevolucion
+              ? 'Finalizado'
+              : (a.fechaAsignacion ? 'Asignado' : 'Pendiente')
               }}
             </span>
           </td>
@@ -42,51 +44,48 @@
   </div>
 </div>
 
-<div *ngIf="!isListView">
-  <div class="card shadow-sm">
-    <div class="card-header bg-gradient-primary d-flex justify-content-between align-items-center">
-      <h6 class="m-0 fw-bold text-white">Registrar Nueva Asignación</h6>
-      <button class="btn btn-sm btn-light" (click)="toggleView()"><i class="fas fa-arrow-left me-2"></i>Volver a la Lista</button>
-    </div>
-
-    <div class="card-body">
-      <div *ngIf="statusMessage" class="alert" [ngClass]="statusError ? 'alert-danger' : 'alert-success'">
-        {{ statusMessage }}
+<div class="modal d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);" *ngIf="!isListView">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header bg-gradient-primary text-white border-0">
+        <h5 class="modal-title m-0 fw-bold"><i class="fas fa-plus-circle me-2"></i>Registrar Nueva Asignación</h5>
+        <button type="button" class="btn-close btn-close-white" style="filter: invert(1);"
+          (click)="toggleView()"></button>
       </div>
 
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <app-autocomplete-select
-              label="Activo<span class='text-danger'>*</span>"
-              placeholder="Buscar activo..."
-              [required]="true"
-              [searchFn]="searchActivos"
-              (selectedIdChange)="asignacionForm.activoId = $event || ''">
-            </app-autocomplete-select>
+      <div class="modal-body p-4">
+        <div *ngIf="statusMessage" class="alert" [ngClass]="statusError ? 'alert-danger' : 'alert-success'">
+          {{ statusMessage }}
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <app-autocomplete-select label="Activo*" placeholder="Buscar activo..." [required]="true"
+                [searchFn]="searchActivos" (selectedIdChange)="asignacionForm.activoId = $event || ''">
+              </app-autocomplete-select>
+            </div>
+            <div class="form-group">
+              <app-autocomplete-select label="Usuario*" placeholder="Buscar usuario..." [required]="true"
+                [searchFn]="searchUsuarios" (selectedIdChange)="asignacionForm.usuarioId = $event || ''">
+              </app-autocomplete-select>
+            </div>
           </div>
-          <div class="form-group">
-            <app-autocomplete-select
-              label="Usuario<span class='text-danger'>*</span>"
-              placeholder="Buscar usuario..."
-              [required]="true"
-              [searchFn]="searchUsuarios"
-              (selectedIdChange)="asignacionForm.usuarioId = $event || ''">
-            </app-autocomplete-select>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="fechaAsignacion">Fecha Asignación</label>
+              <input class="form-control" type="date" id="fechaAsignacion"
+                [(ngModel)]="asignacionForm.fechaAsignacion" />
+            </div>
+            <div class="form-group">
+              <label for="observaciones">Observaciones</label>
+              <textarea class="form-control" id="observaciones" rows="3"
+                [(ngModel)]="asignacionForm.observaciones"></textarea>
+            </div>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="fechaAsignacion">Fecha Asignación</label>
-            <input class="form-control" type="date" id="fechaAsignacion" [(ngModel)]="asignacionForm.fechaAsignacion" />
-          </div>
-          <div class="form-group">
-            <label for="observaciones">Observaciones</label>
-            <textarea class="form-control" id="observaciones" rows="3" [(ngModel)]="asignacionForm.observaciones"></textarea>
-          </div>
-        </div>
+        <button class="btn btn-primary mt-3 w-100" (click)="assignActivo()">Asignar Activo</button>
       </div>
-      <button class="btn btn-primary mt-3" (click)="assignActivo()">Asignar Activo</button>
     </div>
   </div>
 </div>
