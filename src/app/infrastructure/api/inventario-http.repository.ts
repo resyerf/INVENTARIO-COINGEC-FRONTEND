@@ -44,6 +44,9 @@ export class InventarioHttpRepository extends InventarioRepository {
   searchUsuarios(termino: string): Observable<UsuarioEntity[]> { return this.http.get<UsuarioDto[]>(`${this.baseUrl}/api/Usuario/search`, { params: { termino } }); }
 
   getAllActivos(): Observable<ActivoDto[]> { return this.http.get<ActivoDto[]>(`${this.baseUrl}/api/Activo`); }
+
+  exportActivosExcel(): Observable<Blob> { return this.http.get(`${this.baseUrl}/api/Activo/export`, { responseType: 'blob' });}
+
   getAllCategorias(): Observable<CategoriaDto[]> { return this.http.get<CategoriaDto[]>(`${this.baseUrl}/api/Categoria`); }
   getAllSubCategorias(): Observable<SubCategoriaDto[]> { return this.http.get<SubCategoriaDto[]>(`${this.baseUrl}/api/Subcategoria`); }
   getAllUbicaciones(): Observable<UbicacionDto[]> { return this.http.get<UbicacionDto[]>(`${this.baseUrl}/api/Ubicacion`); }

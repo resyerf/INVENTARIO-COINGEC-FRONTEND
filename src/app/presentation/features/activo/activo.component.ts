@@ -41,6 +41,23 @@ export class ActivoComponent implements OnInit {
     this.statusMessage = '';
   }
 
+  exportarExcel() {
+    this.inventarioRepo.exportActivosExcel().subscribe({
+      next: (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Activos_Reporte_${new Date().getTime()}.xlsx`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        this.showSuccess('Reporte de activos descargado exitosamente.');
+      },
+      error: (err) => this.showError('Error al exportar los activos a Excel.')
+    });
+  }
+
   showSuccess(message: string) {
     this.statusMessage = message;
     this.statusError = false;

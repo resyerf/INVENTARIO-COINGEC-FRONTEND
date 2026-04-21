@@ -39,6 +39,7 @@ export abstract class InventarioRepository {
   abstract searchUsuarios(termino: string): Observable<UsuarioEntity[]>;
   
   abstract getAllActivos(): Observable<ActivoDto[]>;
+  abstract exportActivosExcel(): Observable<Blob>;
   abstract getAllCategorias(): Observable<CategoriaDto[]>;
   abstract getAllSubCategorias(): Observable<SubCategoriaDto[]>;
   abstract getAllUbicaciones(): Observable<UbicacionDto[]>;
