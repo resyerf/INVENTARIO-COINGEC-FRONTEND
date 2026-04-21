@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InventarioRepository, SubCategoriaEntity, UbicacionEntity, UsuarioEntity } from '../../../domain/repositories/inventario.repository.interface';
 import { CreateActivoCommand } from '../../../domain/models/activo/create-activo.command';
 import { ActivoDto } from '../../../infrastructure/dtos/activo.dto';
@@ -14,18 +15,25 @@ export class ActivoComponent implements OnInit {
   
   statusMessage = '';
   statusError = false;
-  subCategoriaValidation = { isValid: false };
-  ubicacionValidation = { isValid: false };
 
-  activoForm: CreateActivoCommand = {
-    nombreEquipo: '', subCategoriaId: '', costoUnitario: 0, cantidad: 1, 
-    marca: '', modelo: '', serie: '', etiquetado: '', ubicacionId: null, 
-    fechaAdquisicion: null, usuarioId: null
-  };
+  form!: FormGroup;
 
-  constructor(private inventarioRepo: InventarioRepository) {}
+  constructor(private inventarioRepo: InventarioRepository, private fb: FormBuilder) {}
 
   ngOnInit() {
+    this.form = this.fb.group({
+      nombreEquipo: ['', Validators.required],
+      subCategoriaId: ['', Validators.required],
+      costoUnitario: [0],
+      cantidad: [1, [Validators.required, Validators.min(1)]],
+      marca: [''],
+      modelo: [''],
+      serie: ['', Validators.maxLength(100)],
+      etiquetado: [''],
+      ubicacionId: ['', Validators.required],
+      usuarioId: [null],
+      fechaAdquisicion: [null]
+    });
     this.loadData();
   }
 
@@ -39,6 +47,9 @@ export class ActivoComponent implements OnInit {
   toggleView() {
     this.isListView = !this.isListView;
     this.statusMessage = '';
+    if (!this.isListView) {
+      this.form.reset({ cantidad: 1, costoUnitario: 0 });
+    }
   }
 
   exportarExcel() {
@@ -91,22 +102,21 @@ export class ActivoComponent implements OnInit {
     }
   };
 
-  onSubCategoriaValidation(v: { isValid: boolean; error?: string }) { this.subCategoriaValidation = v; }
-  onUbicacionValidation(v: { isValid: boolean; error?: string }) { this.ubicacionValidation = v; }
-
   createActivo() {
-    if (!this.subCategoriaValidation.isValid) {
-      this.showError('Por favor, seleccione una Subcategoría válida.');
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
       return;
     }
 
-    this.inventarioRepo.createActivo(this.activoForm).subscribe({
+    const command: CreateActivoCommand = this.form.value;
+    this.inventarioRepo.createActivo(command).subscribe({
       next: result => {
         this.showSuccess(`Activo creado con ID: ${result}`);
         this.loadData();
-        setTimeout(() => this.toggleView(), 1500); // Volver a la lista después de éxito
+        setTimeout(() => this.toggleView(), 1500);
       },
       error: err => this.showError(`Error: ${err?.message || 'No se pudo crear el activo'}`)
     });
   }
 }
+

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InventarioRepository } from '../../../domain/repositories/inventario.repository.interface';
 import { CreateSubCategoriaCommand } from '../../../domain/models/subcategoria/create-subcategoria.command';
 import { SubCategoriaDto } from '../../../infrastructure/dtos/subcategoria.dto';
@@ -15,14 +16,15 @@ export class SubcategoriaComponent implements OnInit {
   statusMessage = '';
   statusError = false;
 
-  subCategoriaForm: CreateSubCategoriaCommand = {
-    nombre: '',
-    categoriaId: ''
-  };
+  form!: FormGroup;
 
-  constructor(private inventarioRepo: InventarioRepository) {}
+  constructor(private inventarioRepo: InventarioRepository, private fb: FormBuilder) {}
 
   ngOnInit() {
+    this.form = this.fb.group({
+      nombre: ['', [Validators.required, Validators.maxLength(100)]],
+      categoriaId: ['', Validators.required]
+    });
     this.loadData();
   }
 
@@ -36,6 +38,9 @@ export class SubcategoriaComponent implements OnInit {
   toggleView() {
     this.isListView = !this.isListView;
     this.statusMessage = '';
+    if (!this.isListView) {
+      this.form.reset();
+    }
   }
 
   showSuccess(message: string) {
@@ -48,13 +53,30 @@ export class SubcategoriaComponent implements OnInit {
     this.statusError = true;
   }
 
+  searchCategorias = async (termino: string): Promise<{id:string; nombre:string; display:string}[]> => {
+    try {
+      const categorias = await this.inventarioRepo.getAllCategorias().toPromise() || [];
+      const termLower = termino.toLowerCase();
+      return categorias
+        .filter(c => c.descripcion.toLowerCase().includes(termLower) || c.codigo.toLowerCase().includes(termLower))
+        .map(c => ({
+          id: c.id,
+          nombre: c.descripcion,
+          display: `${c.codigo} - ${c.descripcion}`
+        }));
+    } catch (error) {
+      return [];
+    }
+  };
+
   createSubCategoria() {
-    if (!this.subCategoriaForm.categoriaId) {
-       this.showError('El ID de Categoría es obligatorio.');
-       return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
     }
 
-    this.inventarioRepo.createSubCategoria(this.subCategoriaForm).subscribe({
+    const command: CreateSubCategoriaCommand = this.form.value;
+    this.inventarioRepo.createSubCategoria(command).subscribe({
       next: result => {
         this.showSuccess(`Subcategoría creada con ID: ${result}`);
         this.loadData();
@@ -64,3 +86,4 @@ export class SubcategoriaComponent implements OnInit {
     });
   }
 }
+

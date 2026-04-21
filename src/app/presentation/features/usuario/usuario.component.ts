@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InventarioRepository } from '../../../domain/repositories/inventario.repository.interface';
 import { CreateUsuarioCommand } from '../../../domain/models/usuario/create-usuario.command';
 import { UsuarioDto } from '../../../infrastructure/dtos/usuario.dto';
@@ -15,19 +16,20 @@ export class UsuarioComponent implements OnInit {
   statusMessage = '';
   statusError = false;
 
-  usuarioForm: CreateUsuarioCommand = {
-    nombreCompleto: '',
-    documentoIdentidad: '',
-    email: '',
-    area: '',
-    cargo: '',
-    sede: '',
-    creadoPor: 'Admin'
-  };
+  form!: FormGroup;
 
-  constructor(private inventarioRepo: InventarioRepository) {}
+  constructor(private inventarioRepo: InventarioRepository, private fb: FormBuilder) {}
 
   ngOnInit() {
+    this.form = this.fb.group({
+      nombreCompleto: ['', [Validators.required, Validators.maxLength(100)]],
+      documentoIdentidad: ['', [Validators.required, Validators.maxLength(20)]],
+      email: ['', [Validators.required, Validators.email]],
+      area: ['', Validators.required],
+      cargo: [''],
+      sede: ['', Validators.required],
+      creadoPor: ['Admin'] // default
+    });
     this.loadData();
   }
 
@@ -41,6 +43,9 @@ export class UsuarioComponent implements OnInit {
   toggleView() {
     this.isListView = !this.isListView;
     this.statusMessage = '';
+    if (!this.isListView) {
+      this.form.reset({ creadoPor: 'Admin' });
+    }
   }
 
   showSuccess(message: string) {
@@ -54,7 +59,13 @@ export class UsuarioComponent implements OnInit {
   }
 
   createUsuario() {
-    this.inventarioRepo.createUsuario(this.usuarioForm).subscribe({
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    const command: CreateUsuarioCommand = this.form.value;
+    this.inventarioRepo.createUsuario(command).subscribe({
       next: result => {
         this.showSuccess(`Usuario creado con ID: ${result}`);
         this.loadData();
@@ -64,3 +75,4 @@ export class UsuarioComponent implements OnInit {
     });
   }
 }
+

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InventarioRepository } from '../../../domain/repositories/inventario.repository.interface';
 import { FinalizarAsignacionRequest } from '../../../domain/models/asignacion/finalizar-asignacion.request';
 import { AsignacionDto } from '../../../infrastructure/dtos/asignacion.dto';
@@ -15,31 +16,35 @@ export class FinalizarAsignacionComponent implements OnInit {
   statusMessage = '';
   statusError = false;
 
-  finalizarForm: FinalizarAsignacionRequest = {
-    estadoRecibido: '',
-    observaciones: ''
-  };
-  asignacionId: string = '';
+  form!: FormGroup;
 
-  constructor(private inventarioRepo: InventarioRepository) {}
+  constructor(private inventarioRepo: InventarioRepository, private fb: FormBuilder) {}
 
   ngOnInit() {
+    this.form = this.fb.group({
+      asignacionId: ['', Validators.required],
+      estadoRecibido: ['', Validators.required],
+      observaciones: ['']
+    });
     this.loadData();
   }
 
   loadData() {
     this.inventarioRepo.getAllAsignaciones().subscribe({
-      next: (data) => this.asignaciones = data.filter(a => a.fechaDevolucion !== null),
+      next: (data) => this.asignaciones = data.filter(a => a.fechaDevolucion === null),
       error: (err) => console.error('Error loading data', err)
     });
   }
 
   toggleView(idStr?: string) {
-    if (idStr) {
-       this.asignacionId = idStr;
-    }
     this.isListView = !this.isListView;
     this.statusMessage = '';
+    if (!this.isListView) {
+      this.form.reset();
+      if (idStr) {
+        this.form.patchValue({ asignacionId: idStr });
+      }
+    }
   }
 
   showSuccess(message: string) {
@@ -53,14 +58,20 @@ export class FinalizarAsignacionComponent implements OnInit {
   }
 
   finalizeAsignacion() {
-    if (!this.asignacionId) {
-       this.showError('Ingrese un ID de Asignación válido.');
-       return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
     }
 
-    this.inventarioRepo.finalizeAsignacion(this.asignacionId, this.finalizarForm).subscribe({
+    const value = this.form.value;
+    const request: FinalizarAsignacionRequest = {
+      estadoRecibido: value.estadoRecibido,
+      observaciones: value.observaciones
+    };
+
+    this.inventarioRepo.finalizeAsignacion(value.asignacionId, request).subscribe({
       next: () => {
-        this.showSuccess(`Asignación ${this.asignacionId} finalizada correctamente`);
+        this.showSuccess(`Asignación ${value.asignacionId} finalizada correctamente`);
         this.loadData();
         setTimeout(() => this.toggleView(), 1500);
       },
@@ -68,3 +79,4 @@ export class FinalizarAsignacionComponent implements OnInit {
     });
   }
 }
+

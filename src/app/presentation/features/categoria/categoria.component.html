@@ -45,28 +45,37 @@
           {{ statusMessage }}
         </div>
 
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="codigo">Código</label>
-              <input class="form-control" id="codigo" [(ngModel)]="categoriaForm.codigo" />
+        <form [formGroup]="form" (ngSubmit)="createCategoria()">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="codigo">Código<span class="text-danger">*</span></label>
+                <input class="form-control"
+                  [class.is-invalid]="form.get('codigo')?.invalid && form.get('codigo')?.touched" id="codigo"
+                  formControlName="codigo" />
+                <div class="invalid-feedback">El código es requerido</div>
+              </div>
+              <div class="form-group">
+                <label for="descripcion">Descripción<span class="text-danger">*</span></label>
+                <textarea class="form-control"
+                  [class.is-invalid]="form.get('descripcion')?.invalid && form.get('descripcion')?.touched"
+                  id="descripcion" rows="3" formControlName="descripcion"></textarea>
+                <div class="invalid-feedback">La descripción es requerida</div>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="descripcion">Descripción</label>
-              <textarea class="form-control" id="descripcion" rows="3"
-                [(ngModel)]="categoriaForm.descripcion"></textarea>
+            <div class="col-md-6">
+              <div class="form-group">
+                <app-autocomplete-select label="Ubicación" placeholder="Buscar ubicación..." [required]="true"
+                  [searchFn]="searchUbicaciones" formControlName="ubicacionId"></app-autocomplete-select>
+                <div class="text-danger small mt-1"
+                  *ngIf="form.get('ubicacionId')?.invalid && form.get('ubicacionId')?.touched">Debe seleccionar una
+                  ubicación</div>
+              </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <app-autocomplete-select label="Ubicación" placeholder="Buscar ubicación..." [required]="true"
-                [searchFn]="searchUbicaciones"
-                (selectedIdChange)="categoriaForm.ubicacionId = $event || ''"></app-autocomplete-select>
-            </div>
-          </div>
-        </div>
 
-        <button class="btn btn-primary mt-3 w-100" (click)="createCategoria()">Crear Categoría</button>
+          <button type="submit" class="btn btn-primary mt-3 w-100" [disabled]="form.invalid">Crear Categoría</button>
+        </form>
       </div>
     </div>
   </div>

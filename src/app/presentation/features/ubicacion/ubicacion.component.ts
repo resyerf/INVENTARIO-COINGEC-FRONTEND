@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InventarioRepository } from '../../../domain/repositories/inventario.repository.interface';
 import { CreateUbicacionCommand } from '../../../domain/models/ubicacion/create-ubicacion.command';
 import { UbicacionDto } from '../../../infrastructure/dtos/ubicacion.dto';
@@ -15,14 +16,15 @@ export class UbicacionComponent implements OnInit {
   statusMessage = '';
   statusError = false;
 
-  ubicacionForm: CreateUbicacionCommand = {
-    nombre: '',
-    descripcion: ''
-  };
+  form!: FormGroup;
 
-  constructor(private inventarioRepo: InventarioRepository) {}
+  constructor(private inventarioRepo: InventarioRepository, private fb: FormBuilder) {}
 
   ngOnInit() {
+    this.form = this.fb.group({
+      nombre: ['', [Validators.required, Validators.maxLength(100)]],
+      descripcion: ['']
+    });
     this.loadData();
   }
 
@@ -36,6 +38,9 @@ export class UbicacionComponent implements OnInit {
   toggleView() {
     this.isListView = !this.isListView;
     this.statusMessage = '';
+    if (!this.isListView) {
+      this.form.reset();
+    }
   }
 
   showSuccess(message: string) {
@@ -49,7 +54,13 @@ export class UbicacionComponent implements OnInit {
   }
 
   createUbicacion() {
-    this.inventarioRepo.createUbicacion(this.ubicacionForm).subscribe({
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    const command: CreateUbicacionCommand = this.form.value;
+    this.inventarioRepo.createUbicacion(command).subscribe({
       next: result => {
         this.showSuccess(`Ubicación creada con ID: ${result}`);
         this.loadData();
@@ -59,3 +70,4 @@ export class UbicacionComponent implements OnInit {
     });
   }
 }
+

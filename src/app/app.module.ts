@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AutocompleteSelectComponent } from './components/autocomplete-select/autocomplete-select.component';
@@ -32,7 +32,7 @@ import { ErrorInterceptor } from './infrastructure/interceptors/error.intercepto
     FinalizarAsignacionComponent,
     DashboardComponent
   ],
-  imports: [BrowserModule, FormsModule, HttpClientModule],
+  imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpClientModule],
   providers: [
     { provide: InventarioRepository, useClass: InventarioHttpRepository },
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },

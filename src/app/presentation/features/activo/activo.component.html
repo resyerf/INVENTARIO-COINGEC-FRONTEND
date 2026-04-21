@@ -57,59 +57,72 @@
           {{ statusMessage }}
         </div>
 
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="nombreEquipo">Nombre Equipo<span class="text-danger">*</span></label>
-              <input class="form-control" id="nombreEquipo" [(ngModel)]="activoForm.nombreEquipo" />
+        <form [formGroup]="form" (ngSubmit)="createActivo()">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="nombreEquipo">Nombre Equipo<span class="text-danger">*</span></label>
+                <input class="form-control"
+                  [class.is-invalid]="form.get('nombreEquipo')?.invalid && form.get('nombreEquipo')?.touched"
+                  id="nombreEquipo" formControlName="nombreEquipo" />
+                <div class="invalid-feedback">El nombre es requerido</div>
+              </div>
+              <div class="form-group">
+                <app-autocomplete-select label="Subcategoría" placeholder="Buscar subcategoría..." [required]="true"
+                  [searchFn]="searchSubCategorias" formControlName="subCategoriaId"></app-autocomplete-select>
+                <div class="text-danger small mt-1"
+                  *ngIf="form.get('subCategoriaId')?.invalid && form.get('subCategoriaId')?.touched">Subcategoría
+                  requerida</div>
+              </div>
+              <div class="form-group">
+                <label for="costoUnitario">Costo Unitario</label>
+                <input class="form-control" type="number" id="costoUnitario" formControlName="costoUnitario" />
+              </div>
+              <div class="form-group">
+                <label for="cantidad">Cantidad<span class="text-danger">*</span></label>
+                <input class="form-control"
+                  [class.is-invalid]="form.get('cantidad')?.invalid && form.get('cantidad')?.touched" type="number"
+                  id="cantidad" formControlName="cantidad" />
+                <div class="invalid-feedback">At menos 1</div>
+              </div>
+              <div class="form-group">
+                <label for="marca">Marca</label>
+                <input class="form-control" id="marca" formControlName="marca" />
+              </div>
             </div>
-            <div class="form-group">
-              <app-autocomplete-select label="Subcategoría" placeholder="Buscar subcategoría..." [required]="true"
-                [searchFn]="searchSubCategorias" (selectedIdChange)="activoForm.subCategoriaId = $event || ''"
-                (validationChange)="onSubCategoriaValidation($event)"></app-autocomplete-select>
-            </div>
-            <div class="form-group">
-              <label for="costoUnitario">Costo Unitario</label>
-              <input class="form-control" type="number" id="costoUnitario" [(ngModel)]="activoForm.costoUnitario" />
-            </div>
-            <div class="form-group">
-              <label for="cantidad">Cantidad</label>
-              <input class="form-control" type="number" id="cantidad" [(ngModel)]="activoForm.cantidad" />
-            </div>
-            <div class="form-group">
-              <label for="marca">Marca</label>
-              <input class="form-control" id="marca" [(ngModel)]="activoForm.marca" />
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="modelo">Modelo</label>
+                <input class="form-control" id="modelo" formControlName="modelo" />
+              </div>
+              <div class="form-group">
+                <label for="serie">Serie</label>
+                <input class="form-control"
+                  [class.is-invalid]="form.get('serie')?.invalid && form.get('serie')?.touched" id="serie"
+                  formControlName="serie" />
+              </div>
+              <div class="form-group">
+                <label for="etiquetado">Etiquetado</label>
+                <input class="form-control" id="etiquetado" formControlName="etiquetado" />
+              </div>
+              <div class="form-group">
+                <app-autocomplete-select label="Ubicación" placeholder="Buscar ubicación..." [required]="true"
+                  [searchFn]="searchUbicaciones" formControlName="ubicacionId"></app-autocomplete-select>
+                <div class="text-danger small mt-1"
+                  *ngIf="form.get('ubicacionId')?.invalid && form.get('ubicacionId')?.touched">Ubicación requerida</div>
+              </div>
+              <div class="form-group">
+                <app-autocomplete-select label="Usuario" placeholder="Buscar usuario..." [searchFn]="searchUsuarios"
+                  formControlName="usuarioId"></app-autocomplete-select>
+              </div>
+              <div class="form-group">
+                <label for="fechaAdquisicion">Fecha Adquisición</label>
+                <input class="form-control" type="date" id="fechaAdquisicion" formControlName="fechaAdquisicion" />
+              </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="modelo">Modelo</label>
-              <input class="form-control" id="modelo" [(ngModel)]="activoForm.modelo" />
-            </div>
-            <div class="form-group">
-              <label for="serie">Serie</label>
-              <input class="form-control" id="serie" [(ngModel)]="activoForm.serie" />
-            </div>
-            <div class="form-group">
-              <label for="etiquetado">Etiquetado</label>
-              <input class="form-control" id="etiquetado" [(ngModel)]="activoForm.etiquetado" />
-            </div>
-            <div class="form-group">
-              <app-autocomplete-select label="Ubicación" placeholder="Buscar ubicación..."
-                [searchFn]="searchUbicaciones" (selectedIdChange)="activoForm.ubicacionId = $event"
-                (validationChange)="onUbicacionValidation($event)"></app-autocomplete-select>
-            </div>
-            <div class="form-group">
-              <app-autocomplete-select label="Usuario" placeholder="Buscar usuario..." [searchFn]="searchUsuarios"
-                (selectedIdChange)="activoForm.usuarioId = $event || null"></app-autocomplete-select>
-            </div>
-            <div class="form-group">
-              <label for="fechaAdquisicion">Fecha Adquisición</label>
-              <input class="form-control" type="date" id="fechaAdquisicion" [(ngModel)]="activoForm.fechaAdquisicion" />
-            </div>
-          </div>
-        </div>
-        <button class="btn btn-primary mt-3 w-100" (click)="createActivo()">Crear Activo</button>
+          <button type="submit" class="btn btn-primary mt-3 w-100" [disabled]="form.invalid">Crear Activo</button>
+        </form>
       </div>
     </div>
   </div>

@@ -8,6 +8,10 @@
              onerror="this.src='assets/coingec-placeholder.svg'">
       </div>
       <div class="sidebar-brand-text" *ngIf="!sidebarCollapsed">COINGEC</div>
+      <!-- Mobile Close Sidebar Button -->
+      <button class="d-md-none btn btn-link text-white ms-auto p-0" (click)="toggleSidebar(); $event.stopPropagation()">
+        <i class="fas fa-times fa-lg"></i>
+      </button>
     </a>
 
     <!-- Divider -->

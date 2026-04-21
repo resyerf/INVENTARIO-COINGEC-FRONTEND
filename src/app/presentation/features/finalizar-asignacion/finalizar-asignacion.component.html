@@ -47,23 +47,27 @@
         {{ statusMessage }}
       </div>
 
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="asignacionId">ID Asignación</label>
-            <input class="form-control" id="asignacionId" [(ngModel)]="asignacionId" />
+        <form [formGroup]="form" (ngSubmit)="finalizeAsignacion()">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="asignacionId">ID Asignación<span class="text-danger">*</span></label>
+                <input class="form-control" [class.is-invalid]="form.get('asignacionId')?.invalid && form.get('asignacionId')?.touched" id="asignacionId" formControlName="asignacionId" />
+                <div class="invalid-feedback">El ID de Asignación es requerido</div>
+              </div>
+              <div class="form-group">
+                <label for="estadoRecibido">Estado Recibido<span class="text-danger">*</span></label>
+                <input class="form-control" [class.is-invalid]="form.get('estadoRecibido')?.invalid && form.get('estadoRecibido')?.touched" id="estadoRecibido" formControlName="estadoRecibido" placeholder="Ej. Bueno, Roto..." />
+                <div class="invalid-feedback">El Estado es requerido</div>
+              </div>
+              <div class="form-group">
+                <label for="observaciones">Observaciones</label>
+                <textarea class="form-control" id="observaciones" rows="3" formControlName="observaciones"></textarea>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="estadoRecibido">Estado Recibido</label>
-            <input class="form-control" id="estadoRecibido" [(ngModel)]="finalizarForm.estadoRecibido" placeholder="Ej. Bueno, Roto..." />
-          </div>
-          <div class="form-group">
-            <label for="observaciones">Observaciones</label>
-            <textarea class="form-control" id="observaciones" rows="3" [(ngModel)]="finalizarForm.observaciones"></textarea>
-          </div>
-        </div>
-      </div>
-        <button class="btn btn-primary mt-3 w-100" (click)="finalizeAsignacion()"><i class="fas fa-save me-2"></i>Ejecutar Cierre</button>
+          <button type="submit" class="btn btn-primary mt-3 w-100" [disabled]="form.invalid"><i class="fas fa-save me-2"></i>Ejecutar Cierre</button>
+        </form>
       </div>
     </div>
   </div>

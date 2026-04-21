@@ -42,19 +42,22 @@
         {{ statusMessage }}
       </div>
 
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="nombre">Nombre</label>
-            <input class="form-control" id="nombre" [(ngModel)]="ubicacionForm.nombre" />
+        <form [formGroup]="form" (ngSubmit)="createUbicacion()">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="nombre">Nombre<span class="text-danger">*</span></label>
+                <input class="form-control" [class.is-invalid]="form.get('nombre')?.invalid && form.get('nombre')?.touched" id="nombre" formControlName="nombre" />
+                <div class="invalid-feedback">El nombre es requerido</div>
+              </div>
+              <div class="form-group">
+                <label for="descripcion">Descripción</label>
+                <textarea class="form-control" id="descripcion" rows="3" formControlName="descripcion"></textarea>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="descripcion">Descripción</label>
-            <textarea class="form-control" id="descripcion" rows="3" [(ngModel)]="ubicacionForm.descripcion"></textarea>
-          </div>
-        </div>
-      </div>
-        <button class="btn btn-primary mt-3 w-100" (click)="createUbicacion()">Crear Ubicación</button>
+          <button type="submit" class="btn btn-primary mt-3 w-100" [disabled]="form.invalid">Crear Ubicación</button>
+        </form>
       </div>
     </div>
   </div>

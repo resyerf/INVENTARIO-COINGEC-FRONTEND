@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InventarioRepository } from '../../../domain/repositories/inventario.repository.interface';
 import { AsignacionActivoCommand } from '../../../domain/models/asignacion/asignacion-activo.command';
 import { AsignacionDto } from '../../../infrastructure/dtos/asignacion.dto';
@@ -15,16 +16,17 @@ export class AsignacionComponent implements OnInit {
   statusMessage = '';
   statusError = false;
 
-  asignacionForm: AsignacionActivoCommand = {
-    activoId: '',
-    usuarioId: '',
-    fechaAsignacion: new Date().toISOString().split('T')[0],
-    observaciones: ''
-  };
+  form!: FormGroup;
 
-  constructor(private inventarioRepo: InventarioRepository) {}
+  constructor(private inventarioRepo: InventarioRepository, private fb: FormBuilder) {}
 
   ngOnInit() {
+    this.form = this.fb.group({
+      activoId: ['', Validators.required],
+      usuarioId: ['', Validators.required],
+      fechaAsignacion: [new Date().toISOString().split('T')[0], Validators.required],
+      observaciones: ['']
+    });
     this.loadData();
   }
 
@@ -64,6 +66,9 @@ export class AsignacionComponent implements OnInit {
   toggleView() {
     this.isListView = !this.isListView;
     this.statusMessage = '';
+    if (!this.isListView) {
+      this.form.reset({ fechaAsignacion: new Date().toISOString().split('T')[0] });
+    }
   }
 
   showSuccess(message: string) {
@@ -77,7 +82,13 @@ export class AsignacionComponent implements OnInit {
   }
 
   assignActivo() {
-    this.inventarioRepo.assignActivo(this.asignacionForm).subscribe({
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    const command: AsignacionActivoCommand = this.form.value;
+    this.inventarioRepo.assignActivo(command).subscribe({
       next: result => {
         this.showSuccess(`Activo asignado con ID: ${result}`);
         this.loadData();
@@ -87,3 +98,4 @@ export class AsignacionComponent implements OnInit {
     });
   }
 }
+

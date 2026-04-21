@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InventarioRepository, UbicacionEntity } from '../../../domain/repositories/inventario.repository.interface';
 import { CreateCategoriaCommand } from '../../../domain/models/categoria/create-categoria.command';
 import { CategoriaDto } from '../../../infrastructure/dtos/categoria.dto';
@@ -15,15 +16,16 @@ export class CategoriaComponent implements OnInit {
   statusMessage = '';
   statusError = false;
 
-  categoriaForm: CreateCategoriaCommand = {
-    codigo: '',
-    descripcion: '',
-    ubicacionId: ''
-  };
+  form!: FormGroup;
 
-  constructor(private inventarioRepo: InventarioRepository) {}
+  constructor(private inventarioRepo: InventarioRepository, private fb: FormBuilder) {}
 
   ngOnInit() {
+    this.form = this.fb.group({
+      codigo: ['', [Validators.required, Validators.maxLength(50)]],
+      descripcion: ['', Validators.required],
+      ubicacionId: ['', Validators.required]
+    });
     this.loadData();
   }
 
@@ -37,6 +39,9 @@ export class CategoriaComponent implements OnInit {
   toggleView() {
     this.isListView = !this.isListView;
     this.statusMessage = '';
+    if (!this.isListView) {
+      this.form.reset();
+    }
   }
 
   showSuccess(message: string) {
@@ -58,12 +63,13 @@ export class CategoriaComponent implements OnInit {
   };
 
   createCategoria() {
-    if (!this.categoriaForm.ubicacionId) {
-      this.showError('Por favor, seleccione una Ubicación.');
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
       return;
     }
 
-    this.inventarioRepo.createCategoria(this.categoriaForm).subscribe({
+    const command: CreateCategoriaCommand = this.form.value;
+    this.inventarioRepo.createCategoria(command).subscribe({
       next: result => {
         this.showSuccess(`Categoría creada con ID: ${result}`);
         this.loadData();
@@ -73,3 +79,4 @@ export class CategoriaComponent implements OnInit {
     });
   }
 }
+

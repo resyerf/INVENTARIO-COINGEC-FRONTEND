@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, OnChanges, SimpleChanges, forwardRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export interface AutocompleteOption {
   id: string;
@@ -11,9 +12,16 @@ export interface AutocompleteOption {
 @Component({
   selector: 'app-autocomplete-select',
   templateUrl: './autocomplete-select.component.html',
-  styleUrls: ['./autocomplete-select.component.css']
+  styleUrls: ['./autocomplete-select.component.css'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => AutocompleteSelectComponent),
+      multi: true
+    }
+  ]
 })
-export class AutocompleteSelectComponent implements OnInit, OnDestroy, OnChanges {
+export class AutocompleteSelectComponent implements OnInit, OnDestroy, OnChanges, ControlValueAccessor {
   @Input() label: string = '';
   @Input() placeholder: string = 'Escriba para buscar...';
   @Input() required: boolean = false;
@@ -23,6 +31,37 @@ export class AutocompleteSelectComponent implements OnInit, OnDestroy, OnChanges
   @Output() selectedItemChange = new EventEmitter<AutocompleteOption | null>();
   @Output() selectedIdChange = new EventEmitter<string | null>();
   @Output() validationChange = new EventEmitter<{ isValid: boolean; error?: string }>();
+
+  // ControlValueAccessor hooks
+  onChange = (value: any) => {};
+  onTouched = () => {};
+  disabled = false;
+
+  writeValue(value: string | null): void {
+    this.selectedId = value;
+    if (value && this.allOptions.length > 0) {
+      const found = this.allOptions.find(o => o.id === value);
+      if (found) {
+        this.selectedItem = found;
+        this.value = found.nombre;
+      }
+    } else if (!value) {
+      this.selectedItem = null;
+      this.value = '';
+    }
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
 
   value: string = '';
   filteredOptions: AutocompleteOption[] = [];
@@ -120,6 +159,7 @@ export class AutocompleteSelectComponent implements OnInit, OnDestroy, OnChanges
     this.isOpen = false;
     this.selectedIdChange.emit(option.id);
     this.selectedItemChange.emit(option);
+    this.onChange(option.id); // Reactive forms sync
     this.validateSelection();
   }
 
@@ -130,6 +170,7 @@ export class AutocompleteSelectComponent implements OnInit, OnDestroy, OnChanges
 
   onBlur(): void {
     const currentValue = this.value.trim();
+    this.onTouched(); // Reactive forms touch signal
 
     setTimeout(() => {
       if (!this.isOpen) {
@@ -153,10 +194,11 @@ export class AutocompleteSelectComponent implements OnInit, OnDestroy, OnChanges
           this.errorMessage = '';
         } else {
           // Value doesn't exist in options
-          this.errorMessage = `"${this.value}" no existe. Primero debe agregarlo en el menú de ${this.label.toLowerCase()}.`;
+          this.errorMessage = `"${this.value}" no existe. Primero debe agregarlo en el menú de ${this.label.replace(/<[^>]*>?/gm, '').trim()}.`;
           this.selectedItem = null;
           this.selectedIdChange.emit(null);
           this.selectedItemChange.emit(null);
+          this.onChange(null); // Reactive forms sync
           this.validationChange.emit({ isValid: false, error: this.errorMessage });
         }
       } else {
@@ -166,6 +208,7 @@ export class AutocompleteSelectComponent implements OnInit, OnDestroy, OnChanges
         } else {
           this.selectedItem = null;
           this.selectedIdChange.emit(null);
+          this.onChange(null); // Reactive forms sync
           this.validationChange.emit({ isValid: true });
         }
       }
@@ -189,6 +232,7 @@ export class AutocompleteSelectComponent implements OnInit, OnDestroy, OnChanges
     this.isOpen = false;
     this.selectedIdChange.emit(null);
     this.selectedItemChange.emit(null);
+    this.onChange(null); // Reactive forms sync
   }
 
   ngOnDestroy(): void {

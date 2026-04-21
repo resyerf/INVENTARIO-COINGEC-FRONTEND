@@ -46,37 +46,44 @@
         {{ statusMessage }}
       </div>
 
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="nombreCompleto">Nombre Completo</label>
-            <input class="form-control" id="nombreCompleto" [(ngModel)]="usuarioForm.nombreCompleto" />
+        <form [formGroup]="form" (ngSubmit)="createUsuario()">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="nombreCompleto">Nombre Completo<span class="text-danger">*</span></label>
+                <input class="form-control" [class.is-invalid]="form.get('nombreCompleto')?.invalid && form.get('nombreCompleto')?.touched" id="nombreCompleto" formControlName="nombreCompleto" />
+                <div class="invalid-feedback">Nombre requerido</div>
+              </div>
+              <div class="form-group">
+                <label for="documentoIdentidad">Documento Identidad<span class="text-danger">*</span></label>
+                <input class="form-control" [class.is-invalid]="form.get('documentoIdentidad')?.invalid && form.get('documentoIdentidad')?.touched" id="documentoIdentidad" formControlName="documentoIdentidad" />
+                <div class="invalid-feedback">Documento requerido</div>
+              </div>
+              <div class="form-group">
+                <label for="email">Email<span class="text-danger">*</span></label>
+                <input class="form-control" [class.is-invalid]="form.get('email')?.invalid && form.get('email')?.touched" type="email" id="email" formControlName="email" />
+                <div class="invalid-feedback">Un email válido es requerido</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="area">Área<span class="text-danger">*</span></label>
+                <input class="form-control" [class.is-invalid]="form.get('area')?.invalid && form.get('area')?.touched" id="area" formControlName="area" />
+                <div class="invalid-feedback">Área es requerida</div>
+              </div>
+              <div class="form-group">
+                <label for="cargo">Cargo</label>
+                <input class="form-control" id="cargo" formControlName="cargo" />
+              </div>
+              <div class="form-group">
+                <label for="sede">Sede<span class="text-danger">*</span></label>
+                <input class="form-control" [class.is-invalid]="form.get('sede')?.invalid && form.get('sede')?.touched" id="sede" formControlName="sede" />
+                <div class="invalid-feedback">Sede es requerida</div>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="documentoIdentidad">Documento Identidad</label>
-            <input class="form-control" id="documentoIdentidad" [(ngModel)]="usuarioForm.documentoIdentidad" />
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input class="form-control" type="email" id="email" [(ngModel)]="usuarioForm.email" />
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="area">Área</label>
-            <input class="form-control" id="area" [(ngModel)]="usuarioForm.area" />
-          </div>
-          <div class="form-group">
-            <label for="cargo">Cargo</label>
-            <input class="form-control" id="cargo" [(ngModel)]="usuarioForm.cargo" />
-          </div>
-          <div class="form-group">
-            <label for="sede">Sede</label>
-            <input class="form-control" id="sede" [(ngModel)]="usuarioForm.sede" />
-          </div>
-        </div>
-      </div>
-        <button class="btn btn-primary mt-3 w-100" (click)="createUsuario()">Crear Usuario</button>
+          <button type="submit" class="btn btn-primary mt-3 w-100" [disabled]="form.invalid">Crear Usuario</button>
+        </form>
       </div>
     </div>
   </div>
