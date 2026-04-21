@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
-import { InventarioRepository, UbicacionEntity, SubCategoriaEntity, ActivoEntity, UsuarioEntity } from '../../domain/repositories/inventario.repository.interface';
+import { InventarioRepository, UbicacionEntity, SubCategoriaEntity, ActivoEntity, UsuarioEntity, AsignacionEntity, CategoriaEntity } from '../../domain/repositories/inventario.repository.interface';
 import { CreateActivoCommand } from '../../domain/models/activo/create-activo.command';
 import { CreateCategoriaCommand } from '../../domain/models/categoria/create-categoria.command';
 import { CreateSubCategoriaCommand } from '../../domain/models/subcategoria/create-subcategoria.command';
@@ -40,18 +40,19 @@ export class InventarioHttpRepository extends InventarioRepository {
 
   searchSubCategorias(termino: string): Observable<SubCategoriaEntity[]> { return this.http.get<SubCategoriaDto[]>(`${this.baseUrl}/api/Subcategoria/search`, { params: { termino } }); }
   searchUbicaciones(termino: string): Observable<UbicacionEntity[]> { return this.http.get<UbicacionDto[]>(`${this.baseUrl}/api/Ubicacion/search`, { params: { termino } }); }
+  searchCategorias(termino: string): Observable<CategoriaEntity[]> { return this.http.get<CategoriaDto[]>(`${this.baseUrl}/api/Categoria/search`, { params: { termino } }); }
   searchActivos(termino: string): Observable<ActivoEntity[]> { return this.http.get<ActivoDto[]>(`${this.baseUrl}/api/Activo/search`, { params: { termino } }); }
   searchUsuarios(termino: string): Observable<UsuarioEntity[]> { return this.http.get<UsuarioDto[]>(`${this.baseUrl}/api/Usuario/search`, { params: { termino } }); }
 
-  getAllActivos(): Observable<ActivoDto[]> { return this.http.get<ActivoDto[]>(`${this.baseUrl}/api/Activo`); }
+  getAllActivos(): Observable<ActivoEntity[]> { return this.http.get<ActivoDto[]>(`${this.baseUrl}/api/Activo`); }
 
   exportActivosExcel(): Observable<Blob> { return this.http.get(`${this.baseUrl}/api/Activo/export`, { responseType: 'blob' });}
 
-  getAllCategorias(): Observable<CategoriaDto[]> { return this.http.get<CategoriaDto[]>(`${this.baseUrl}/api/Categoria`); }
-  getAllSubCategorias(): Observable<SubCategoriaDto[]> { return this.http.get<SubCategoriaDto[]>(`${this.baseUrl}/api/Subcategoria`); }
-  getAllUbicaciones(): Observable<UbicacionDto[]> { return this.http.get<UbicacionDto[]>(`${this.baseUrl}/api/Ubicacion`); }
-  getAllUsuarios(): Observable<UsuarioDto[]> { return this.http.get<UsuarioDto[]>(`${this.baseUrl}/api/Usuario`); }
-  getAllAsignaciones(): Observable<AsignacionDto[]> { return this.http.get<AsignacionDto[]>(`${this.baseUrl}/api/Asignacion`); }
+  getAllCategorias(): Observable<CategoriaEntity[]> { return this.http.get<CategoriaDto[]>(`${this.baseUrl}/api/Categoria`); }
+  getAllSubCategorias(): Observable<SubCategoriaEntity[]> { return this.http.get<SubCategoriaDto[]>(`${this.baseUrl}/api/Subcategoria`); }
+  getAllUbicaciones(): Observable<UbicacionEntity[]> { return this.http.get<UbicacionDto[]>(`${this.baseUrl}/api/Ubicacion`); }
+  getAllUsuarios(): Observable<UsuarioEntity[]> { return this.http.get<UsuarioDto[]>(`${this.baseUrl}/api/Usuario`); }
+  getAllAsignaciones(): Observable<AsignacionEntity[]> { return this.http.get<AsignacionDto[]>(`${this.baseUrl}/api/Asignacion`); }
 
   getDashboardStats(): Observable<DashboardStatsDto> { return this.http.get<DashboardStatsDto>(`${this.baseUrl}/api/Dashboard/stats`); }
 

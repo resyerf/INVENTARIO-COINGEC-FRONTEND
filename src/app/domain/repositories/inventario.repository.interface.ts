@@ -17,10 +17,12 @@ import { DashboardStatsDto } from '../../infrastructure/dtos/dashboard-stats.dto
 
 export type ActivoEntity = ActivoDto;
 export type UsuarioEntity = UsuarioDto;
+export type CategoriaEntity = CategoriaDto;
 
 // For pragmatism in this angular project, we will use DTOs as the read model entity.
 export type UbicacionEntity = UbicacionDto;
 export type SubCategoriaEntity = SubCategoriaDto;
+export type AsignacionEntity = AsignacionDto;
 
 export abstract class InventarioRepository {
   // Commands
@@ -31,20 +33,21 @@ export abstract class InventarioRepository {
   abstract createUsuario(command: CreateUsuarioCommand): Observable<string>;
   abstract assignActivo(command: AsignacionActivoCommand): Observable<string>;
   abstract finalizeAsignacion(id: string, request: FinalizarAsignacionRequest): Observable<void>;
-  
+
   // Queries
   abstract searchSubCategorias(termino: string): Observable<SubCategoriaEntity[]>;
   abstract searchUbicaciones(termino: string): Observable<UbicacionEntity[]>;
+  abstract searchCategorias(termino: string): Observable<CategoriaEntity[]>;
   abstract searchActivos(termino: string): Observable<ActivoEntity[]>;
   abstract searchUsuarios(termino: string): Observable<UsuarioEntity[]>;
-  
-  abstract getAllActivos(): Observable<ActivoDto[]>;
+
+  abstract getAllActivos(): Observable<ActivoEntity[]>;
   abstract exportActivosExcel(): Observable<Blob>;
-  abstract getAllCategorias(): Observable<CategoriaDto[]>;
-  abstract getAllSubCategorias(): Observable<SubCategoriaDto[]>;
-  abstract getAllUbicaciones(): Observable<UbicacionDto[]>;
-  abstract getAllUsuarios(): Observable<UsuarioDto[]>;
-  abstract getAllAsignaciones(): Observable<AsignacionDto[]>;
+  abstract getAllCategorias(): Observable<CategoriaEntity[]>;
+  abstract getAllSubCategorias(): Observable<SubCategoriaEntity[]>;
+  abstract getAllUbicaciones(): Observable<UbicacionEntity[]>;
+  abstract getAllUsuarios(): Observable<UsuarioEntity[]>;
+  abstract getAllAsignaciones(): Observable<AsignacionEntity[]>;
 
   abstract getDashboardStats(): Observable<DashboardStatsDto>;
 

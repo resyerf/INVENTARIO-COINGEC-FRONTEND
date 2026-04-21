@@ -4,8 +4,8 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand" href="#">
       <div class="sidebar-brand-icon">
-        <img src="assets/coingec-logo.png" alt="COINGEC" class="logo-img" 
-             onerror="this.src='assets/coingec-placeholder.svg'">
+        <img src="assets/coingec-logo.png" alt="COINGEC" class="logo-img"
+          onerror="this.src='assets/coingec-placeholder.svg'">
       </div>
       <div class="sidebar-brand-text" *ngIf="!sidebarCollapsed">COINGEC</div>
       <!-- Mobile Close Sidebar Button -->
@@ -33,42 +33,42 @@
         <span *ngIf="!sidebarCollapsed">Activo</span>
       </button>
     </li>
-    
+
     <li class="nav-item" [class.active]="selectedPanel === 'categoria'">
       <button class="nav-link" (click)="selectPanel('categoria')">
         <i class="fas fa-fw fa-tags"></i>
         <span *ngIf="!sidebarCollapsed">Categoría</span>
       </button>
     </li>
-    
+
     <li class="nav-item" [class.active]="selectedPanel === 'subcategoria'">
       <button class="nav-link" (click)="selectPanel('subcategoria')">
         <i class="fas fa-fw fa-tag"></i>
         <span *ngIf="!sidebarCollapsed">Subcategoría</span>
       </button>
     </li>
-    
+
     <li class="nav-item" [class.active]="selectedPanel === 'ubicacion'">
       <button class="nav-link" (click)="selectPanel('ubicacion')">
         <i class="fas fa-fw fa-map-marker-alt"></i>
         <span *ngIf="!sidebarCollapsed">Ubicación</span>
       </button>
     </li>
-    
+
     <li class="nav-item" [class.active]="selectedPanel === 'usuario'">
       <button class="nav-link" (click)="selectPanel('usuario')">
         <i class="fas fa-fw fa-user"></i>
         <span *ngIf="!sidebarCollapsed">Usuario</span>
       </button>
     </li>
-    
+
     <li class="nav-item" [class.active]="selectedPanel === 'asignacion'">
       <button class="nav-link" (click)="selectPanel('asignacion')">
         <i class="fas fa-fw fa-exchange-alt"></i>
         <span *ngIf="!sidebarCollapsed">Asignación</span>
       </button>
     </li>
-    
+
     <li class="nav-item" [class.active]="selectedPanel === 'finalizar'">
       <button class="nav-link" (click)="selectPanel('finalizar')">
         <i class="fas fa-fw fa-check-circle"></i>
@@ -99,7 +99,7 @@
 
         <!-- Topbar Navbar / User Information -->
         <div class="profile-dropdown">
-          <span class="mr-2 text-gray-800">Admin COINGEC</span>
+          <span class="mr-2 text-gray-800">Admin COINGEC 2.0</span>
           <i class="fas fa-user-circle fa-2x text-gray-400"></i>
         </div>
       </nav>

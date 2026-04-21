@@ -56,15 +56,12 @@ export class SubcategoriaComponent implements OnInit {
 
   searchCategorias = async (termino: string): Promise<{id:string; nombre:string; display:string}[]> => {
     try {
-      const categorias = await this.inventarioRepo.getAllCategorias().toPromise() || [];
-      const termLower = termino.toLowerCase();
-      return categorias
-        .filter(c => c.descripcion.toLowerCase().includes(termLower) || c.codigo.toLowerCase().includes(termLower))
-        .map(c => ({
-          id: c.id,
-          nombre: c.descripcion,
-          display: `${c.codigo} - ${c.descripcion}`
-        }));
+      const categorias = await this.inventarioRepo.searchCategorias(termino).toPromise() || [];
+      return categorias.map(c => ({
+        id: c.id,
+        nombre: c.descripcion,
+        display: `${c.codigo} - ${c.descripcion}`
+      }));
     } catch (error) {
       return [];
     }
