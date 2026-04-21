@@ -12,6 +12,15 @@ import { ActivoDto } from '../../../infrastructure/dtos/activo.dto';
 export class ActivoComponent implements OnInit {
   isListView = true;
   activos: ActivoDto[] = [];
+  activosFiltrados: ActivoDto[] = [];
+
+  filtros = {
+    equipo: '',
+    marca: '',
+    condicion: '',
+    subcategoria: '',
+    estado: '' // 'activo', 'inactivo', o ''
+  };
   
   statusMessage = '';
   statusError = false;
@@ -40,8 +49,37 @@ export class ActivoComponent implements OnInit {
 
   loadData() {
     this.inventarioRepo.getAllActivos().subscribe({
-      next: (data) => this.activos = data,
+      next: (data) => {
+        this.activos = data;
+        this.aplicarFiltros();
+      },
       error: (err) => console.error('Error loading activos', err)
+    });
+  }
+
+  aplicarFiltros() {
+    this.activosFiltrados = this.activos.filter(a => {
+      const qEquipo = this.filtros.equipo.toLowerCase();
+      const qMarca = this.filtros.marca.toLowerCase();
+      const qCondicion = this.filtros.condicion.toLowerCase();
+      const qSubCat = this.filtros.subcategoria.toLowerCase();
+
+      const matchEquipo = a.nombreEquipo?.toLowerCase().includes(qEquipo) ?? false;
+      const matchMarca = a.marca?.toLowerCase().includes(qMarca) ?? false;
+      const estadoString = a.estado || 'Bien'; // Default condition shown in html
+      const matchCondicion = estadoString.toLowerCase().includes(qCondicion);
+      const subCatString = a.subCategoria || '';
+      const matchSubcategoria = subCatString.toLowerCase().includes(qSubCat);
+      
+      let matchEstado = true;
+      if (this.filtros.estado === 'activo') matchEstado = a.isActive === true;
+      if (this.filtros.estado === 'inactivo') matchEstado = a.isActive === false;
+
+      return (qEquipo ? matchEquipo : true) &&
+             (qMarca ? matchMarca : true) &&
+             (qCondicion ? matchCondicion : true) &&
+             (qSubCat ? matchSubcategoria : true) &&
+             matchEstado;
     });
   }
 

@@ -12,6 +12,37 @@
     </div>
   </div>
 
+  <div class="card border-0 shadow-sm mb-4 bg-light">
+    <div class="card-body py-3">
+      <div class="row g-3 align-items-end">
+        <div class="col-md-2">
+          <label class="form-label small fw-bold text-muted mb-1">Estado</label>
+          <select class="form-select form-select-sm" [(ngModel)]="filtros.estado" (change)="aplicarFiltros()">
+            <option value="">Todos</option>
+            <option value="activo">Activos</option>
+            <option value="inactivo">Inactivos</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label small fw-bold text-muted mb-1">Equipo</label>
+          <input type="text" class="form-control form-control-sm" placeholder="Buscar por equipo..." [(ngModel)]="filtros.equipo" (input)="aplicarFiltros()">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small fw-bold text-muted mb-1">Marca</label>
+          <input type="text" class="form-control form-control-sm" placeholder="Buscar marca..." [(ngModel)]="filtros.marca" (input)="aplicarFiltros()">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small fw-bold text-muted mb-1">Condición</label>
+          <input type="text" class="form-control form-control-sm" placeholder="Malo, Bien..." [(ngModel)]="filtros.condicion" (input)="aplicarFiltros()">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label small fw-bold text-muted mb-1">Subcategoría</label>
+          <input type="text" class="form-control form-control-sm" placeholder="Buscar subcategoría..." [(ngModel)]="filtros.subcategoria" (input)="aplicarFiltros()">
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="table-responsive">
     <table class="table table-hover table-striped">
       <thead>
@@ -28,7 +59,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let a of activos">
+        <tr *ngFor="let a of activosFiltrados">
           <td><span class="badge" [ngClass]="a.isActive ? 'bg-success' : 'bg-secondary'">
               {{ a.isActive ? 'Activo' : 'Inactivo' }}
             </span></td>
@@ -48,8 +79,11 @@
             </button>
           </td>
         </tr>
-        <tr *ngIf="activos.length === 0">
-          <td colspan="8" class="text-center text-muted py-4">No hay activos registrados.</td>
+        <tr *ngIf="activosFiltrados.length === 0">
+          <td colspan="9" class="text-center text-muted py-4">
+            <span *ngIf="activos.length === 0">No hay activos registrados.</span>
+            <span *ngIf="activos.length > 0">No hay activos que coincidan con los filtros.</span>
+          </td>
         </tr>
       </tbody>
     </table>
