@@ -11,15 +11,16 @@ import { SubCategoriaDto } from '../../../infrastructure/dtos/subcategoria.dto';
 })
 export class SubcategoriaComponent implements OnInit {
   isListView = true;
+  openMasivRegister = false;
   subcategorias: SubCategoriaDto[] = [];
-  
+
   statusMessage = '';
   statusError = false;
 
   form!: FormGroup;
   itemToDelete: string | null = null;
 
-  constructor(private inventarioRepo: InventarioRepository, private fb: FormBuilder) {}
+  constructor(private inventarioRepo: InventarioRepository, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -36,11 +37,18 @@ export class SubcategoriaComponent implements OnInit {
     });
   }
 
-  toggleView() {
+  toggleView(type: any) {
     this.isListView = !this.isListView;
     this.statusMessage = '';
     if (!this.isListView) {
       this.form.reset();
+    }
+
+    if (type === 1) {
+      this.openMasivRegister = true;
+    }
+    else {
+      this.openMasivRegister = false;
     }
   }
 
@@ -54,7 +62,7 @@ export class SubcategoriaComponent implements OnInit {
     this.statusError = true;
   }
 
-  searchCategorias = async (termino: string): Promise<{id:string; nombre:string; display:string}[]> => {
+  searchCategorias = async (termino: string): Promise<{ id: string; nombre: string; display: string }[]> => {
     try {
       const categorias = await this.inventarioRepo.searchCategorias(termino).toPromise() || [];
       return categorias.map(c => ({
@@ -78,7 +86,30 @@ export class SubcategoriaComponent implements OnInit {
       next: result => {
         this.showSuccess(`Subcategoría creada con ID: ${result}`);
         this.loadData();
-        setTimeout(() => this.toggleView(), 1500);
+        setTimeout(() => this.toggleView(2), 1500);
+      },
+      error: err => this.showError(`Error: ${err?.message || 'No se pudo crear la subcategoría'}`)
+    });
+  }
+
+  createSubCategoriaMasiva() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    // const command: CreateSubCategoriaMasivCommand = this.form.value;
+
+    const command = {
+      nombres: this.form.value.nombre,
+      categoriaId: this.form.value.categoriaId
+    };
+
+    this.inventarioRepo.CreateSubCategoriaMasivCommand(command).subscribe({
+      next: result => {
+        this.showSuccess(`Subcategoría creada con ID: ${result}`);
+        this.loadData();
+        setTimeout(() => this.toggleView(2), 1500);
       },
       error: err => this.showError(`Error: ${err?.message || 'No se pudo crear la subcategoría'}`)
     });

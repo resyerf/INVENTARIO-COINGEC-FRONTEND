@@ -14,6 +14,7 @@ import { UbicacionDto } from '../../infrastructure/dtos/ubicacion.dto';
 import { UsuarioDto } from '../../infrastructure/dtos/usuario.dto';
 import { AsignacionDto } from '../../infrastructure/dtos/asignacion.dto';
 import { DashboardStatsDto } from '../../infrastructure/dtos/dashboard-stats.dto';
+import { CreateSubCategoriaMasivCommand } from '../models/subcategoria/create-subcategoria-masiv.command';
 
 export type ActivoEntity = ActivoDto;
 export type UsuarioEntity = UsuarioDto;
@@ -29,6 +30,7 @@ export abstract class InventarioRepository {
   abstract createActivo(command: CreateActivoCommand): Observable<string>;
   abstract createCategoria(command: CreateCategoriaCommand): Observable<string>;
   abstract createSubCategoria(command: CreateSubCategoriaCommand): Observable<string>;
+  abstract CreateSubCategoriaMasivCommand(command: CreateSubCategoriaMasivCommand): Observable<string>;
   abstract createUbicacion(command: CreateUbicacionCommand): Observable<string>;
   abstract createUsuario(command: CreateUsuarioCommand): Observable<string>;
   abstract assignActivo(command: AsignacionActivoCommand): Observable<string>;

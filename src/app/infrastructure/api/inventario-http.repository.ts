@@ -7,6 +7,7 @@ import { InventarioRepository, UbicacionEntity, SubCategoriaEntity, ActivoEntity
 import { CreateActivoCommand } from '../../domain/models/activo/create-activo.command';
 import { CreateCategoriaCommand } from '../../domain/models/categoria/create-categoria.command';
 import { CreateSubCategoriaCommand } from '../../domain/models/subcategoria/create-subcategoria.command';
+import { CreateSubCategoriaMasivCommand } from 'src/app/domain/models/subcategoria/create-subcategoria-masiv.command';
 import { CreateUbicacionCommand } from '../../domain/models/ubicacion/create-ubicacion.command';
 import { CreateUsuarioCommand } from '../../domain/models/usuario/create-usuario.command';
 import { AsignacionActivoCommand } from '../../domain/models/asignacion/asignacion-activo.command';
@@ -33,6 +34,7 @@ export class InventarioHttpRepository extends InventarioRepository {
   createActivo(command: CreateActivoCommand): Observable<string> { return this.http.post<string>(`${this.baseUrl}/api/Activo`, command); }
   createCategoria(command: CreateCategoriaCommand): Observable<string> { return this.http.post<string>(`${this.baseUrl}/api/Categoria`, command); }
   createSubCategoria(command: CreateSubCategoriaCommand): Observable<string> { return this.http.post<string>(`${this.baseUrl}/api/Subcategoria`, command); }
+  CreateSubCategoriaMasivCommand(command: CreateSubCategoriaMasivCommand): Observable<string> { return this.http.post<string>(`${this.baseUrl}/api/Subcategoria/create-masiv`, command); }
   createUbicacion(command: CreateUbicacionCommand): Observable<string> { return this.http.post<string>(`${this.baseUrl}/api/Ubicacion`, command); }
   createUsuario(command: CreateUsuarioCommand): Observable<string> { return this.http.post<string>(`${this.baseUrl}/api/Usuario`, command); }
   assignActivo(command: AsignacionActivoCommand): Observable<string> { return this.http.post<string>(`${this.baseUrl}/api/Asignacion`, command); }
