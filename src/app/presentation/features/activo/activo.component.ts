@@ -33,6 +33,7 @@ export class ActivoComponent implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       nombreEquipo: ['', Validators.required],
+      codigoEquipo: ['-'],
       subCategoriaId: ['', Validators.required],
       costoUnitario: [0],
       cantidad: [1, [Validators.required, Validators.min(1)]],
