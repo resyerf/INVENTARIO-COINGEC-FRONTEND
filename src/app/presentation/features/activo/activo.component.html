@@ -5,6 +5,14 @@
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="m-0 fw-bold text-primary">Registros de Activos</h3>
     <div class="d-flex gap-2">
+      <input 
+        type="file"
+        #fileInput
+        style="display: none"
+        accept=".xlsx,.xls"
+        (change)="onFileSelected($event)"
+      />
+      <button class="btn btn-secondary" (click)="fileInput.click()"><i class="fas fa-file-excel me-2"></i>Importar Data</button>
       <button class="btn btn-success" (click)="exportarExcel()"><i class="fas fa-file-excel me-2"></i>Exportar a
         Excel</button>
       <button class="btn btn-primary" (click)="toggleView()"><i class="fas fa-plus me-2"></i>Registrar Nuevo
@@ -128,6 +136,10 @@
                 <div class="text-danger small mt-1"
                   *ngIf="form.get('subCategoriaId')?.invalid && form.get('subCategoriaId')?.touched">Subcategoría
                   requerida</div>
+              </div>
+              <div class="form-group">
+                <label for="estadoCondicion">Estado / Condición</label>
+                <input class="form-control" id="estadoCondicion" formControlName="estadoCondicion" />
               </div>
               <div class="form-group">
                 <label for="costoUnitario">Costo Unitario</label>

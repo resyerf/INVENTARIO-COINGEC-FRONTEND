@@ -43,7 +43,8 @@ export class ActivoComponent implements OnInit {
       etiquetado: [''],
       ubicacionId: ['', Validators.required],
       usuarioId: [null],
-      fechaAdquisicion: [null]
+      fechaAdquisicion: [null],
+      estadoCondicion: ['']
     });
     this.loadData();
   }
@@ -90,6 +91,31 @@ export class ActivoComponent implements OnInit {
     if (!this.isListView) {
       this.form.reset({ cantidad: 1, costoUnitario: 0 });
     }
+  }
+  
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    this.inventarioRepo.importActivosExcel(formData).subscribe({
+      next: (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Resultado_Importacion_${new Date().getTime()}.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+
+        this.showSuccess('Importación procesada.');
+        this.loadData();
+      },
+      error: () => this.showError('Error al importar el archivo.')
+    });
+
+    event.target.value = null;
   }
 
   exportarExcel() {

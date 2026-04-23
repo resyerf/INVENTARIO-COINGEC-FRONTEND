@@ -49,7 +49,7 @@ export class InventarioHttpRepository extends InventarioRepository {
   getAllActivos(): Observable<ActivoEntity[]> { return this.http.get<ActivoDto[]>(`${this.baseUrl}/api/Activo`); }
 
   exportActivosExcel(): Observable<Blob> { return this.http.get(`${this.baseUrl}/api/Activo/export`, { responseType: 'blob' });}
-
+  importActivosExcel(formData: FormData): Observable<any> { return this.http.post( `${this.baseUrl}/api/Activo/import`, formData, { responseType: 'blob' });}
   getAllCategorias(): Observable<CategoriaEntity[]> { return this.http.get<CategoriaDto[]>(`${this.baseUrl}/api/Categoria`); }
   getAllSubCategorias(): Observable<SubCategoriaEntity[]> { return this.http.get<SubCategoriaDto[]>(`${this.baseUrl}/api/Subcategoria`); }
   getAllUbicaciones(): Observable<UbicacionEntity[]> { return this.http.get<UbicacionDto[]>(`${this.baseUrl}/api/Ubicacion`); }

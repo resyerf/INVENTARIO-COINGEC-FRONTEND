@@ -11,4 +11,5 @@ export interface CreateActivoCommand {
   ubicacionId?: string | null;
   fechaAdquisicion?: string | null;
   usuarioId?: string | null;
+  estadoCondicion?:string | null;
 }
