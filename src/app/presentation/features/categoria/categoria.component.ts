@@ -25,6 +25,7 @@ export class CategoriaComponent implements OnInit {
     this.form = this.fb.group({
       codigo: ['', [Validators.required, Validators.maxLength(50)]],
       descripcion: ['', Validators.required],
+      valores: ['', Validators.required],
       ubicacionId: ['', Validators.required]
     });
     this.loadData();

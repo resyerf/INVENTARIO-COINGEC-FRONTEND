@@ -14,7 +14,7 @@
       <thead>
         <tr>
           <th>Estado</th>
-          <th>ID</th>
+          <!-- <th>ID</th> -->
           <th>Nombre</th>
           <th class="text-end">Acciones</th>
         </tr>
@@ -24,7 +24,7 @@
           <td><span class="badge" [ngClass]="u.isActive ? 'bg-success' : 'bg-secondary'">
               {{ u.isActive ? 'Activo' : 'Inactivo' }}
             </span></td>
-          <td>{{ u.id }}</td>
+          <!-- <td>{{ u.id }}</td> -->
           <td>{{ u.nombre }}</td>
           <td class="text-end">
             <button *ngIf="u.isActive" class="btn btn-sm btn-outline-danger" (click)="confirmDelete(u.id)"
