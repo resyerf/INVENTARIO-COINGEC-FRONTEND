@@ -29,6 +29,9 @@ export class ActivoComponent implements OnInit {
   form!: FormGroup;
   itemToDelete: string | null = null;
 
+  isEditMode = false;
+  editingId: string | null = null;
+
   constructor(private inventarioRepo: InventarioRepository, private fb: FormBuilder) {}
 
   ngOnInit() {
@@ -95,6 +98,8 @@ export class ActivoComponent implements OnInit {
     this.statusMessage = '';
     if (!this.isListView) {
       this.form.reset({ cantidad: 1, costoUnitario: 0 });
+      this.isEditMode = false;
+      this.editingId = null;
     }
   }
   
@@ -176,21 +181,65 @@ export class ActivoComponent implements OnInit {
     }
   };
 
-  createActivo() {
+  editActivo(activo: any) {
+    this.isEditMode = true;
+    this.editingId = activo.id;
+    let fecha = null;
+    if (activo.fechaAdquisicion) {
+      fecha = new Date(activo.fechaAdquisicion).toISOString().split('T')[0];
+    }
+    this.form.patchValue({
+      nombreEquipo: activo.nombreEquipo,
+      codigoEquipo: activo.codigoEquipo,
+      categoriaId: activo.categoriaId,
+      costoUnitario: activo.costoUnitario,
+      cantidad: activo.cantidad,
+      marca: activo.marca,
+      modelo: activo.modelo,
+      serie: activo.serie,
+      estadoCondicion: activo.estado,
+      etiquetado: activo.etiquetado,
+      ubicacionId: activo.ubicacionId,
+      usuarioId: activo.usuarioId,
+      fechaAdquisicion: fecha
+    });
+    this.isListView = false;
+    this.statusMessage = '';
+  }
+
+  saveActivo() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    const command: CreateActivoCommand = this.form.value;
-    this.inventarioRepo.createActivo(command).subscribe({
-      next: result => {
-        this.showSuccess(`Activo creado con ID: ${result}`);
-        this.loadData();
-        setTimeout(() => this.toggleView(), 1500);
-      },
-      error: err => this.showError(`Error: ${err?.message || 'No se pudo crear el activo'}`)
-    });
+    const value = this.form.value;
+    const commandBase = { ...value, estado: value.estadoCondicion };
+
+    if (this.isEditMode && this.editingId) {
+      const command = { ...commandBase, id: this.editingId };
+      this.inventarioRepo.updateActivo(this.editingId, command).subscribe({
+        next: () => {
+          this.showSuccess('Activo actualizado correctamente');
+          this.loadData();
+          setTimeout(() => {
+            this.isListView = true;
+            this.isEditMode = false;
+            this.editingId = null;
+          }, 1500);
+        },
+        error: err => this.showError(`Error: ${err?.message || 'No se pudo actualizar'}`)
+      });
+    } else {
+      this.inventarioRepo.createActivo(commandBase as CreateActivoCommand).subscribe({
+        next: result => {
+          this.showSuccess(`Activo creado con ID: ${result}`);
+          this.loadData();
+          setTimeout(() => this.toggleView(), 1500);
+        },
+        error: err => this.showError(`Error: ${err?.message || 'No se pudo crear el activo'}`)
+      });
+    }
   }
 
   confirmDelete(id: string) {

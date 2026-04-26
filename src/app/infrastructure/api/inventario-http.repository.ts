@@ -37,6 +37,9 @@ export class InventarioHttpRepository extends InventarioRepository {
   CreateSubCategoriaMasivCommand(command: CreateSubCategoriaMasivCommand): Observable<string> { return this.http.post<string>(`${this.baseUrl}/api/Subcategoria/create-masiv`, command); }
   createUbicacion(command: CreateUbicacionCommand): Observable<string> { return this.http.post<string>(`${this.baseUrl}/api/Ubicacion`, command); }
   createUsuario(command: CreateUsuarioCommand): Observable<string> { return this.http.post<string>(`${this.baseUrl}/api/Usuario`, command); }
+  updateActivo(id: string, command: any): Observable<void> { return this.http.put<void>(`${this.baseUrl}/api/Activo/${id}`, command); }
+  updateCategoria(id: string, command: any): Observable<void> { return this.http.put<void>(`${this.baseUrl}/api/Categoria/${id}`, command); }
+  updateUbicacion(id: string, command: any): Observable<void> { return this.http.put<void>(`${this.baseUrl}/api/Ubicacion/${id}`, command); }
   updateUsuario(id: string, command: any): Observable<void> { return this.http.put<void>(`${this.baseUrl}/api/Usuario/${id}`, command); }
   assignActivo(command: AsignacionActivoCommand): Observable<string> { return this.http.post<string>(`${this.baseUrl}/api/Asignacion`, command); }
   finalizeAsignacion(id: string, request: FinalizarAsignacionRequest): Observable<void> { return this.http.patch<void>(`${this.baseUrl}/api/Asignacion/${id}/finalizar`, request); }

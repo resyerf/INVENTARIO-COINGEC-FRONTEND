@@ -19,6 +19,9 @@ export class CategoriaComponent implements OnInit {
   form!: FormGroup;
   itemToDelete: string | null = null;
 
+  isEditMode = false;
+  editingId: string | null = null;
+
   constructor(private inventarioRepo: InventarioRepository, private fb: FormBuilder) {}
 
   ngOnInit() {
@@ -43,6 +46,8 @@ export class CategoriaComponent implements OnInit {
     this.statusMessage = '';
     if (!this.isListView) {
       this.form.reset();
+      this.isEditMode = false;
+      this.editingId = null;
     }
   }
 
@@ -64,21 +69,50 @@ export class CategoriaComponent implements OnInit {
     }
   };
 
-  createCategoria() {
+  editCategoria(categoria: any) {
+    this.isEditMode = true;
+    this.editingId = categoria.id;
+    this.form.patchValue({
+      codigo: categoria.codigo,
+      descripcion: categoria.descripcion,
+      valores: categoria.valores,
+      ubicacionId: categoria.ubicacionId
+    });
+    this.isListView = false;
+    this.statusMessage = '';
+  }
+
+  saveCategoria() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    const command: CreateCategoriaCommand = this.form.value;
-    this.inventarioRepo.createCategoria(command).subscribe({
-      next: result => {
-        this.showSuccess(`Categoría creada con ID: ${result}`);
-        this.loadData();
-        setTimeout(() => this.toggleView(), 1500);
-      },
-      error: err => this.showError(`Error: ${err?.message || 'No se pudo crear la categoría'}`)
-    });
+    if (this.isEditMode && this.editingId) {
+      const command = { ...this.form.value, id: this.editingId };
+      this.inventarioRepo.updateCategoria(this.editingId, command).subscribe({
+        next: () => {
+          this.showSuccess('Categoría actualizada correctamente');
+          this.loadData();
+          setTimeout(() => {
+            this.isListView = true;
+            this.isEditMode = false;
+            this.editingId = null;
+          }, 1500);
+        },
+        error: err => this.showError(`Error: ${err?.message || 'No se pudo actualizar'}`)
+      });
+    } else {
+      const command: CreateCategoriaCommand = this.form.value;
+      this.inventarioRepo.createCategoria(command).subscribe({
+        next: result => {
+          this.showSuccess(`Categoría creada con ID: ${result}`);
+          this.loadData();
+          setTimeout(() => this.toggleView(), 1500);
+        },
+        error: err => this.showError(`Error: ${err?.message || 'No se pudo crear la categoría'}`)
+      });
+    }
   }
 
   confirmDelete(id: string) {

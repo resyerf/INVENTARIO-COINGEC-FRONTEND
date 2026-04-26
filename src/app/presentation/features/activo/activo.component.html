@@ -89,6 +89,10 @@
             </span></td> -->
           <td>{{ a.subCategoria }}</td>
           <td class="text-end">
+            <button *ngIf="a.isActive" class="btn btn-sm btn-outline-primary me-2" (click)="editActivo(a)"
+              title="Editar">
+              <i class="fas fa-edit"></i>
+            </button>
             <button *ngIf="a.isActive" class="btn btn-sm btn-outline-danger" (click)="confirmDelete(a.id)"
               title="Eliminar">
               <i class="fas fa-trash"></i>
@@ -110,7 +114,7 @@
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content border-0 shadow-lg">
       <div class="modal-header bg-gradient-primary text-white border-0">
-        <h5 class="modal-title m-0 fw-bold"><i class="fas fa-plus-circle me-2"></i>Registrar Nuevo Activo</h5>
+        <h5 class="modal-title m-0 fw-bold"><i class="fas" [ngClass]="isEditMode ? 'fa-edit' : 'fa-plus-circle'"></i> {{ isEditMode ? 'Editar Activo' : 'Registrar Nuevo Activo' }}</h5>
         <button type="button" class="btn-close btn-close-white" style="filter: invert(1);"
           (click)="toggleView()"></button>
       </div>
@@ -120,7 +124,7 @@
           {{ statusMessage }}
         </div>
 
-        <form [formGroup]="form" (ngSubmit)="createActivo()">
+        <form [formGroup]="form" (ngSubmit)="saveActivo()">
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
@@ -209,7 +213,7 @@
               </div>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary mt-3 w-100" [disabled]="form.invalid">Crear Activo</button>
+          <button type="submit" class="btn btn-primary mt-3 w-100" [disabled]="form.invalid">{{ isEditMode ? 'Actualizar Activo' : 'Crear Activo' }}</button>
         </form>
       </div>
     </div>

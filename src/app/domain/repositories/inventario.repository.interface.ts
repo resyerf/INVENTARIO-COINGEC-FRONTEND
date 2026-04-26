@@ -33,6 +33,9 @@ export abstract class InventarioRepository {
   abstract CreateSubCategoriaMasivCommand(command: CreateSubCategoriaMasivCommand): Observable<string>;
   abstract createUbicacion(command: CreateUbicacionCommand): Observable<string>;
   abstract createUsuario(command: CreateUsuarioCommand): Observable<string>;
+  abstract updateActivo(id: string, command: any): Observable<void>;
+  abstract updateCategoria(id: string, command: any): Observable<void>;
+  abstract updateUbicacion(id: string, command: any): Observable<void>;
   abstract updateUsuario(id: string, command: any): Observable<void>;
   abstract assignActivo(command: AsignacionActivoCommand): Observable<string>;
   abstract finalizeAsignacion(id: string, request: FinalizarAsignacionRequest): Observable<void>;
