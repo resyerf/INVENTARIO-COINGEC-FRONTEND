@@ -29,10 +29,9 @@
       <thead>
         <tr>
           <th>Estado</th>
+          <th>Documento Identidad</th>
           <th>Nombre Completo</th>
           <th>Email</th>
-          <th>Área</th>
-          <th>Cargo</th>
           <th class="text-end">Acciones</th>
         </tr>
       </thead>
@@ -41,11 +40,13 @@
           <td><span class="badge" [ngClass]="u.isActive ? 'bg-success' : 'bg-secondary'">
               {{ u.isActive ? 'Activo' : 'Inactivo' }}
             </span></td>
+          <td>{{ u.documentoIdentidad }}</td>
           <td>{{ u.nombreCompleto }}</td>
           <td>{{ u.email }}</td>
-          <td>{{ u.area }}</td>
-          <td>{{ u.cargo }}</td>
           <td class="text-end">
+            <button class="btn btn-sm btn-outline-primary me-2" (click)="editUsuario(u)" title="Editar">
+              <i class="fas fa-edit"></i>
+            </button>
             <button *ngIf="u.isActive" class="btn btn-sm btn-outline-danger" (click)="confirmDelete(u.id)"
               title="Eliminar"><i class="fas fa-trash"></i></button>
           </td>
@@ -62,7 +63,10 @@
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content border-0 shadow-lg">
       <div class="modal-header bg-gradient-primary text-white border-0">
-        <h5 class="modal-title m-0 fw-bold"><i class="fas fa-plus-circle me-2"></i>Registrar Nuevo Usuario</h5>
+        <h5 class="modal-title m-0 fw-bold">
+          <i class="fas" [ngClass]="isEditMode ? 'fa-edit' : 'fa-plus-circle'"></i>
+          {{ isEditMode ? 'Actualizar Usuario' : 'Registrar Nuevo Usuario' }}
+        </h5>
         <button type="button" class="btn-close btn-close-white" style="filter: invert(1);"
           (click)="toggleView()"></button>
       </div>
@@ -72,7 +76,7 @@
           {{ statusMessage }}
         </div>
 
-        <form [formGroup]="form" (ngSubmit)="createUsuario()">
+        <form [formGroup]="form" (ngSubmit)="saveUsuario()">
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
@@ -116,7 +120,9 @@
               </div>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary mt-3 w-100" [disabled]="form.invalid">Crear Usuario</button>
+          <button type="submit" class="btn btn-primary mt-3 w-100" [disabled]="form.invalid">
+            {{ isEditMode ? 'Guardar Cambios' : 'Crear Usuario' }}
+          </button>
         </form>
       </div>
     </div>

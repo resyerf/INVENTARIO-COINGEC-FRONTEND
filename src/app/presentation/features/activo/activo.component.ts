@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { InventarioRepository, SubCategoriaEntity, UbicacionEntity, UsuarioEntity } from '../../../domain/repositories/inventario.repository.interface';
+import { CategoriaEntity, InventarioRepository, UbicacionEntity } from '../../../domain/repositories/inventario.repository.interface';
 import { CreateActivoCommand } from '../../../domain/models/activo/create-activo.command';
 import { ActivoDto } from '../../../infrastructure/dtos/activo.dto';
 
@@ -18,7 +18,8 @@ export class ActivoComponent implements OnInit {
     equipo: '',
     marca: '',
     condicion: '',
-    subcategoria: '',
+    // subcategoria: '',
+    categoria: '',
     estado: '' // 'activo', 'inactivo', o ''
   };
   
@@ -34,7 +35,8 @@ export class ActivoComponent implements OnInit {
     this.form = this.fb.group({
       nombreEquipo: ['', Validators.required],
       codigoEquipo: ['-'],
-      subCategoriaId: ['', Validators.required],
+      // subCategoriaId: ['', Validators.required],
+      categoriaId: ['', Validators.required],
       costoUnitario: [0],
       cantidad: [1, [Validators.required, Validators.min(1)]],
       marca: [''],
@@ -64,15 +66,17 @@ export class ActivoComponent implements OnInit {
       const qEquipo = this.filtros.equipo.toLowerCase();
       const qMarca = this.filtros.marca.toLowerCase();
       const qCondicion = this.filtros.condicion.toLowerCase();
-      const qSubCat = this.filtros.subcategoria.toLowerCase();
-
+      // const qSubCat = this.filtros.subcategoria.toLowerCase();
+      const qCategoria = this.filtros.categoria.toLowerCase();
       const matchEquipo = a.nombreEquipo?.toLowerCase().includes(qEquipo) ?? false;
       const matchMarca = a.marca?.toLowerCase().includes(qMarca) ?? false;
       const estadoString = a.estado || 'Bien'; // Default condition shown in html
       const matchCondicion = estadoString.toLowerCase().includes(qCondicion);
-      const subCatString = a.subCategoria || '';
-      const matchSubcategoria = subCatString.toLowerCase().includes(qSubCat);
+      // const subCatString = a.subCategoria || '';
+      // const matchSubcategoria = subCatString.toLowerCase().includes(qSubCat);
       
+      const catString = a.categoria || '';
+      const matchCategoria = catString.toLowerCase().includes(qCategoria);
       let matchEstado = true;
       if (this.filtros.estado === 'activo') matchEstado = a.isActive === true;
       if (this.filtros.estado === 'inactivo') matchEstado = a.isActive === false;
@@ -80,7 +84,8 @@ export class ActivoComponent implements OnInit {
       return (qEquipo ? matchEquipo : true) &&
              (qMarca ? matchMarca : true) &&
              (qCondicion ? matchCondicion : true) &&
-             (qSubCat ? matchSubcategoria : true) &&
+            //  (qSubCat ? matchSubcategoria : true) &&
+            (qCategoria ? matchCategoria : true) &&
              matchEstado;
     });
   }
@@ -145,8 +150,11 @@ export class ActivoComponent implements OnInit {
     this.statusError = true;
   }
 
-  searchSubCategorias = async (termino: string): Promise<SubCategoriaEntity[]> => {
-    try { return await this.inventarioRepo.searchSubCategorias(termino).toPromise() || []; } 
+  searchCategorias = async (termino: string):Promise<{ id: string; nombre: string; display?: string }[]> => {
+    try { 
+      const categorias = await this.inventarioRepo.searchCategorias(termino).toPromise() || []; 
+      return categorias.map(c => ({ id: c.id, nombre:  `${c.codigo} - ${c.descripcion}`, display: c.valores }));
+    } 
     catch (error) { return []; }
   };
 

@@ -1,4 +1,4 @@
-export interface UsuarioDto {
+export interface UpdateUsuarioCommand {
   id: string;
   nombreCompleto: string;
   documentoIdentidad: string;
@@ -6,5 +6,4 @@ export interface UsuarioDto {
   area: string;
   cargo: string;
   sede: string;
-  isActive: boolean;
 }

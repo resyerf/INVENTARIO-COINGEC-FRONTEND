@@ -18,6 +18,9 @@ export class UsuarioComponent implements OnInit {
 
   form!: FormGroup;
   itemToDelete: string | null = null;
+  
+  isEditMode = false;
+  editingId: string | null = null;
 
   constructor(private inventarioRepo: InventarioRepository, private fb: FormBuilder) {}
 
@@ -45,8 +48,27 @@ export class UsuarioComponent implements OnInit {
     this.isListView = !this.isListView;
     this.statusMessage = '';
     if (!this.isListView) {
+      this.isEditMode = false;
+      this.editingId = null;
       this.form.reset({ creadoPor: 'Admin' });
     }
+  }
+
+  editUsuario(usuario: UsuarioDto) {
+    this.isEditMode = true;
+    this.editingId = usuario.id;
+    this.isListView = false;
+    this.statusMessage = '';
+    
+    this.form.patchValue({
+      nombreCompleto: usuario.nombreCompleto,
+      documentoIdentidad: usuario.documentoIdentidad,
+      email: usuario.email,
+      area: usuario.area,
+      cargo: usuario.cargo,
+      sede: usuario.sede,
+      creadoPor: 'Admin'
+    });
   }
 
   showSuccess(message: string) {
@@ -59,21 +81,33 @@ export class UsuarioComponent implements OnInit {
     this.statusError = true;
   }
 
-  createUsuario() {
+  saveUsuario() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    const command: CreateUsuarioCommand = this.form.value;
-    this.inventarioRepo.createUsuario(command).subscribe({
-      next: result => {
-        this.showSuccess(`Usuario creado con ID: ${result}`);
-        this.loadData();
-        setTimeout(() => this.toggleView(), 1500);
-      },
-      error: err => this.showError(`Error: ${err?.message || 'No se pudo crear el usuario'}`)
-    });
+    if (this.isEditMode && this.editingId) {
+      const command = { id: this.editingId, ...this.form.value };
+      this.inventarioRepo.updateUsuario(this.editingId, command).subscribe({
+        next: () => {
+          this.showSuccess('Usuario actualizado correctamente');
+          this.loadData();
+          setTimeout(() => this.toggleView(), 1500);
+        },
+        error: err => this.showError(`Error: ${err?.message || 'No se pudo actualizar el usuario'}`)
+      });
+    } else {
+      const command: CreateUsuarioCommand = this.form.value;
+      this.inventarioRepo.createUsuario(command).subscribe({
+        next: result => {
+          this.showSuccess(`Usuario creado con ID: ${result}`);
+          this.loadData();
+          setTimeout(() => this.toggleView(), 1500);
+        },
+        error: err => this.showError(`Error: ${err?.message || 'No se pudo crear el usuario'}`)
+      });
+    }
   }
 
   confirmDelete(id: string) {

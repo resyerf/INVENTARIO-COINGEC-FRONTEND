@@ -1,7 +1,8 @@
 export interface CreateActivoCommand {
   nombreEquipo: string;
   codigoEquipo: string;
-  subCategoriaId: string;
+  // subCategoriaId: string;
+  categoriaId: string;
   costoUnitario: number;
   cantidad: number;
   marca?: string;

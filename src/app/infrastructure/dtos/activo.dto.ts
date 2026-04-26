@@ -9,7 +9,8 @@ export interface ActivoDto {
   estado?: string;
   costoUnitario: number;
   observaciones?: string;
-  subCategoria: string;
+  // subCategoria: string;
+  categoria:string;
   custodio?: string;
   ubicacion?: string;
   fechaAdquisicion?: string;

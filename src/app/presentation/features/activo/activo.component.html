@@ -44,8 +44,10 @@
           <input type="text" class="form-control form-control-sm" placeholder="Malo, Bien..." [(ngModel)]="filtros.condicion" (input)="aplicarFiltros()">
         </div>
         <div class="col-md-3">
-          <label class="form-label small fw-bold text-muted mb-1">Subcategoría</label>
-          <input type="text" class="form-control form-control-sm" placeholder="Buscar subcategoría..." [(ngModel)]="filtros.subcategoria" (input)="aplicarFiltros()">
+          <!-- <label class="form-label small fw-bold text-muted mb-1">Subcategoría</label> -->
+          <!-- <input type="text" class="form-control form-control-sm" placeholder="Buscar subcategoría..." [(ngModel)]="filtros.subcategoria" (input)="aplicarFiltros()"> -->
+          <label class="form-label small fw-bold text-muted mb-1">Categoría</label>
+          <input type="text" class="form-control form-control-sm" placeholder="Buscar categoria..." [(ngModel)]="filtros.categoria" (input)="aplicarFiltros()">
         </div>
       </div>
     </div>
@@ -135,11 +137,26 @@
                   id="codigoEquipo" formControlName="codigoEquipo" />
               </div>
               <div class="form-group">
-                <app-autocomplete-select label="Subcategoría" placeholder="Buscar subcategoría..." [required]="true"
+                <!-- <app-autocomplete-select label="Subcategoría" placeholder="Buscar subcategoría..." [required]="true"
                   [searchFn]="searchSubCategorias" formControlName="subCategoriaId"></app-autocomplete-select>
                 <div class="text-danger small mt-1"
                   *ngIf="form.get('subCategoriaId')?.invalid && form.get('subCategoriaId')?.touched">Subcategoría
+                  requerida</div> -->
+                  <app-autocomplete-select label="Categoria" placeholder="Buscar categoría..." [required]="true"
+                  [searchFn]="searchCategorias" formControlName="categoriaId"></app-autocomplete-select>
+                <div class="text-danger small mt-1"
+                  *ngIf="form.get('categoriaId')?.invalid && form.get('categoriaId')?.touched">Categoría
                   requerida</div>
+              </div>
+              <div class="form-group">
+                <label for="estadoCondicion">Estado / Condición</label>
+                <input class="form-control" id="estadoCondicion" formControlName="estadoCondicion" />
+              </div>
+              <div class="form-group">
+                <label for="costoUnitario">Costo Unitario</label>
+                <input class="form-control" type="number" id="costoUnitario" formControlName="costoUnitario" />
+              </div>
+              <div class="form-group">
               </div>
               <div class="form-group">
                 <label for="estadoCondicion">Estado / Condición</label>

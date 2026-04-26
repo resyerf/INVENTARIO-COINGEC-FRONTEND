@@ -41,12 +41,12 @@
       </button>
     </li>
 
-    <li class="nav-item" [class.active]="selectedPanel === 'subcategoria'">
+    <!-- <li class="nav-item" [class.active]="selectedPanel === 'subcategoria'">
       <button class="nav-link" (click)="selectPanel('subcategoria')">
         <i class="fas fa-fw fa-tag"></i>
         <span *ngIf="!sidebarCollapsed">Subcategoría</span>
       </button>
-    </li>
+    </li> -->
 
     <li class="nav-item" [class.active]="selectedPanel === 'ubicacion'">
       <button class="nav-link" (click)="selectPanel('ubicacion')">
@@ -111,7 +111,7 @@
         <app-dashboard *ngIf="selectedPanel === 'dashboard'" class="page-container"></app-dashboard>
         <app-activo *ngIf="selectedPanel === 'activo'"></app-activo>
         <app-categoria *ngIf="selectedPanel === 'categoria'"></app-categoria>
-        <app-subcategoria *ngIf="selectedPanel === 'subcategoria'"></app-subcategoria>
+        <!-- <app-subcategoria *ngIf="selectedPanel === 'subcategoria'"></app-subcategoria> -->
         <app-ubicacion *ngIf="selectedPanel === 'ubicacion'"></app-ubicacion>
         <app-usuario *ngIf="selectedPanel === 'usuario'"></app-usuario>
         <app-asignacion *ngIf="selectedPanel === 'asignacion'"></app-asignacion>
