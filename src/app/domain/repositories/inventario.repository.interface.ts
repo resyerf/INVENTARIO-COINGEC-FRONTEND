@@ -45,7 +45,8 @@ export abstract class InventarioRepository {
 
   abstract getAllActivos(): Observable<ActivoEntity[]>;
   abstract exportActivosExcel(): Observable<Blob>;
-  abstract importActivosExcel(formData: FormData): Observable<any>
+  abstract importActivosExcel(formData: FormData): Observable<any>;
+  abstract importUsuariosExcel(formData: FormData): Observable<any>;
   abstract getAllCategorias(): Observable<CategoriaEntity[]>;
   abstract getAllSubCategorias(): Observable<SubCategoriaEntity[]>;
   abstract getAllUbicaciones(): Observable<UbicacionEntity[]>;

@@ -99,5 +99,38 @@ export class UsuarioComponent implements OnInit {
       });
     }
   }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      this.inventarioRepo.importUsuariosExcel(formData).subscribe({
+        next: (response) => {
+          // If the backend returns a blob (like an error report), we could download it.
+          // For now, assuming success updates the list.
+          this.showSuccess('Plantilla procesada. Revise los registros o posibles errores en la consola/descarga.');
+          this.loadData();
+          
+          // Optionally handle blob response for errors if the backend returns it:
+          if (response && response.size > 0 && response.type !== 'application/json') {
+             const url = window.URL.createObjectURL(response);
+             const a = document.createElement('a');
+             a.href = url;
+             a.download = 'Errores_Carga_Usuarios.xlsx';
+             a.click();
+             window.URL.revokeObjectURL(url);
+          }
+        },
+        error: (err) => {
+          this.showError('Error al procesar el archivo Excel.');
+          console.error(err);
+        }
+      });
+      // Reset the input so the same file can be selected again if needed
+      event.target.value = null;
+    }
+  }
 }
 
